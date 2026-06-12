@@ -32,26 +32,33 @@ public class FirebaseConfig {
     public FirebaseApp firebaseApp() throws IOException {
         // Check if Firebase is already initialized
         if (FirebaseApp.getApps().isEmpty()) {
-            // Try the actual service account file first, then fall back to generic name
-            org.springframework.core.io.Resource resource;
-            String[] candidates = {
-                "mindful-54fd2-firebase-adminsdk-fbsvc-2e613fd09a.json",
-                "firebase-key.json"
-            };
-            resource = null;
-            for (String name : candidates) {
-                ClassPathResource candidate = new ClassPathResource(name);
-                if (candidate.exists()) {
-                    resource = candidate;
-                    break;
-                }
-            }
-            if (resource == null) {
-                throw new IOException("Firebase service account key file not found in classpath. " +
-                    "Expected one of: " + java.util.Arrays.toString(candidates));
-            }
+            GoogleCredentials credentials;
+            String envJson = System.getenv("FIREBASE_CREDENTIALS_JSON");
 
-            GoogleCredentials credentials = GoogleCredentials.fromStream(resource.getInputStream());
+            if (envJson != null && !envJson.trim().isEmpty()) {
+                credentials = GoogleCredentials.fromStream(
+                    new java.io.ByteArrayInputStream(envJson.getBytes(java.nio.charset.StandardCharsets.UTF_8))
+                );
+            } else {
+                // Try the actual service account file first, then fall back to generic name
+                org.springframework.core.io.Resource resource = null;
+                String[] candidates = {
+                    "mindful-54fd2-firebase-adminsdk-fbsvc-2e613fd09a.json",
+                    "firebase-key.json"
+                };
+                for (String name : candidates) {
+                    ClassPathResource candidate = new ClassPathResource(name);
+                    if (candidate.exists()) {
+                        resource = candidate;
+                        break;
+                    }
+                }
+                if (resource == null) {
+                    throw new IOException("Firebase service account key file not found in classpath and " +
+                        "FIREBASE_CREDENTIALS_JSON environment variable is not set.");
+                }
+                credentials = GoogleCredentials.fromStream(resource.getInputStream());
+            }
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(credentials)
