@@ -1,0 +1,28 @@
+# Auto-generated — too large for GitHub (regenerate with npm install / mvn package)
+frontend/node_modules/
+frontend/dist/
+backend/target/
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+*.bak
+.settings/
+.classpath
+.project
+.factorypath
+bin/
+
+# Firebase & Secrets
+backend/mindful-54fd2-firebase-adminsdk-fbsvc-2e613fd09a.json
+backend/src/main/resources/firebase-key.json
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

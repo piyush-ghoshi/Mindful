@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindGuard Admin - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#222d2c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#0b1c30",
+                      "tertiary-fixed-dim": "#bdc9c7",
+                      "surface": "#f8f9ff",
+                      "error": "#ba1a1a",
+                      "tertiary": "#0e1918",
+                      "tertiary-fixed": "#d9e5e3",
+                      "outline": "#75777e",
+                      "on-primary-fixed": "#081b39",
+                      "on-tertiary-fixed": "#131d1d",
+                      "outline-variant": "#c5c6cf",
+                      "surface-variant": "#d3e4fe",
+                      "surface-container": "#e5eeff",
+                      "surface-tint": "#4e5e80",
+                      "on-secondary-fixed-variant": "#005047",
+                      "secondary-container": "#7bf7e3",
+                      "primary-container": "#1a2b4a",
+                      "inverse-surface": "#213145",
+                      "on-secondary-fixed": "#00201c",
+                      "on-tertiary-fixed-variant": "#3e4948",
+                      "surface-dim": "#cbdbf5",
+                      "primary-fixed-dim": "#b6c6ee",
+                      "primary-fixed": "#d8e2ff",
+                      "on-background": "#0b1c30",
+                      "secondary-fixed": "#7bf7e3",
+                      "secondary": "#006b5f",
+                      "inverse-on-surface": "#eaf1ff",
+                      "secondary-fixed-dim": "#5cdac7",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#44474e",
+                      "on-error": "#ffffff",
+                      "on-primary-container": "#8293b7",
+                      "primary": "#031634",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#364767",
+                      "surface-bright": "#f8f9ff",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#b6c6ee",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-tertiary-container": "#899593",
+                      "background": "#f8f9ff",
+                      "on-secondary-container": "#007165",
+                      "surface-container-high": "#dce9ff",
+                      "error-container": "#ffdad6",
+                      "surface-container-low": "#eff4ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "0.5rem",
+                      "sm": "1rem",
+                      "sidebar-width": "280px",
+                      "xl": "4rem",
+                      "base": "4px",
+                      "md": "1.5rem",
+                      "lg": "2.5rem",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "h2": [
+                              "Inter"
+                      ],
+                      "h1": [
+                              "Inter"
+                      ],
+                      "h3": [
+                              "Inter"
+                      ],
+                      "data-tabular": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h2": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "h1": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "h3": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-tabular": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .shadow-professional {
+            box-shadow: 0 4px 12px rgba(3, 22, 52, 0.04);
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md m-0 p-0 overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="bg-white dark:bg-slate-900 font-inter text-sm font-medium tracking-tight docked full-width top-0 border-b border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center w-full px-6 py-3 z-50 fixed md:ml-64 w-full md:w-[calc(100%-16rem)]">
+<div class="flex items-center">
+<!-- Search on left as requested -->
+<div class="relative hidden md:block w-64 mr-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface rounded-lg border border-outline-variant focus:border-secondary focus:ring-1 focus:ring-secondary text-body-sm font-body-sm outline-none transition-all placeholder:text-on-surface-variant" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-blue-900 dark:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200 p-2 rounded-full relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-blue-900 dark:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+</button>
+<button class="text-blue-900 dark:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200 p-2 rounded-full flex items-center">
+<img alt="Admin Profile Picture" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="professional headshot of an administrator in a corporate setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhlOiJ_yqcGALmXunxeo-wl603MAIDvvOjqeoOVV-h2Y1M2AZ_BK02fkSSOnAg98YTPlyRpr692xynj2UP7-eJiq8cadR9sN0k3MtG9yTgFworPeGZa0eCE_Xy5bi9Uo05KUda8zTFvGDtDSgWfjB-zSWUK7i3i3lP3fQQd86QlaIHbMAr9vGOmj06Rp1s9UZpksrda913eQ05HHxNbq8jyJ_KKg9c_SuRksin6qvefDBUMucp6FYdaippv1D5MDPIJfu88j30u4Q"/>
+</button>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="bg-slate-900 dark:bg-black font-inter text-sm antialiased docked h-screen left-0 w-64 border-r border-slate-800 shadow-xl fixed left-0 top-0 h-full flex flex-col py-6 z-40 hidden md:flex">
+<div class="px-6 mb-8">
+<div class="text-white font-black text-xl mb-6">MindGuard Admin</div>
+<div class="flex items-center gap-3">
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full border-2 border-slate-700" data-alt="professional headshot of an administrator in a corporate setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0FleWGuoQlrSfys2LNfvTHbFkJu4C_oX2Y5r1m-OxrKCcA7xeRlGaM6UKHS0B6jJmAvmKJ7sNQE3ekPUGW1qPjcAvfyjJI0vaV8hYdsHAKOSBWYN-qzzoLXzYBBPAcZl0MrsqekOvTlIsDRdJ8Xp2qAY2hT9cbX89aIUz0b0CmM8H6cyKWO5m21yDnpfID_by00mRh5G662FUE9wmisYQpbJ7TuMf5fMg_tWQi1HaKHOEvYP9nnaPl19LudEALOiaxLpfPvUgD04"/>
+<div>
+<div class="text-white font-medium text-body-sm font-body-sm">System Admin</div>
+<div class="text-slate-400 text-xs font-body-sm">Institutional Access</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 bg-teal-500/10 text-teal-400 border-l-4 border-teal-500 px-4 py-3 font-semibold cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">monitoring</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">psychology</span>
+                Counsellors
+            </a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">library_books</span>
+                Resources
+            </a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat_bubble</span>
+                Feedback
+            </a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+                Settings
+            </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-20 md:ml-64 p-md min-h-screen bg-background max-w-[1440px] mx-auto">
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h1 class="text-h1 font-h1 text-on-surface">System Overview</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Daily institutional snapshot and live alerts.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container text-on-surface px-4 py-2 rounded-lg font-data-tabular text-data-tabular hover:bg-surface-variant transition-colors flex items-center gap-2 border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">download</span>
+                    Generate Report
+                </button>
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-data-tabular text-data-tabular hover:bg-on-secondary-container transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">add</span>
+                    Add Counsellor
+                </button>
+</div>
+</div>
+<!-- KPI Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-sm mb-lg">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-slate-100 shadow-professional hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-2">Active Students</div>
+<div class="flex items-baseline gap-2">
+<div class="text-h1 font-h1 text-on-surface">1,240</div>
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+</div>
+<div class="text-body-sm font-body-sm text-secondary mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">trending_up</span>
+<span>+4.2% this week</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-slate-100 shadow-professional hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">event</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-2">Appointments Today</div>
+<div class="flex items-baseline gap-2">
+<div class="text-h1 font-h1 text-on-surface">38</div>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">schedule</span>
+<span>12 remaining</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-error-container shadow-professional hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-2 h-full bg-error"></div>
+<div class="absolute top-0 right-4 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="text-label-caps font-label-caps text-error uppercase tracking-wider mb-2 font-bold">Crisis Activations</div>
+<div class="flex items-baseline gap-2">
+<div class="text-h1 font-h1 text-error">3</div>
+<div class="w-3 h-3 rounded-full bg-error animate-pulse"></div>
+</div>
+<div class="text-body-sm font-body-sm text-error mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
+<span>Requires immediate review</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-slate-100 shadow-professional hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-yellow-600" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-2">New Feedback</div>
+<div class="flex items-baseline gap-2">
+<div class="text-h1 font-h1 text-on-surface">12</div>
+<div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">fiber_new</span>
+<span>Last 24 hours</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout for Charts and Lists -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-sm">
+<!-- Mental Health Trends Area Chart (Mockup) -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-md rounded-xl border border-slate-100 shadow-professional flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-h3 font-h3 text-on-surface">Mental Health Trends</h2>
+<select class="bg-surface border-outline-variant text-on-surface text-body-sm font-body-sm rounded-md py-1 pl-3 pr-8 focus:ring-secondary focus:border-secondary">
+<option>Last 30 Days</option>
+<option>This Semester</option>
+<option>Year to Date</option>
+</select>
+</div>
+<!-- Mock Chart Area -->
+<div class="flex-1 relative min-h-[300px] w-full border-b border-l border-slate-200 pt-4 pb-2 pr-2">
+<!-- Y Axis Labels -->
+<div class="absolute left-[-30px] top-0 bottom-0 flex flex-col justify-between text-label-caps font-label-caps text-outline h-full py-4">
+<span>100</span>
+<span>75</span>
+<span>50</span>
+<span>25</span>
+<span>0</span>
+</div>
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pt-4 pb-2 px-2 pointer-events-none">
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+<div class="w-full border-t border-slate-100"></div>
+</div>
+<!-- Chart Content (CSS visualization) -->
+<div class="absolute inset-0 pt-4 pb-2 px-2 overflow-hidden flex items-end">
+<!-- Stress (Navy) -->
+<div class="w-full h-[70%] bg-gradient-to-t from-primary/20 to-transparent absolute bottom-2 left-2 right-2 rounded-t-sm" style="clip-path: polygon(0 40%, 20% 30%, 40% 50%, 60% 20%, 80% 60%, 100% 30%, 100% 100%, 0 100%); border-top: 2px solid theme('colors.primary');"></div>
+<!-- Anxiety (Teal) -->
+<div class="w-full h-[50%] bg-gradient-to-t from-secondary/30 to-transparent absolute bottom-2 left-2 right-2 rounded-t-sm" style="clip-path: polygon(0 60%, 20% 70%, 40% 40%, 60% 50%, 80% 30%, 100% 50%, 100% 100%, 0 100%); border-top: 2px solid theme('colors.secondary');"></div>
+</div>
+<!-- X Axis Labels -->
+<div class="absolute bottom-[-25px] left-2 right-2 flex justify-between text-label-caps font-label-caps text-outline">
+<span>1st</span>
+<span>8th</span>
+<span>15th</span>
+<span>22nd</span>
+<span>30th</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex gap-6 mt-10 justify-center">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">Stress</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">Anxiety</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-purple-600"></div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">Sleep Issues</span>
+</div>
+</div>
+</div>
+<!-- Recent Alerts List -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-slate-100 shadow-professional flex flex-col h-full">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-h3 font-h3 text-on-surface">Recent Alerts</h2>
+<button class="text-secondary text-data-tabular font-data-tabular hover:underline">View All</button>
+</div>
+<div class="flex-1 flex flex-col gap-3 overflow-y-auto pr-2">
+<!-- Alert Item 1 (Crisis) -->
+<div class="p-3 border border-error-container rounded-lg bg-error-container/10 flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="flex justify-between items-center">
+<span class="text-data-tabular font-data-tabular text-on-surface font-semibold">Crisis Protocol Activated</span>
+<span class="text-label-caps font-label-caps text-outline">10m ago</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1 line-clamp-2">Student ID #8492 flagged during self-assessment. Counsellor J. Doe assigned.</p>
+<button class="text-error text-data-tabular font-data-tabular font-semibold mt-2 hover:underline">Review Case</button>
+</div>
+</div>
+<!-- Alert Item 2 (Feedback) -->
+<div class="p-3 border border-outline-variant rounded-lg bg-surface flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">chat</span>
+</div>
+<div>
+<div class="flex justify-between items-center">
+<span class="text-data-tabular font-data-tabular text-on-surface font-semibold">Negative Feedback Flag</span>
+<span class="text-label-caps font-label-caps text-outline">2h ago</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1 line-clamp-2">Workshop "Stress Management" received multiple low ratings regarding pacing.</p>
+</div>
+</div>
+<!-- Alert Item 3 (System) -->
+<div class="p-3 border border-outline-variant rounded-lg bg-surface flex gap-3 items-start">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">info</span>
+</div>
+<div>
+<div class="flex justify-between items-center">
+<span class="text-data-tabular font-data-tabular text-on-surface font-semibold">Resource Upload Needed</span>
+<span class="text-label-caps font-label-caps text-outline">5h ago</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1 line-clamp-2">The "Exam Anxiety" module requires updated PDF materials for Fall term.</p>
+<button class="text-secondary text-data-tabular font-data-tabular font-semibold mt-2 hover:underline">Upload Resource</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Engagement Heatmap (Full width on large) -->
+<div class="lg:col-span-3 bg-surface-container-lowest p-md rounded-xl border border-slate-100 shadow-professional">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h2 class="text-h3 font-h3 text-on-surface">Platform Engagement Heatmap</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Activity concentration over the last 7 days (Hour × Day).</p>
+</div>
+</div>
+<!-- Heatmap Grid -->
+<div class="overflow-x-auto pb-4">
+<div class="min-w-[800px]">
+<!-- Hour Labels (Header) -->
+<div class="grid grid-cols-25 gap-1 mb-2">
+<div class="w-12"></div> <!-- Spacer for day labels -->
+<!-- simplified 6-hour intervals for layout -->
+<div class="col-span-4 text-label-caps font-label-caps text-outline text-center">12AM</div>
+<div class="col-span-4 text-label-caps font-label-caps text-outline text-center">4AM</div>
+<div class="col-span-4 text-label-caps font-label-caps text-outline text-center">8AM</div>
+<div class="col-span-4 text-label-caps font-label-caps text-outline text-center">12PM</div>
+<div class="col-span-4 text-label-caps font-label-caps text-outline text-center">4PM</div>
+<div class="col-span-4 text-label-caps font-label-caps text-outline text-center">8PM</div>
+</div>
+<!-- Days Rows -->
+<div class="space-y-1">
+<!-- Monday -->
+<div class="flex items-center gap-2">
+<div class="w-10 text-label-caps font-label-caps text-on-surface-variant text-right pr-2">Mon</div>
+<div class="flex-1 grid grid-cols-24 gap-1 h-6">
+<div class="bg-secondary/10 rounded-sm"></div><div class="bg-secondary/5 rounded-sm"></div><div class="bg-secondary/10 rounded-sm"></div><div class="bg-secondary/20 rounded-sm"></div>
+<div class="bg-secondary/30 rounded-sm"></div><div class="bg-secondary/40 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div>
+<div class="bg-secondary rounded-sm"></div><div class="bg-secondary/90 rounded-sm"></div><div class="bg-secondary/70 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div>
+<div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/90 rounded-sm"></div><div class="bg-secondary rounded-sm"></div>
+<div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div><div class="bg-secondary/40 rounded-sm"></div>
+<div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div><div class="bg-secondary/20 rounded-sm"></div>
+</div>
+</div>
+<!-- Tuesday -->
+<div class="flex items-center gap-2">
+<div class="w-10 text-label-caps font-label-caps text-on-surface-variant text-right pr-2">Tue</div>
+<div class="flex-1 grid grid-cols-24 gap-1 h-6">
+<div class="bg-secondary/5 rounded-sm"></div><div class="bg-secondary/5 rounded-sm"></div><div class="bg-secondary/10 rounded-sm"></div><div class="bg-secondary/10 rounded-sm"></div>
+<div class="bg-secondary/20 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/90 rounded-sm"></div>
+<div class="bg-secondary rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div>
+<div class="bg-secondary/70 rounded-sm"></div><div class="bg-secondary/90 rounded-sm"></div><div class="bg-secondary rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div>
+<div class="bg-secondary/70 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div><div class="bg-secondary/40 rounded-sm"></div><div class="bg-secondary/30 rounded-sm"></div>
+<div class="bg-secondary/70 rounded-sm"></div><div class="bg-secondary/90 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/30 rounded-sm"></div>
+</div>
+</div>
+<!-- Wednesday -->
+<div class="flex items-center gap-2">
+<div class="w-10 text-label-caps font-label-caps text-on-surface-variant text-right pr-2">Wed</div>
+<div class="flex-1 grid grid-cols-24 gap-1 h-6">
+<div class="bg-secondary/10 rounded-sm"></div><div class="bg-secondary/5 rounded-sm"></div><div class="bg-secondary/10 rounded-sm"></div><div class="bg-secondary/20 rounded-sm"></div>
+<div class="bg-secondary/40 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary rounded-sm"></div>
+<div class="bg-secondary/90 rounded-sm"></div><div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/70 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div>
+<div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary rounded-sm"></div><div class="bg-secondary rounded-sm"></div><div class="bg-secondary/90 rounded-sm"></div>
+<div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary/60 rounded-sm"></div><div class="bg-secondary/50 rounded-sm"></div><div class="bg-secondary/30 rounded-sm"></div>
+<div class="bg-secondary/80 rounded-sm"></div><div class="bg-secondary rounded-sm"></div><div class="bg-secondary/70 rounded-sm"></div><div class="bg-secondary/40 rounded-sm"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-end items-center gap-2 mt-4 text-label-caps font-label-caps text-outline">
+<span>Less</span>
+<div class="flex gap-1">
+<div class="w-4 h-4 bg-secondary/10 rounded-sm"></div>
+<div class="w-4 h-4 bg-secondary/40 rounded-sm"></div>
+<div class="w-4 h-4 bg-secondary/70 rounded-sm"></div>
+<div class="w-4 h-4 bg-secondary rounded-sm"></div>
+</div>
+<span>More</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

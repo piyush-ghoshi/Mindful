@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resources - Mindful Student</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#3c4948",
+                    "surface-container-low": "#f1f3ff",
+                    "background": "#f9f9ff",
+                    "secondary": "#546160",
+                    "on-primary": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "tertiary": "#b91c24",
+                    "on-secondary-fixed": "#111e1d",
+                    "on-primary-fixed": "#00201c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#ff8a82",
+                    "secondary-container": "#d7e5e3",
+                    "on-surface": "#081b39",
+                    "inverse-on-surface": "#edf0ff",
+                    "on-surface-variant": "#3d4946",
+                    "on-primary-fixed-variant": "#005047",
+                    "surface-dim": "#cbdaff",
+                    "on-tertiary-container": "#860010",
+                    "surface-container": "#e8edff",
+                    "surface-tint": "#006b5f",
+                    "outline": "#6c7a76",
+                    "on-tertiary-fixed-variant": "#930013",
+                    "tertiary-fixed": "#ffdad7",
+                    "surface-variant": "#d8e2ff",
+                    "secondary-fixed": "#d7e5e3",
+                    "on-primary-container": "#004941",
+                    "outline-variant": "#bcc9c5",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#5a6766",
+                    "inverse-surface": "#1f304f",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#7bf7e3",
+                    "primary": "#006b5f",
+                    "surface-container-high": "#e0e8ff",
+                    "primary-container": "#3bbfad",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#410004",
+                    "primary-fixed-dim": "#5cdac7",
+                    "on-background": "#081b39",
+                    "surface-container-highest": "#d8e2ff",
+                    "surface-bright": "#f9f9ff",
+                    "inverse-primary": "#5cdac7",
+                    "tertiary-fixed-dim": "#ffb3ad",
+                    "secondary-fixed-dim": "#bbc9c7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-padding": "40px",
+                    "max-width": "1440px",
+                    "base-unit": "8px",
+                    "margin-sm": "16px",
+                    "margin-lg": "64px",
+                    "margin-md": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-white dark:bg-slate-900 font-inter antialiased docked full-width top-0 z-50 sticky border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center h-16 px-6 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-xl font-bold text-teal-600 dark:text-teal-400" href="#">Mindful Student</a>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-teal-600 dark:text-teal-400 font-semibold border-b-2 border-teal-500 pb-1 hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">Resources</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">Peer Support</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">Bookings</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">My Journal</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="notifications" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700" data-alt="Portrait of a smiling young woman with natural makeup and hair pulled back, soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr0i2AS-T5Qjql-DUJvab88VhbopR7PDNMhQ6d464EzyxkcZur_59XCiA1JIKmdebS8FrN4cDORyfxGnGxbsKYxm6iFTei0eXm8PloXbz9e2Hg8EQ8ZoE3ME7z254KEmWcbkrCzSaKXV6JMthv1vzenmgfGAL4C4PECwR6K3kulC0G5dwNcbQQzik4aP22vdYcwkB2ek5SUuv3E98Momv9X2on8fh7erSrIv-nUg2Lzbfc3P8qNnkQMERSR74GCKSEDsGsyB1f_K0"/>
+</div>
+</div>
+</header>
+<!-- Main Layout Canvas -->
+<div class="max-w-max-width mx-auto px-gutter py-margin-md md:py-margin-lg flex flex-col md:flex-row gap-8 items-start">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 flex-shrink-0 bg-surface-container-low rounded-xl p-6 shadow-sm sticky top-24">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-4">Categories</h2>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container text-primary font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+                    All Topics
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container hover:text-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="psychology">psychology</span>
+                    Stress &amp; Anxiety
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container hover:text-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="bedtime">bedtime</span>
+                    Sleep Hygiene
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container hover:text-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="school">school</span>
+                    Academic Pressure
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container hover:text-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="diversity_3">diversity_3</span>
+                    Relationships
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface hover:bg-surface-container hover:text-primary transition-colors font-body-sm text-body-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant" data-icon="self_improvement">self_improvement</span>
+                    Mindfulness
+                </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col gap-margin-md w-full min-w-0">
+<!-- Search & Filters Header -->
+<section class="flex flex-col gap-6">
+<div class="relative w-full max-w-2xl">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant" data-icon="search">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-lowest border border-outline-variant rounded-xl text-on-surface placeholder-outline focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm font-body-md text-body-md" placeholder="Search for guides, videos, or worksheets..." type="text"/>
+</div>
+<!-- Format Chips -->
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2 rounded-full bg-on-surface text-surface-container-lowest font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">All Formats</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md text-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="article">article</span> Articles
+                    </button>
+<button class="px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md text-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="play_circle">play_circle</span> Videos
+                    </button>
+<button class="px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md text-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="headphones">headphones</span> Audio
+                    </button>
+<button class="px-5 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-outline-variant font-label-md text-label-md hover:bg-surface-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span> Worksheets
+                    </button>
+</div>
+</section>
+<!-- Featured Hero Card -->
+<article class="w-full bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col md:flex-row border border-surface-container transition-shadow hover:shadow">
+<div class="w-full md:w-5/12 h-64 md:h-auto relative bg-surface-variant">
+<img alt="Person doing yoga" class="absolute inset-0 w-full h-full object-cover" data-alt="A person sitting in a cross-legged meditative pose on a yoga mat in a brightly lit, serene room with a large window and green plants." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0avkg60dzykzNuLHQZwIiVXdThJe43DjHleQ1h7LqYulbVggLuciWAkfkD2M4pBvRalWkwfAMME_A6HuJBatwmdEjs7bLRlIECTFpmolgptJtmLFrOEE7wyZEKo8dKgb_NRjcNvF3PZoQF9MCqrKg0NMntjbsk0S-2qxteAoXsgirnrEsWhTB_7JbcGTTo4wWN7hCt2PF0pHndCosQPX2TF03Ia2r1E-ewtjXDv8APm2DWlnGO5QVPzb50DIma9jXnu8Thxs75X8"/>
+<div class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-[12px] text-on-surface">Featured Guide</span>
+</div>
+</div>
+<div class="p-8 flex flex-col justify-center flex-grow">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-2.5 py-1 bg-secondary-container text-on-secondary-container rounded-md font-label-md text-[12px] uppercase tracking-wider">Mindfulness</span>
+<span class="text-outline text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span> 15 min read
+                        </span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-4">The Beginner's Guide to Grounding Techniques</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">When anxiety spirals, it can feel impossible to regain control. Learn practical, body-focused strategies to anchor yourself in the present moment and quiet a racing mind.</p>
+<a class="inline-flex items-center gap-2 w-max px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors" href="#">
+                        Start Reading
+                        <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Resource Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-surface-container group flex flex-col h-full">
+<div class="h-48 relative overflow-hidden bg-surface-variant">
+<img alt="Sleep mask and tea" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A soft silk sleep mask resting next to a white ceramic mug of herbal tea on a crisp white bedsheet, soft morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp6f7G9aWDMuDNDt83Pv_dSjHKD30Ggp3eFERXfmuI2P3g0YEb7GXklhmc-OdxYUBPAlwB-wXVIMdvgPBsIFAbgHZ4PydV2pnCC0QtlFo1zpw_A4mGhzjUlWSh-0ujhqX6DZ_8bZ67x94UVY_Zb9PR2bqPbwjz3439K-YOCQtorp2jJ6jjgf6KUKEAx4K78hJXEjgu1Nw-VzZ2DX94gCdWDZJbYyTbbvgGiN5fcmNznbMfD6SU972aeTnTGk0P64XeQZE5VCR7DqY"/>
+<div class="absolute bottom-3 right-3 bg-on-surface/80 backdrop-blur-sm text-surface-container-lowest p-1.5 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[11px] font-label-md uppercase tracking-wider">Sleep Hygiene</span>
+<span class="text-outline-variant text-[12px] font-body-sm">8 min video</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-on-surface mb-2 line-clamp-2">Optimizing Your Environment for Deep Rest</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-auto">Simple adjustments to your room can drastically improve the quality of your sleep tonight.</p>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-surface-container group flex flex-col h-full">
+<div class="h-48 relative overflow-hidden bg-surface-variant p-6 flex flex-col justify-center items-center text-center">
+<!-- Abstract/Tonal background instead of photo for variation -->
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container to-surface-dim"></div>
+<span class="material-symbols-outlined text-[48px] text-primary relative z-10 mb-2" data-icon="description">description</span>
+<h5 class="relative z-10 font-headline-md text-body-lg text-on-primary-container">Stress Triggers Log</h5>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[11px] font-label-md uppercase tracking-wider">Stress &amp; Anxiety</span>
+<span class="text-outline-variant text-[12px] font-body-sm">Interactive PDF</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-on-surface mb-2 line-clamp-2">Weekly Stress Tracking Worksheet</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-auto">A downloadable template to help you identify patterns in your daily stress levels.</p>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-surface-container group flex flex-col h-full">
+<div class="h-48 relative overflow-hidden bg-surface-variant">
+<img alt="Students talking" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Two college students sitting outdoors on a bright day, engaged in an earnest, supportive conversation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACFj5KsKzDhGp1JHsZFM1piT6u5y5d2WWnEBqtWeF-0Smliaebkg3qbkXovfKR6gHsSw0ZkgYmj5hu5wPzHdIuMPb7dN2nSVZo4TwrnWsFBFQTuw5QaTqh-v0CH7AUAymgITKpCJi3sJU6fKLRumkyrikkht6Pk9cLVWiVG2h-DlF5QQnNvG4MM38yyeAwGXwv5QX4KS7TNLS-Azp1682ha9S6tMbYFnkgloE8yRCi26bUZURztXC-HTd02LZyFrAFPOIgNb8yuog"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[11px] font-label-md uppercase tracking-wider">Relationships</span>
+<span class="text-outline-variant text-[12px] font-body-sm">Article</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-on-surface mb-2 line-clamp-2">Setting Boundaries with Friends</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-auto">How to communicate your needs clearly without damaging important peer relationships.</p>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-surface-container group flex flex-col h-full">
+<div class="h-48 relative overflow-hidden bg-surface-variant">
+<img alt="Notebook and pen" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up of a neat spiral notebook and a black pen resting on a wooden desk next to a laptop keyboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX3TZkzto_PUG4WuCErc1Bz0gPDGBPDJm3vWLo3_s83ug_3dIB4V2x4jaVgKHOg1UljE9HTcuBU9ytst28jKLoj3DMo4z3Ez45HFM72wtgfk6Ww0QmCodys8Tl7V7iDHjr7XIeJaXgrgM8q4gytjUIjLUwIEBFRoKVe6JP6SIHQ4Nbfezvp1TEL5w7LHS6eQipPHwDXuvEGFDw9JoOMESKtcG7YA8m1YmSH2C4xjq7cqUBt5_7XmxpUM4UFHTljtdYLmWs_cgyOaM"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[11px] font-label-md uppercase tracking-wider">Academic Pressure</span>
+<span class="text-outline-variant text-[12px] font-body-sm">Article</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-on-surface mb-2 line-clamp-2">Overcoming Perfectionism in Coursework</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-auto">Strategies to shift from a mindset of flawless execution to one of sustainable learning.</p>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-surface-container group flex flex-col h-full">
+<div class="h-48 relative overflow-hidden bg-primary-container p-6 flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-[48px] text-surface-container-lowest relative z-10 mb-2" data-icon="graphic_eq">graphic_eq</span>
+<div class="w-full max-w-[120px] h-1.5 bg-surface-container-lowest/30 rounded-full mt-2 overflow-hidden">
+<div class="w-1/3 h-full bg-surface-container-lowest rounded-full"></div>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[11px] font-label-md uppercase tracking-wider">Mindfulness</span>
+<span class="text-outline-variant text-[12px] font-body-sm">5 min audio</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-on-surface mb-2 line-clamp-2">Quick Body Scan Before Exams</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-auto">A short guided audio to release physical tension before entering a stressful environment.</p>
+</div>
+</article>
+<!-- Card 6 -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-surface-container group flex flex-col h-full">
+<div class="h-48 relative overflow-hidden bg-surface-variant">
+<img alt="Tech setup" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean modern desk setup with a laptop showing code, a notebook, and a small potted succulent bathed in natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9uYEtC9M-BH5ifc8sNF7vL2HLfhTO9lsEaaeZboVKYD9vWsOfsgLNSso1msfE6H4gZ54lp3UgEZKAnb6NYcCm-Ad7U8dJE2rkqQqfnjJd2tuHEWXyFcXLbhy7pmjLeXx6aZC9nZlOXx-rOlyn1Az8p9HXsEQGN9HMVDlWiRscCnKY-uF4kBcc2YYXrlym2mgUwVj1NMFdK1GPVTp4oayApk2qivqkV9mpH4YvZkvdwV0-PoIlFSyyNkudMamYDBoTaYQVCaGSlU0"/>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-3">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded text-[11px] font-label-md uppercase tracking-wider">Academic Pressure</span>
+<span class="text-outline-variant text-[12px] font-body-sm">Guide</span>
+</div>
+<h4 class="font-headline-md text-body-lg text-on-surface mb-2 line-clamp-2">Digital Detox for Better Focus</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-auto">How to manage screen time and create boundaries with technology to improve concentration.</p>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<nav class="flex justify-center items-center gap-2 mt-8">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-primary text-on-primary font-label-md text-label-md shadow-sm">1</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container font-body-md text-body-md transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container font-body-md text-body-md transition-colors">3</button>
+<span class="text-outline-variant px-1">...</span>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container font-body-md text-body-md transition-colors">8</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</nav>
+</main>
+</div>
+<!-- SOS FAB -->
+<button aria-label="Emergency Help" class="fixed bottom-8 right-8 z-50 w-16 h-16 rounded-full bg-error text-on-error shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center group">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform" data-icon="sos">sos</span>
+</button>
+<!-- Footer (Shared Component) -->
+<footer class="bg-slate-50 dark:bg-slate-950 font-inter text-sm w-full py-12 border-t mt-16 border-t border-slate-200 dark:border-slate-800 flat no shadows opacity-100 hover:opacity-80">
+<div class="max-w-[1440px] mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-lg font-semibold text-teal-600 dark:text-teal-400">Mindful Student</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all font-medium" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all font-medium" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all font-medium" href="#">Emergency Contacts</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all font-medium" href="#">Help Center</a>
+</div>
+<div class="text-slate-500 dark:text-slate-400 text-center md:text-right">
+                © 2024 Mindful Student. Dedicated to student mental wellness.
+            </div>
+</div>
+</footer>
+</body></html>

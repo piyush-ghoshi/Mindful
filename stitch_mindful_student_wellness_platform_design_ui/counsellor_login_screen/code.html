@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Counsellor Portal - Login</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c5c6cf",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#899593",
+                        "on-background": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-secondary": "#ffffff",
+                        "primary": "#031634",
+                        "secondary-container": "#7bf7e3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "on-surface-variant": "#44474e",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "tertiary-fixed": "#d9e5e3",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary": "#006b5f",
+                        "surface-container-high": "#dce9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-container": "#007165",
+                        "tertiary": "#0e1918",
+                        "on-primary-fixed": "#081b39",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed": "#7bf7e3",
+                        "on-secondary-fixed-variant": "#005047",
+                        "surface-bright": "#f8f9ff",
+                        "background": "#f8f9ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1a2b4a",
+                        "tertiary-container": "#222d2c",
+                        "inverse-surface": "#213145",
+                        "on-primary-container": "#8293b7",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-tint": "#4e5e80",
+                        "on-primary-fixed-variant": "#364767",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline": "#75777e",
+                        "inverse-primary": "#b6c6ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "base": "4px",
+                        "sm": "1rem",
+                        "lg": "2.5rem",
+                        "xl": "4rem",
+                        "md": "1.5rem",
+                        "xs": "0.5rem",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "data-tabular": ["14px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex w-full">
+<!-- Left Column: Illustration -->
+<div class="hidden lg:flex w-1/2 relative bg-primary items-center justify-center overflow-hidden">
+<img alt="Counsellor Office" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" data-alt="Professional counsellor sitting at a modern desk in a calming, well-lit warm corporate office with soft natural lighting and indoor plants" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQq4KxXgFAc_dsfxbRaLyvZH5MSu3CzujLAaF1AKl72qQIw_dI7EcS2mZeD73LvfUmP8Eb6ewQbVz0u1zJdJ5MqjRXqCNnK9wwebo_uQvHUhIh7U4SfAhRpOsaeWQnelsB1jSRJBt4rGkwJrTUx7mGfaakbjA98F1AQmjdSA7o5TgOie1zeuH1Ns7W1KX4AreZarPjYw0Hu8ZEz3PgUn53PwStAQRDNylGFcaSUdqF7BGIgd4a9ZNXy3wtv0dtEwATnm2Ixx9eMFo"/>
+<div class="relative z-10 p-xl max-w-2xl text-on-primary">
+<h2 class="font-h1 text-h1 mb-md">Empowering Clinical Care</h2>
+<p class="font-body-lg text-body-lg opacity-90">Access your secure dashboard to manage appointments, review patient notes, and conduct encrypted sessions in a calming digital environment.</p>
+</div>
+<!-- Decorative Gradient overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-80 pointer-events-none"></div>
+</div>
+<!-- Right Column: Login Form -->
+<div class="flex w-full lg:w-1/2 flex-col items-center justify-center p-md sm:p-lg bg-surface">
+<!-- Login Card -->
+<div class="w-full max-w-md bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(3,22,52,0.04)] border border-surface-container p-lg flex flex-col gap-lg">
+<!-- Header Section -->
+<div class="flex flex-col items-center text-center gap-xs">
+<!-- Platform Logo Appoximation -->
+<div class="w-14 h-14 bg-primary rounded-xl flex items-center justify-center text-on-primary mb-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+</div>
+<h1 class="font-h2 text-h2 text-on-surface">MindCare Portal</h1>
+<!-- Counsellor Portal Label -->
+<div class="inline-flex items-center gap-2 bg-surface-container text-on-primary-fixed-variant px-3 py-1.5 rounded-full mt-2">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Counsellor Portal</span>
+</div>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-md w-full">
+<!-- Email Input -->
+<div class="flex flex-col gap-2">
+<label class="font-data-tabular text-data-tabular text-on-surface" for="email">Email Address</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface font-body-md focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" id="email" placeholder="dr.smith@clinic.com" required="" type="email"/>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-data-tabular text-data-tabular text-on-surface" for="password">Password</label>
+<a class="font-body-sm text-body-sm text-secondary hover:underline" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<input class="w-full h-12 px-4 pr-12 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface font-body-md focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface flex items-center justify-center w-8 h-8 rounded-full" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Action -->
+<button class="w-full h-12 mt-xs bg-primary text-on-primary rounded-lg font-h3 text-h3 flex items-center justify-center hover:bg-primary-container" type="submit">
+                    Login
+                </button>
+</form>
+<!-- Security Badge -->
+<div class="bg-surface-container-low border border-surface-container rounded-lg p-4 flex items-start gap-3 mt-xs">
+<span class="material-symbols-outlined text-secondary mt-0.5" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<strong class="text-on-surface font-medium">🔐 Secure Professional Access</strong><br/>
+                    All sessions are encrypted and logged.
+                </p>
+</div>
+</div>
+<!-- Footer Links (Optional context for realism) -->
+<div class="mt-lg flex gap-md text-on-surface-variant font-body-sm text-body-sm">
+<a class="hover:text-on-surface" href="#">Privacy Policy</a>
+<span>•</span>
+<a class="hover:text-on-surface" href="#">IT Support</a>
+</div>
+</div>
+</body></html>

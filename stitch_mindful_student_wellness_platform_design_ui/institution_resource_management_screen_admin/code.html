@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resource Library - MindGuard Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#222d2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "surface": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1918",
+                        "tertiary-fixed": "#d9e5e3",
+                        "outline": "#75777e",
+                        "on-primary-fixed": "#081b39",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline-variant": "#c5c6cf",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#4e5e80",
+                        "on-secondary-fixed-variant": "#005047",
+                        "secondary-container": "#7bf7e3",
+                        "primary-container": "#1a2b4a",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#7bf7e3",
+                        "secondary": "#006b5f",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#44474e",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#8293b7",
+                        "primary": "#031634",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#364767",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b6c6ee",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#899593",
+                        "background": "#f8f9ff",
+                        "on-secondary-container": "#007165",
+                        "surface-container-high": "#dce9ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "0.5rem",
+                        "sm": "1rem",
+                        "sidebar-width": "280px",
+                        "xl": "4rem",
+                        "base": "4px",
+                        "md": "1.5rem",
+                        "lg": "2.5rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "h3": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "data-tabular": ["14px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md flex h-screen overflow-hidden antialiased selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-slate-900 dark:bg-black text-teal-500 dark:text-teal-400 font-inter text-sm antialiased docked h-screen left-0 w-64 border-r border-slate-800 shadow-xl fixed top-0 flex flex-col py-6 z-20">
+<!-- Brand Header -->
+<div class="px-6 mb-8">
+<div class="text-white font-black text-xl mb-6">MindGuard</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 overflow-hidden flex-shrink-0">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="Professional headshot of a mature male admin user with short dark hair, wearing a navy blue shirt, standing against a neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5AHaJP7D9xwf12fX6QrZk-Z4D5iJD389HqCc1b82k5xkUGAOrGLnlG7Qy3w4VcR7qBbRoE5q-aYxUudPeLtWUIlE5boSsXTg5Nn2IuE_Cq3WK6bnKOz8UFxurbtBUp7mnE6ZwPn9rLeDdCRaNOweF9HC3v1FsNH-SdhJyTPJjknltjD7-6jy2vW9XeJtIGaNnmsbMfNYICRXZQBNLCVjCyHnkWAP1F495HfsmNa_l9vQwx59Fjlxo_0n2qRMUYWlr-I6jZpsFDM"/>
+</div>
+<div>
+<div class="text-white font-semibold text-sm">System Admin</div>
+<div class="text-slate-400 text-xs">Institutional Access</div>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col gap-1">
+<li>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span>Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span>Counsellors</span>
+</a>
+</li>
+<!-- Active Tab -->
+<li>
+<a class="flex items-center gap-3 bg-teal-500/10 text-teal-400 border-l-4 border-teal-500 px-4 py-3 font-semibold hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span>Resources</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span>Feedback</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-64 min-w-0">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-white dark:bg-slate-900 text-blue-900 dark:text-blue-300 font-inter text-sm font-medium tracking-tight docked full-width top-0 border-b border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center w-full px-6 py-3 z-10 sticky top-0">
+<!-- Brand/Search Area -->
+<div class="flex items-center gap-4">
+<div class="text-lg font-bold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+                    MindGuard Admin
+                </div>
+<!-- Search bar logic "on_left" implicitly implemented as layout -->
+<div class="hidden md:flex relative ml-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-slate-50 dark:bg-slate-800 border-none rounded-full text-sm focus:ring-2 focus:ring-teal-500 w-64 transition-all" placeholder="Search system..." type="text"/>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas Area -->
+<main class="flex-1 overflow-y-auto p-md lg:p-lg">
+<div class="max-w-[1440px] mx-auto w-full flex flex-col gap-md">
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+<div>
+<h1 class="font-h1 text-h1 text-on-background">Resource Library 📚</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage, upload, and organize professional materials for counsellors.</p>
+</div>
+<button class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-inverse-surface text-on-primary font-data-tabular text-data-tabular px-6 py-3 rounded-lg transition-colors shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]" data-icon="upload">upload</span>
+                        Upload New Resource
+                    </button>
+</div>
+<!-- Filter Bar (Bento-style Card) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 shadow-[0_4px_12px_rgba(3,22,52,0.04)]">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+<!-- Search -->
+<div class="relative lg:col-span-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all placeholder:text-outline" placeholder="Search title or ID..." type="text"/>
+</div>
+<!-- Category -->
+<div class="relative">
+<select class="w-full appearance-none pl-4 pr-10 py-2 bg-surface border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all">
+<option disabled="" selected="" value="">Category</option>
+<option value="cbt">CBT Workbooks</option>
+<option value="mindfulness">Mindfulness</option>
+<option value="forms">Clinical Forms</option>
+<option value="guides">Treatment Guides</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Format -->
+<div class="relative">
+<select class="w-full appearance-none pl-4 pr-10 py-2 bg-surface border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all">
+<option disabled="" selected="" value="">Format</option>
+<option value="pdf">PDF Document</option>
+<option value="audio">Audio File</option>
+<option value="video">Video</option>
+<option value="link">External Link</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Language -->
+<div class="relative">
+<select class="w-full appearance-none pl-4 pr-10 py-2 bg-surface border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all">
+<option disabled="" selected="" value="">Language</option>
+<option value="en">English</option>
+<option value="es">Spanish</option>
+<option value="fr">French</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Status -->
+<div class="relative">
+<select class="w-full appearance-none pl-4 pr-10 py-2 bg-surface border border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all">
+<option disabled="" selected="" value="">Status</option>
+<option value="published">Published</option>
+<option value="draft">Draft</option>
+<option value="archived">Archived</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Professional Data Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-[0_4px_12px_rgba(3,22,52,0.04)]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[900px]">
+<thead>
+<tr class="bg-primary/5 border-b border-outline-variant">
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4 w-16">Item</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4">Title &amp; Description</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4">Category</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4 text-center">Format</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4 text-center">Lang</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4 text-right">Views</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4 text-center">Status</th>
+<th class="font-label-caps text-label-caps uppercase text-on-surface-variant px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 align-middle">
+<div class="w-12 h-16 bg-surface-container rounded border border-outline-variant overflow-hidden flex items-center justify-center relative">
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="Cover of a professional medical or psychology textbook with a clean minimalist design in soft blue tones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCExZTg1PfzSnXeEqki43Ng37nPVFqWIMU7PWNN71lLCBgwFT81vrBxZkSZKmBwb0D1Sq9gD32wujbKXfWkcyOaT_GUmcHUEfBcnp92HLPEDgkXvw8lxEepiIoDypUe7TnXfqEBxQlLoyXtZ9UJIyq6G5Q6Bnru9YF2FcXHDshOS-Ou28Gd3ilxdG5NR1w61-a5U3ffqLOMQBBBZS9Y-04F6alfNJ_tcbs4xTmXSA9JYTrV1oMAHInbq2RoDWR8YApzWxh0dygPJ88')"></div>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<p class="font-data-tabular text-data-tabular text-on-surface truncate max-w-[250px]">Cognitive Restructuring Workbook v2.0</p>
+<p class="font-body-sm text-[13px] text-on-surface-variant mt-0.5 truncate max-w-[250px]">Core exercises for patient take-home assignments.</p>
+</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-variant text-on-surface-variant font-label-caps text-[10px] uppercase">CBT</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-variant text-on-surface-variant font-label-caps text-[10px] uppercase">Workbooks</span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="picture_as_pdf">picture_as_pdf</span>
+</td>
+<td class="px-6 py-4 align-middle text-center font-data-tabular text-data-tabular text-on-surface-variant">
+                                        EN
+                                    </td>
+<td class="px-6 py-4 align-middle text-right font-data-tabular text-data-tabular text-on-surface">
+                                        1,245
+                                    </td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/30 text-secondary font-label-caps text-label-caps uppercase border border-secondary-container">Published</span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/20 rounded-md transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-md transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 align-middle">
+<div class="w-12 h-12 bg-surface-container rounded-full border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="audio_file">audio_file</span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<p class="font-data-tabular text-data-tabular text-on-surface truncate max-w-[250px]">Guided Body Scan Meditation (15 Min)</p>
+<p class="font-body-sm text-[13px] text-on-surface-variant mt-0.5 truncate max-w-[250px]">Audio resource for anxiety reduction protocols.</p>
+</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-variant text-on-surface-variant font-label-caps text-[10px] uppercase">Mindfulness</span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="headphones">headphones</span>
+</td>
+<td class="px-6 py-4 align-middle text-center font-data-tabular text-data-tabular text-on-surface-variant">
+                                        ES
+                                    </td>
+<td class="px-6 py-4 align-middle text-right font-data-tabular text-data-tabular text-on-surface">
+                                        892
+                                    </td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/30 text-secondary font-label-caps text-label-caps uppercase border border-secondary-container">Published</span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/20 rounded-md transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-md transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-4 align-middle">
+<div class="w-12 h-16 bg-surface border border-dashed border-outline-variant rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-outline-variant" data-icon="draft">draft</span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle">
+<p class="font-data-tabular text-data-tabular text-on-surface truncate max-w-[250px]">Quarterly Patient Progress Assessment</p>
+<p class="font-body-sm text-[13px] text-on-surface-variant mt-0.5 truncate max-w-[250px]">Standardized form for mandatory reporting.</p>
+</td>
+<td class="px-6 py-4 align-middle">
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-variant text-on-surface-variant font-label-caps text-[10px] uppercase">Clinical Forms</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-md bg-surface-variant text-on-surface-variant font-label-caps text-[10px] uppercase">Admin</span>
+</div>
+</td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+</td>
+<td class="px-6 py-4 align-middle text-center font-data-tabular text-data-tabular text-on-surface-variant">
+                                        EN
+                                    </td>
+<td class="px-6 py-4 align-middle text-right font-data-tabular text-data-tabular text-on-surface">
+                                        0
+                                    </td>
+<td class="px-6 py-4 align-middle text-center">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps uppercase border border-outline-variant">Draft</span>
+</td>
+<td class="px-6 py-4 align-middle text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-secondary-container/20 rounded-md transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-md transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination Placeholder -->
+<div class="bg-surface border-t border-outline-variant px-6 py-3 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1 to 3 of 145 resources</span>
+<div class="flex gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-1 rounded text-on-surface hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

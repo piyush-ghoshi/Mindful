@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analytics &amp; Reports - MindGuard Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#222d2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "surface": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1918",
+                        "tertiary-fixed": "#d9e5e3",
+                        "outline": "#75777e",
+                        "on-primary-fixed": "#081b39",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline-variant": "#c5c6cf",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#4e5e80",
+                        "on-secondary-fixed-variant": "#005047",
+                        "secondary-container": "#7bf7e3",
+                        "primary-container": "#1a2b4a",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#7bf7e3",
+                        "secondary": "#006b5f",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#44474e",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#8293b7",
+                        "primary": "#031634",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#364767",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b6c6ee",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#899593",
+                        "background": "#f8f9ff",
+                        "on-secondary-container": "#007165",
+                        "surface-container-high": "#dce9ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xs": "0.5rem",
+                        "sm": "1rem",
+                        "sidebar-width": "280px",
+                        "xl": "4rem",
+                        "base": "4px",
+                        "md": "1.5rem",
+                        "lg": "2.5rem",
+                        "gutter": "1.5rem"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "h3": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "h2": ["24px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "h1": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "h3": ["20px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "600" }],
+                        "data-tabular": ["14px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "500" }],
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "body-sm": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .professional-shadow {
+            box-shadow: 0 4px 12px rgba(3, 22, 52, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen flex overflow-hidden">
+<!-- Shared Component: SideNavBar -->
+<nav class="hidden md:flex bg-slate-900 dark:bg-black font-inter text-sm antialiased docked h-screen left-0 w-64 border-r border-slate-800 shadow-xl fixed left-0 top-0 h-full flex-col py-6 z-20">
+<div class="px-6 mb-8">
+<h1 class="text-white font-black text-xl">MindGuard</h1>
+<div class="mt-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div>
+<div class="text-white font-semibold">System Admin</div>
+<div class="text-slate-400 text-xs">Institutional Access</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col flex-1 w-full gap-1">
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-teal-500/10 text-teal-400 border-l-4 border-teal-500 px-4 py-3 font-semibold hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span>Counsellors</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span>Resources</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span>Feedback</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 hover:text-white cursor-pointer transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 md:ml-64 flex flex-col h-full overflow-hidden bg-surface">
+<!-- Shared Component: TopNavBar -->
+<header class="bg-white dark:bg-slate-900 font-inter text-sm font-medium tracking-tight docked full-width top-0 border-b border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center w-full px-6 py-3 z-10 flex-shrink-0">
+<div class="flex items-center gap-4">
+<div class="text-lg font-bold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+                    MindGuard Admin
+                </div>
+<!-- Search Bar Placeholder -->
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-2 border border-outline-variant focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm text-on-surface placeholder:text-outline w-64 outline-none" placeholder="Search system data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full text-blue-900 dark:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 rounded-full text-blue-900 dark:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 rounded-full text-blue-900 dark:text-blue-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-md lg:p-lg">
+<div class="max-w-[1440px] mx-auto flex flex-col gap-lg">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h2 class="font-h1 text-h1 text-primary">Analytics &amp; Reports 📊</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Institutional overview and historical data analysis.</p>
+</div>
+<div class="flex items-center bg-surface-container-lowest border border-outline-variant rounded-lg p-1 shadow-sm">
+<div class="px-4 py-2 font-data-tabular text-data-tabular text-on-surface flex items-center gap-2 cursor-pointer hover:bg-surface-container-low rounded-md transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                            Last 30 Days
+                            <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-md">
+<!-- Left Column: Charts (Span 8) -->
+<div class="lg:col-span-8 flex flex-col gap-md">
+<!-- Charts 2x2 Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Chart 1: Bar Chart Placeholder -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container p-md professional-shadow flex flex-col min-h-[300px]">
+<h3 class="font-h3 text-h3 text-primary mb-6">Top Primary Concerns</h3>
+<div class="flex-1 flex items-end justify-around gap-2 pt-4 border-b border-surface-container pb-2">
+<div class="w-full flex flex-col items-center gap-2"><div class="w-full bg-secondary rounded-t-sm h-[80%]"></div><span class="font-label-caps text-label-caps text-on-surface-variant">ANX</span></div>
+<div class="w-full flex flex-col items-center gap-2"><div class="w-full bg-primary-fixed-dim rounded-t-sm h-[65%]"></div><span class="font-label-caps text-label-caps text-on-surface-variant">DEP</span></div>
+<div class="w-full flex flex-col items-center gap-2"><div class="w-full bg-surface-tint rounded-t-sm h-[40%]"></div><span class="font-label-caps text-label-caps text-on-surface-variant">STR</span></div>
+<div class="w-full flex flex-col items-center gap-2"><div class="w-full bg-surface-dim rounded-t-sm h-[25%]"></div><span class="font-label-caps text-label-caps text-on-surface-variant">REL</span></div>
+</div>
+</div>
+<!-- Chart 2: DAU (Line representation) -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container p-md professional-shadow flex flex-col min-h-[300px]">
+<h3 class="font-h3 text-h3 text-primary mb-2">Daily Active Users</h3>
+<div class="flex items-baseline gap-2 mb-4">
+<span class="font-h1 text-h1 text-primary">1,248</span>
+<span class="font-body-sm text-body-sm text-secondary flex items-center"><span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%</span>
+</div>
+<div class="flex-1 w-full bg-surface-container-low rounded-lg relative overflow-hidden flex items-end p-2 gap-1">
+<!-- Simple staggered heights to simulate area/line chart -->
+<div class="flex-1 bg-primary/20 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[35%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/50 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/70 h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/80 h-[95%] rounded-t-sm"></div>
+</div>
+</div>
+</div>
+<!-- Reports Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container professional-shadow overflow-hidden">
+<div class="p-md border-b border-surface-container flex justify-between items-center bg-white">
+<h3 class="font-h3 text-h3 text-primary">Generated Reports</h3>
+<button class="font-data-tabular text-data-tabular text-secondary hover:text-primary transition-colors flex items-center gap-1">
+                                    View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary-container/5 font-label-caps text-label-caps text-on-surface-variant">
+<th class="p-4 border-b border-surface-container font-semibold">Report Name</th>
+<th class="p-4 border-b border-surface-container font-semibold">Date Generated</th>
+<th class="p-4 border-b border-surface-container font-semibold">Type</th>
+<th class="p-4 border-b border-surface-container font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-data-tabular text-data-tabular text-on-surface">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 border-b border-surface-container font-medium">Q3 Utilization Summary</td>
+<td class="p-4 border-b border-surface-container text-on-surface-variant">Oct 12, 2023</td>
+<td class="p-4 border-b border-surface-container"><span class="bg-surface-variant text-on-surface-variant px-2 py-1 rounded text-xs">Clinical</span></td>
+<td class="p-4 border-b border-surface-container text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">download</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4 border-b border-surface-container font-medium">Monthly Risk Assessment</td>
+<td class="p-4 border-b border-surface-container text-on-surface-variant">Oct 01, 2023</td>
+<td class="p-4 border-b border-surface-container"><span class="bg-error-container text-on-error-container px-2 py-1 rounded text-xs">Compliance</span></td>
+<td class="p-4 border-b border-surface-container text-right">
+<button class="text-outline hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[20px]">download</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Actions & Notices (Span 4) -->
+<div class="lg:col-span-4 flex flex-col gap-md">
+<!-- Generate Panel -->
+<div class="bg-primary-container text-on-primary-container rounded-xl p-md professional-shadow relative overflow-hidden border border-primary/10">
+<!-- Subtle decorative background element -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3"></div>
+<h3 class="font-h2 text-h2 text-white mb-2 relative z-10">Custom Export</h3>
+<p class="font-body-sm text-body-sm text-primary-fixed-dim mb-6 relative z-10">Configure parameters for ad-hoc compliance or clinical utilization reports.</p>
+<form class="flex flex-col gap-4 relative z-10">
+<div class="flex flex-col gap-1">
+<label class="font-label-caps text-label-caps text-primary-fixed">Report Template</label>
+<select class="bg-inverse-surface border border-outline/30 text-white rounded-lg p-2 font-body-sm text-body-sm focus:ring-secondary focus:border-secondary">
+<option>Clinical Utilization</option>
+<option>Anonymized Trends</option>
+<option>System Performance</option>
+</select>
+</div>
+<button class="mt-2 bg-secondary text-on-secondary font-h3 text-h3 py-3 px-4 rounded-lg shadow-sm hover:bg-secondary-fixed-dim transition-colors flex justify-center items-center gap-2" type="button">
+<span class="material-symbols-outlined">analytics</span>
+                                    Generate Report
+                                </button>
+</form>
+</div>
+<!-- Anonymity Notice -->
+<div class="bg-surface-container-highest border border-outline-variant rounded-xl p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary-container mt-0.5">lock</span>
+<div>
+<h4 class="font-h3 text-h3 text-tertiary-container text-sm">Data Privacy Enforced</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 text-xs">🔒 All data is anonymized. Individual patient identifiers are stripped from aggregate views and exported datasets in accordance with institutional policy.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

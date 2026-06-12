@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful - Wellness Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#081b39",
+                        "on-surface": "#081b39",
+                        "on-primary-fixed": "#00201c",
+                        "secondary-container": "#d7e5e3",
+                        "on-primary-fixed-variant": "#005047",
+                        "on-secondary-container": "#5a6766",
+                        "on-error-container": "#93000a",
+                        "background": "#f9f9ff",
+                        "tertiary-container": "#ff8a82",
+                        "inverse-primary": "#5cdac7",
+                        "outline": "#6c7a76",
+                        "surface-tint": "#006b5f",
+                        "surface-container": "#e8edff",
+                        "on-tertiary-container": "#860010",
+                        "secondary-fixed": "#d7e5e3",
+                        "primary-fixed": "#7bf7e3",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdad7",
+                        "secondary": "#546160",
+                        "on-surface-variant": "#3d4946",
+                        "on-secondary-fixed-variant": "#3c4948",
+                        "outline-variant": "#bcc9c5",
+                        "surface-container-low": "#f1f3ff",
+                        "inverse-surface": "#1f304f",
+                        "inverse-on-surface": "#edf0ff",
+                        "primary-fixed-dim": "#5cdac7",
+                        "on-primary-container": "#004941",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "secondary-fixed-dim": "#bbc9c7",
+                        "on-tertiary-fixed": "#410004",
+                        "primary": "#006b5f",
+                        "tertiary": "#b91c24",
+                        "surface-container-highest": "#d8e2ff",
+                        "on-primary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#d8e2ff",
+                        "surface-dim": "#cbdaff",
+                        "on-secondary-fixed": "#111e1d",
+                        "surface-container-high": "#e0e8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#3bbfad",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "margin-lg": "64px",
+                        "margin-sm": "16px",
+                        "container-padding": "40px",
+                        "base-unit": "8px",
+                        "margin-md": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-16">
+<!-- TopNavBar Web -->
+<header class="hidden md:flex fixed top-0 left-0 w-full z-50 justify-between items-center px-8 h-16 max-w-[1440px] mx-auto bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shadow-sm">
+<div class="text-xl font-bold text-[#3BBFAD]">Mindful</div>
+<nav class="flex items-center space-x-6">
+<a class="font-['Inter'] text-slate-900 dark:text-slate-100 text-[#3BBFAD] border-b-2 border-[#3BBFAD] pb-1 font-semibold cursor-pointer active:scale-95 transition-transform" href="#">Dashboard</a>
+<a class="font-['Inter'] text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 px-3 py-2 rounded-md cursor-pointer active:scale-95 transition-transform" href="#">Booking</a>
+<a class="font-['Inter'] text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 px-3 py-2 rounded-md cursor-pointer active:scale-95 transition-transform" href="#">Roadmap</a>
+<a class="font-['Inter'] text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 px-3 py-2 rounded-md cursor-pointer active:scale-95 transition-transform" href="#">Resources</a>
+</nav>
+<div class="flex items-center space-x-4 text-[#3BBFAD]">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 p-2 rounded-full cursor-pointer active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 p-2 rounded-full cursor-pointer active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-4 md:px-8 py-8 flex flex-col md:flex-row gap-gutter pb-32">
+<!-- Left Column -->
+<div class="w-full md:w-1/3 flex flex-col gap-margin-md">
+<!-- Student Level Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 flex flex-col items-center text-center">
+<img alt="Avatar" class="w-24 h-24 rounded-full mb-4 object-cover border-4 border-secondary-container" data-alt="Portrait of a young woman with a soft smile, soft natural lighting, serene atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDshaiHos4lA-C4vdWeeq9hAofuhxV6POZCfE5IX59ynr0rm-xu0zZkDCeonQYg0dA6tQfzp6bKseIc8aC8ooWu0ID7xlUT3WMMt1w8yZ6P9YAuBEdF1FxyvIW_y0XyMWz0BagOiFgisjR8ZV45GpElaziHdMH7jBBF8IMMGFJb_ThhukN1myAdw6p0e1nmUJKPMgHmrKbuGCt83DWmxtFhGBognA7HnUv-ioA8mNIWZ6PjpMWSI5iq7SoWFH7noAas3qnacER1HCs"/>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Level 5 — Wellness Warrior 🏅</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">You're doing great!</p>
+<div class="w-full bg-surface-variant rounded-full h-2.5 mb-2">
+<div class="bg-primary-container h-2.5 rounded-full" style="width: 64%"></div>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant w-full text-right">320/500 XP</p>
+</div>
+<!-- Streak Card -->
+<div class="bg-secondary-container rounded-xl p-6 shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-lowest p-3 rounded-full text-tertiary">
+<span class="material-symbols-outlined icon-fill text-3xl" data-icon="local_fire_department">local_fire_department</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-secondary-container uppercase tracking-wider mb-1">Current Streak</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">12 Days</h3>
+</div>
+</div>
+</div>
+<!-- Today's Activities -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Today's Activities</h3>
+<div class="flex flex-col gap-4">
+<label class="flex items-center gap-4 p-4 rounded-lg border border-outline-variant/50 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input class="w-6 h-6 rounded-md border-outline-variant text-primary focus:ring-primary/50 checked:bg-primary checked:border-primary transition-all cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface font-medium group-hover:text-primary transition-colors">Mood Check-in</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">+10 XP</p>
+</div>
+</label>
+<label class="flex items-center gap-4 p-4 rounded-lg border border-outline-variant/50 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input checked="" class="w-6 h-6 rounded-md border-outline-variant text-primary focus:ring-primary/50 checked:bg-primary checked:border-primary transition-all cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface font-medium group-hover:text-primary transition-colors line-through opacity-70">Chatbot Session</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70">+25 XP</p>
+</div>
+</label>
+<label class="flex items-center gap-4 p-4 rounded-lg border border-outline-variant/50 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input class="w-6 h-6 rounded-md border-outline-variant text-primary focus:ring-primary/50 checked:bg-primary checked:border-primary transition-all cursor-pointer" type="checkbox"/>
+</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface font-medium group-hover:text-primary transition-colors">Read Article</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">+15 XP</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="w-full md:w-2/3 flex flex-col gap-margin-md">
+<!-- Badges Grid -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Badges</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-3xl" data-icon="emoji_events">emoji_events</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface">First Step</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-[#E6F4F2] text-[#3BBFAD] flex items-center justify-center shadow-sm border border-[#3BBFAD]/20">
+<span class="material-symbols-outlined text-3xl" data-icon="self_improvement">self_improvement</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface">Mindful Week</span>
+</div>
+<div class="flex flex-col items-center gap-2 opacity-40 grayscale">
+<div class="w-16 h-16 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-3xl" data-icon="star">star</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface-variant">Rising Star</span>
+</div>
+<div class="flex flex-col items-center gap-2 opacity-40 grayscale">
+<div class="w-16 h-16 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-3xl" data-icon="wb_sunny">wb_sunny</span>
+</div>
+<span class="font-label-md text-label-md text-center text-on-surface-variant">Early Bird</span>
+</div>
+</div>
+</div>
+<!-- Leaderboard Table -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Leaderboard</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30 text-on-surface-variant font-label-md text-label-md">
+<th class="pb-3 pl-2">Rank</th>
+<th class="pb-3">Student</th>
+<th class="pb-3 text-right pr-2">Level</th>
+<th class="pb-3 text-right pr-2">XP</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+<td class="py-4 pl-2 font-semibold text-[#D4AF37]">1</td>
+<td class="py-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container text-xs font-bold">A</div>
+                                    Anonymous Fox
+                                </td>
+<td class="py-4 text-right pr-2">Lvl 8</td>
+<td class="py-4 text-right pr-2 font-medium">1,250</td>
+</tr>
+<tr class="border-b border-outline-variant/10 bg-[#E6F4F2]/50 hover:bg-[#E6F4F2] transition-colors rounded-lg">
+<td class="py-4 pl-2 font-semibold text-primary">2</td>
+<td class="py-4 flex items-center gap-3 font-medium">
+<img alt="You" class="w-8 h-8 rounded-full object-cover" data-alt="Portrait of a young woman with a soft smile, soft natural lighting, serene atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiy7wwUqrnooO4gKJS9Kqgj7hC7tN5imkwMwbusDWhgr2NQILPTmbSSIdJ2h9vyXPDyz9cOj8y7-bnGcYh0UYuQ82WAsSrxIXZE0BAaZHuK2QEzogzVkFRFCux7amb1h8ZPqp0wNCZqLKFGhTPPkHtR9KCiTjSTlTAIUWKxZMP5w4gWKfDvBeddTGrUvGygUmNAT-cHvqh1WDPc50HbRHvK6tUEsf3TfdL03hhHwwOAqCMxhM7hOR-400dbOdI1DU0OrNMMdQ7AhU"/>
+                                    You
+                                </td>
+<td class="py-4 text-right pr-2">Lvl 5</td>
+<td class="py-4 text-right pr-2 font-medium text-primary">820</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 pl-2 text-on-surface-variant">3</td>
+<td class="py-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant text-xs font-bold">O</div>
+                                    Anonymous Owl
+                                </td>
+<td class="py-4 text-right pr-2">Lvl 4</td>
+<td class="py-4 text-right pr-2 font-medium">640</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Points History Chart Area -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/30 h-64 flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Points History</h3>
+<div class="flex-grow flex items-end justify-between px-2 gap-2 relative">
+<!-- Y-axis labels -->
+<div class="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-on-surface-variant pr-2 pb-6">
+<span>100</span>
+<span>50</span>
+<span>0</span>
+</div>
+<div class="w-full h-full border-b border-l border-outline-variant/30 ml-6 flex items-end justify-around pb-1 pt-4">
+<!-- Bars -->
+<div class="w-1/6 bg-secondary-container hover:bg-primary-container transition-colors rounded-t-md h-1/4 relative group cursor-pointer">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">25</div>
+</div>
+<div class="w-1/6 bg-secondary-container hover:bg-primary-container transition-colors rounded-t-md h-1/2 relative group cursor-pointer">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">50</div>
+</div>
+<div class="w-1/6 bg-secondary-container hover:bg-primary-container transition-colors rounded-t-md h-3/4 relative group cursor-pointer">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">75</div>
+</div>
+<div class="w-1/6 bg-primary-container hover:bg-primary transition-colors rounded-t-md h-full relative group cursor-pointer">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">100</div>
+</div>
+<div class="w-1/6 bg-secondary-container hover:bg-primary-container transition-colors rounded-t-md h-2/3 relative group cursor-pointer">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">65</div>
+</div>
+</div>
+</div>
+<div class="flex justify-around ml-6 mt-2 text-xs text-on-surface-variant font-label-md">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-20 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md docked full-width bottom-0 rounded-t-2xl border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] font-['Inter'] text-[10px] font-medium">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#3BBFAD]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+            Home
+        </a>
+<a class="flex flex-col items-center justify-center text-[#3BBFAD] bg-[#E6F4F2] dark:bg-[#3BBFAD]/10 rounded-xl px-3 py-1" href="#">
+<span class="material-symbols-outlined mb-1 icon-fill" data-icon="leaderboard">leaderboard</span>
+            Wellness
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#3BBFAD]" href="#">
+<div class="bg-[#E53E3E] text-white rounded-full p-4 -mt-8 shadow-lg shadow-red-200">
+<span class="material-symbols-outlined icon-fill" data-icon="emergency">emergency</span>
+</div>
+            SOS
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#3BBFAD]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_month">calendar_month</span>
+            Schedule
+        </a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#3BBFAD]" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+            Profile
+        </a>
+</nav>
+<!-- Persistent SOS Button (Desktop) -->
+<button class="hidden md:flex fixed bottom-8 right-8 w-16 h-16 bg-[#E53E3E] text-white rounded-full items-center justify-center shadow-lg hover:bg-red-700 transition-colors z-50 cursor-pointer hover:scale-105 active:scale-95 duration-200">
+<span class="material-symbols-outlined text-3xl icon-fill" data-icon="emergency">emergency</span>
+</button>
+</body></html>

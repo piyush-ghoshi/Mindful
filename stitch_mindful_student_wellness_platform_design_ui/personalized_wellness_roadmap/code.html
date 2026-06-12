@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful - Wellness Roadmap</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#081b39",
+                        "on-surface": "#081b39",
+                        "on-primary-fixed": "#00201c",
+                        "secondary-container": "#d7e5e3",
+                        "on-primary-fixed-variant": "#005047",
+                        "on-secondary-container": "#5a6766",
+                        "on-error-container": "#93000a",
+                        "background": "#f9f9ff",
+                        "tertiary-container": "#ff8a82",
+                        "inverse-primary": "#5cdac7",
+                        "outline": "#6c7a76",
+                        "surface-tint": "#006b5f",
+                        "surface-container": "#e8edff",
+                        "on-tertiary-container": "#860010",
+                        "secondary-fixed": "#d7e5e3",
+                        "primary-fixed": "#7bf7e3",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdad7",
+                        "secondary": "#546160",
+                        "on-surface-variant": "#3d4946",
+                        "on-secondary-fixed-variant": "#3c4948",
+                        "outline-variant": "#bcc9c5",
+                        "surface-container-low": "#f1f3ff",
+                        "inverse-surface": "#1f304f",
+                        "inverse-on-surface": "#edf0ff",
+                        "primary-fixed-dim": "#5cdac7",
+                        "on-primary-container": "#004941",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "secondary-fixed-dim": "#bbc9c7",
+                        "on-tertiary-fixed": "#410004",
+                        "primary": "#006b5f",
+                        "tertiary": "#b91c24",
+                        "surface-container-highest": "#d8e2ff",
+                        "on-primary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#d8e2ff",
+                        "surface-dim": "#cbdaff",
+                        "on-secondary-fixed": "#111e1d",
+                        "surface-container-high": "#e0e8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#3bbfad",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "max-width": "1440px",
+                        "gutter": "24px",
+                        "margin-lg": "64px",
+                        "margin-sm": "16px",
+                        "container-padding": "40px",
+                        "base-unit": "8px",
+                        "margin-md": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .ambient-shadow-1 {
+            box-shadow: 0 4px 12px rgba(8, 27, 57, 0.04), 0 1px 3px rgba(8, 27, 57, 0.02);
+        }
+        .ambient-shadow-2 {
+            box-shadow: 0 8px 24px rgba(8, 27, 57, 0.06), 0 2px 6px rgba(8, 27, 57, 0.03);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- Top Navigation Bar (Shared Component) -->
+<!-- Applying exact styles from JSON, but omitting border-b to respect the Shell Border Ban -->
+<header class="bg-white dark:bg-slate-900 shadow-sm fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-12 w-full max-w-[1440px] mx-auto">
+<!-- Brand -->
+<div class="text-xl font-bold text-[#3BBFAD] font-headline-md text-headline-md shrink-0">
+                Mindful
+            </div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex gap-8 items-center h-full">
+<a class="font-['Inter'] text-slate-900 dark:text-slate-100 text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors cursor-pointer active:scale-95 transition-transform flex items-center h-full" href="#">
+                    Dashboard
+                </a>
+<a class="font-['Inter'] text-slate-900 dark:text-slate-100 text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors cursor-pointer active:scale-95 transition-transform flex items-center h-full" href="#">
+                    Booking
+                </a>
+<a aria-current="page" class="font-['Inter'] text-slate-900 dark:text-slate-100 text-[#3BBFAD] pb-1 font-semibold cursor-pointer active:scale-95 transition-transform flex items-center h-full relative" href="#">
+                    Roadmap
+                    <div class="absolute bottom-0 left-0 w-full h-[2px] bg-[#3BBFAD]"></div>
+</a>
+<a class="font-['Inter'] text-slate-900 dark:text-slate-100 text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors cursor-pointer active:scale-95 transition-transform flex items-center h-full" href="#">
+                    Resources
+                </a>
+</nav>
+<div class="flex-grow"></div>
+<!-- Trailing Icons -->
+<div class="flex gap-4 items-center">
+<button class="text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 rounded-full p-2 flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-[#3BBFAD] transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 rounded-full p-2 flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-[104px] pb-margin-lg px-gutter max-w-max-width mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-margin-md">
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-2">Personalized Roadmap</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Your guided journey toward emotional resilience and clarity. Move at your own pace.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Timeline -->
+<div class="lg:col-span-8 relative pb-12">
+<!-- Vertical Line -->
+<div class="absolute top-8 bottom-0 left-[31px] w-[2px] bg-secondary-container z-0"></div>
+<!-- Timeline Items -->
+<div class="space-y-margin-md relative z-10">
+<!-- Week 1: Completed -->
+<div class="flex gap-margin-sm items-start">
+<div class="w-16 h-16 shrink-0 flex items-center justify-center bg-background rounded-full relative z-10">
+<span class="material-symbols-outlined text-primary-container text-[32px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-grow pt-4">
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-1 p-margin-sm border border-transparent">
+<div class="flex justify-between items-center mb-base-unit cursor-pointer">
+<h3 class="font-headline-md text-headline-md text-on-surface text-[20px]">Week 1: Grounding Techniques</h3>
+<span class="material-symbols-outlined text-outline-variant">expand_more</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Establishing a foundation of calm through sensory awareness.</p>
+<div class="space-y-3 mt-4 pt-4 border-t border-outline-variant/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">check_box</span>
+<span class="font-body-md text-body-md text-on-surface-variant line-through">5-4-3-2-1 Sensory Exercise</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">check_box</span>
+<span class="font-body-md text-body-md text-on-surface-variant line-through">Box Breathing Introduction</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Week 2: In Progress -->
+<div class="flex gap-margin-sm items-start">
+<div class="w-16 h-16 shrink-0 flex items-center justify-center bg-background rounded-full relative z-10">
+<div class="w-8 h-8 rounded-full border-4 border-primary-container bg-surface-container-lowest flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+</div>
+</div>
+<div class="flex-grow pt-4">
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-2 p-margin-sm border border-primary-container/20 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+<div class="flex justify-between items-center mb-base-unit">
+<h3 class="font-headline-md text-headline-md text-on-surface text-[20px]">Week 2: Cognitive Restructuring</h3>
+<span class="font-label-md text-label-md text-primary-container bg-secondary-container/50 px-3 py-1 rounded-full">In Progress</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Identifying and reframing automatic negative thoughts.</p>
+<div class="space-y-4">
+<div class="flex items-center gap-3 bg-surface-container-low p-3 rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-outline text-[20px]">check_box_outline_blank</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Identify 3 cognitive distortions</span>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-low p-3 rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-outline text-[20px]">check_box_outline_blank</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Complete daily thought log</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Week 3: Locked -->
+<div class="flex gap-margin-sm items-start">
+<div class="w-16 h-16 shrink-0 flex items-center justify-center bg-background rounded-full relative z-10">
+<span class="material-symbols-outlined text-outline-variant text-[32px]">lock</span>
+</div>
+<div class="flex-grow pt-4">
+<div class="bg-surface-container-lowest/50 rounded-xl border border-outline-variant/30 p-margin-sm opacity-70">
+<div class="flex justify-between items-center mb-base-unit">
+<h3 class="font-headline-md text-headline-md text-on-surface-variant text-[20px]">Week 3: Long-term Resilience</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Building sustainable habits for maintaining emotional balance over time.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Summary & Insights -->
+<div class="lg:col-span-4 space-y-margin-sm">
+<!-- Progress Summary Card -->
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-1 p-margin-sm flex flex-col items-center text-center">
+<h3 class="font-headline-md text-headline-md text-[20px] text-on-surface w-full text-left mb-6">Current Progress</h3>
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<!-- Background Circle -->
+<path class="text-surface-container-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<!-- Progress Circle (40%) -->
+<path class="text-primary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="40, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center flex-col">
+<span class="font-headline-lg text-headline-lg text-on-surface text-[24px]">40%</span>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">40% Complete 🌱</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">You are making steady progress.</p>
+</div>
+<!-- Recommended Next Action Card -->
+<div class="bg-secondary-container/30 rounded-xl ambient-shadow-1 p-margin-sm border border-secondary-container">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">directions_run</span>
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider text-[12px]">Recommended Action</h3>
+</div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-medium mb-2">10-Min Deep Breathing</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Settle your nervous system before starting your thought log.</p>
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 rounded-lg hover:bg-surface-tint transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                        Start Session
+                    </button>
+</div>
+<!-- AI Insight Card -->
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-1 p-margin-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl -mr-16 -mt-16"></div>
+<div class="flex items-center gap-2 mb-3 relative z-10">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider text-[12px]">MindBot Insight</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed relative z-10 italic">
+                        "You've been consistent with your evening reflections. This correlates with your improved sleep scores over the last 4 days. Keep prioritizing that wind-down time!"
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual SOS FAB -->
+<button aria-label="Emergency SOS" class="fixed bottom-8 right-8 bg-[#E53E3E] text-white rounded-full p-4 shadow-[0_8px_16px_rgba(229,62,62,0.3)] z-50 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">emergency</span>
+</button>
+</body></html>

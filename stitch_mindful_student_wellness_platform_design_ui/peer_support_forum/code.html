@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful Student - Peer Support</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#3c4948",
+                      "surface-container-low": "#f1f3ff",
+                      "background": "#f9f9ff",
+                      "secondary": "#546160",
+                      "on-primary": "#ffffff",
+                      "surface": "#f9f9ff",
+                      "tertiary": "#b91c24",
+                      "on-secondary-fixed": "#111e1d",
+                      "on-primary-fixed": "#00201c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-container": "#ff8a82",
+                      "secondary-container": "#d7e5e3",
+                      "on-surface": "#081b39",
+                      "inverse-on-surface": "#edf0ff",
+                      "on-surface-variant": "#3d4946",
+                      "on-primary-fixed-variant": "#005047",
+                      "surface-dim": "#cbdaff",
+                      "on-tertiary-container": "#860010",
+                      "surface-container": "#e8edff",
+                      "surface-tint": "#006b5f",
+                      "outline": "#6c7a76",
+                      "on-tertiary-fixed-variant": "#930013",
+                      "tertiary-fixed": "#ffdad7",
+                      "surface-variant": "#d8e2ff",
+                      "secondary-fixed": "#d7e5e3",
+                      "on-primary-container": "#004941",
+                      "outline-variant": "#bcc9c5",
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#5a6766",
+                      "inverse-surface": "#1f304f",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#7bf7e3",
+                      "primary": "#006b5f",
+                      "surface-container-high": "#e0e8ff",
+                      "primary-container": "#3bbfad",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed": "#410004",
+                      "primary-fixed-dim": "#5cdac7",
+                      "on-background": "#081b39",
+                      "surface-container-highest": "#d8e2ff",
+                      "surface-bright": "#f9f9ff",
+                      "inverse-primary": "#5cdac7",
+                      "tertiary-fixed-dim": "#ffb3ad",
+                      "secondary-fixed-dim": "#bbc9c7"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-padding": "40px",
+                      "max-width": "1440px",
+                      "base-unit": "8px",
+                      "margin-sm": "16px",
+                      "margin-lg": "64px",
+                      "margin-md": "32px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.outline'); }
+    </style>
+</head>
+<body class="text-on-background font-body-md antialiased min-h-screen flex flex-col relative">
+<!-- TopNavBar -->
+<nav class="bg-surface-container-lowest font-inter antialiased top-0 z-50 sticky border-b border-surface-container shadow-sm">
+<div class="flex justify-between items-center h-16 px-6 max-w-[1440px] mx-auto w-full">
+<!-- Brand -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-2xl" style="font-variation-settings: 'FILL' 1;">spa</span>
+<span class="text-xl font-bold text-primary">Mindful Student</span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-8 h-full">
+<a class="h-full flex items-center text-on-surface-variant font-label-md text-label-md hover:text-primary transition-all duration-200" href="#">Resources</a>
+<!-- Active Link -->
+<a class="h-full flex items-center text-primary font-label-md text-label-md border-b-2 border-primary-container" href="#">Peer Support</a>
+<a class="h-full flex items-center text-on-surface-variant font-label-md text-label-md hover:text-primary transition-all duration-200" href="#">Bookings</a>
+<a class="h-full flex items-center text-on-surface-variant font-label-md text-label-md hover:text-primary transition-all duration-200" href="#">My Journal</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant border border-surface-container-high">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="close up soft focus portrait of a young person with a calm expression in natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY0KYWFqaeITQq8_Z10XEVhdYHQc8ri5NrAgM17PiwjrIF9Udq1PZ-i87fT34eA_6fmbJojnPb7kSl4hFgAGdHa07k1Nb0e_azrIyOznsH5b5pNKzg4a1ALkKPQWG41-JtpOXfuD7uymBTsTVmJcD7XBpBuF45lynC-LZEKGM9rXqlkLimbT3f6Y5-YuznsVYPzr0eUGtTltWy2YPQjAQHNyAgWzQiNW0Cd5tJnY3ZoZR3K2t0cVqsqWnCDFh_sVA78GSD9zeUMEQ"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-container-padding py-margin-md">
+<!-- Header Section -->
+<header class="mb-margin-md text-center max-w-2xl mx-auto">
+<h1 class="text-headline-lg font-headline-lg text-on-surface mb-2">Community Forum</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">A safe, anonymous space to share, listen, and support each other.</p>
+</header>
+<!-- 3-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Categories -->
+<aside class="lg:col-span-3 space-y-6 sticky top-[100px]">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-low p-6">
+<h2 class="text-label-md font-label-md text-on-surface uppercase tracking-wider mb-4">Categories</h2>
+<ul class="space-y-2">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container text-primary font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">forum</span>
+                                All Discussions
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">monitor_heart</span>
+                                Anxiety &amp; Stress
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+                                Relationships
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">school</span>
+                                Academic Pressure
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface font-body-md text-body-md transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">bedtime</span>
+                                Sleep &amp; Habits
+                            </a>
+</li>
+</ul>
+</div>
+<!-- Small Info Block -->
+<div class="bg-secondary-container rounded-xl p-5 border border-outline-variant/30">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-secondary-container mt-0.5">info</span>
+<div>
+<h3 class="text-label-md font-label-md text-on-secondary-container mb-1">Anonymity Guaranteed</h3>
+<p class="text-body-sm font-body-sm text-on-secondary-container/80">Your identity is hidden to ensure a safe space for open discussion.</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center Column: Main Feed -->
+<section class="lg:col-span-6 space-y-6">
+<!-- New Post Action -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-low p-4 flex gap-4 items-center">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">person_outline</span>
+</div>
+<button class="flex-grow bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-body-md text-body-md text-left px-4 py-3 rounded-lg transition-colors border border-surface-container-high/50">
+                        Share what's on your mind anonymously...
+                    </button>
+<button aria-label="Create Post" class="bg-primary-container text-on-primary p-3 rounded-lg hover:bg-primary transition-colors shadow-sm shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+</div>
+<!-- Sort/Filter -->
+<div class="flex justify-between items-center px-1">
+<div class="flex gap-2">
+<button class="text-label-md font-label-md text-primary bg-surface-container px-3 py-1 rounded-full">Recent</button>
+<button class="text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low px-3 py-1 rounded-full transition-colors">Trending</button>
+</div>
+</div>
+<!-- Post Cards -->
+<!-- Post 1 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-low p-6 transition-all hover:shadow-md group">
+<!-- Post Header -->
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Anonymous Avatar" class="w-full h-full object-cover" data-alt="soft abstract flowing colors in muted teal and lavender tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTrkyifE5vf0-JN00Bby_qT_KydVjRX0wsokFo54-BkCbAxjeKuj7zf_DmuAfi5Bo96dQ3XmxKmcnwDwBc5UiACoWnzLBMgQR2mI6rte7AU8KOpXLZzZEkBbc-zLSEyXx0iOuCUcC0iMkNEW0X2FG00prJ81JTsmO-Y5jWsEp0UQrYpobF1Eq3SDxDLwgl9iF0_et6fkrVWsR7ThdDTr9A88RYYV16oygD4mdX1Y_thqUdPRue0Ue8ixBgP15nvzSHPzh2zUHqsXg"/>
+</div>
+<div>
+<h3 class="text-label-md font-label-md text-on-surface">Anonymous Student</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">2 hours ago • Anxiety &amp; Stress</p>
+</div>
+</div>
+<button aria-label="More options" class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<!-- Post Content -->
+<div class="mb-4">
+<h4 class="text-headline-md font-headline-md text-on-surface mb-2">Feeling completely overwhelmed with upcoming finals</h4>
+<p class="text-body-md font-body-md text-on-surface-variant line-clamp-3">
+                            I've been staring at my notes for hours and nothing is sinking in. The pressure is getting to me and I'm having trouble sleeping. Does anyone else feel like they are just constantly behind no matter how hard they try? I just needed to vent somewhere safe.
+                        </p>
+</div>
+<!-- Post Actions/Reactions -->
+<div class="flex items-center justify-between border-t border-surface-container pt-4">
+<div class="flex gap-2">
+<!-- Like -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">thumb_up</span>
+<span class="text-label-md font-label-md">24</span>
+</button>
+<!-- Cheer -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">celebration</span>
+<span class="text-label-md font-label-md">8</span>
+</button>
+<!-- Hug -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+<span class="text-label-md font-label-md">15</span>
+</button>
+</div>
+<!-- Comments -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat_bubble_outline</span>
+<span class="text-label-md font-label-md">12 Comments</span>
+</button>
+</div>
+</article>
+<!-- Post 2 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-low p-6 transition-all hover:shadow-md group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Anonymous Avatar" class="w-full h-full object-cover" data-alt="minimalist geometric pattern in soft beige and white colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuvPIPENLUJZSNmSNR_jX3WtTuxRwLy9Ic5eeMbXh22tO9u7OccsC7-1UUKAnnYkVMHb7PiEjmcFPfcBsadxTfHnr90oUX4zhJXEVHfBlO0TBPaDc6WW5ET1ZC7JU9Cp67DnvtFimc_oh_POLVR3wsOcsCpnTcJvsqgy1Tykv90W7_ztnziImmILtfw8nxpeJuWqN12RFANM4qLiHtg8kGRiNa3EyTzMX-gRX2H2h7kQvRni3Jgo1SBERqP1IjNz944LkNWQiuY0A"/>
+</div>
+<div>
+<h3 class="text-label-md font-label-md text-on-surface">Anonymous Student</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">5 hours ago • Sleep &amp; Habits</p>
+</div>
+</div>
+<button aria-label="More options" class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="mb-4">
+<h4 class="text-headline-md font-headline-md text-on-surface mb-2">Small win today! Managed to stick to my routine.</h4>
+<p class="text-body-md font-body-md text-on-surface-variant">
+                            After weeks of irregular sleep and skipping meals, I finally managed to wake up at 7 AM, have a healthy breakfast, and do 20 minutes of mindfulness before starting my day. It's a small step, but I feel proud.
+                        </p>
+</div>
+<div class="flex items-center justify-between border-t border-surface-container pt-4">
+<div class="flex gap-2">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+<span class="text-label-md font-label-md">42</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">celebration</span>
+<span class="text-label-md font-label-md">15</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">volunteer_activism</span>
+<span class="text-label-md font-label-md">5</span>
+</button>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat_bubble_outline</span>
+<span class="text-label-md font-label-md">3 Comments</span>
+</button>
+</div>
+</article>
+<!-- Load More -->
+<div class="flex justify-center pt-4">
+<button class="px-6 py-2 rounded-full border border-outline-variant text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                        Load More Discussions
+                    </button>
+</div>
+</section>
+<!-- Right Column: Stats & Resources -->
+<aside class="lg:col-span-3 space-y-6">
+<!-- Community Stats -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-low p-6">
+<h2 class="text-label-md font-label-md text-on-surface uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">bar_chart</span>
+                        Community Status
+                    </h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-body-md font-body-md text-on-surface-variant">Members Online</span>
+<span class="text-label-md font-label-md text-primary bg-surface-container px-2 py-1 rounded">128</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-md font-body-md text-on-surface-variant">Posts Today</span>
+<span class="text-label-md font-label-md text-on-surface bg-surface-variant px-2 py-1 rounded">45</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-body-md font-body-md text-on-surface-variant">Support Given</span>
+<span class="text-label-md font-label-md text-on-surface bg-surface-variant px-2 py-1 rounded">892</span>
+</div>
+</div>
+</div>
+<!-- Pinned Resources -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-low p-6">
+<h2 class="text-label-md font-label-md text-on-surface uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">push_pin</span>
+                        Pinned Resources
+                    </h2>
+<div class="space-y-3">
+<a class="block p-3 rounded-lg border border-outline-variant/30 hover:border-primary-container hover:bg-surface-container-low transition-all group" href="#">
+<h3 class="text-label-md font-label-md text-on-surface group-hover:text-primary mb-1">Community Guidelines</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-1">Read our rules for a safe space.</p>
+</a>
+<a class="block p-3 rounded-lg border border-outline-variant/30 hover:border-primary-container hover:bg-surface-container-low transition-all group" href="#">
+<h3 class="text-label-md font-label-md text-on-surface group-hover:text-primary mb-1">Coping Strategies Guide</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-1">Quick exercises for immediate relief.</p>
+</a>
+<a class="block p-3 rounded-lg border border-outline-variant/30 hover:border-primary-container hover:bg-surface-container-low transition-all group" href="#">
+<h3 class="text-label-md font-label-md text-on-surface group-hover:text-primary mb-1">Campus Counseling Services</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-1">How to book professional help.</p>
+</a>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Floating Action Button (SOS) -->
+<button aria-label="Emergency Help" class="fixed bottom-8 right-8 z-50 w-16 h-16 bg-error text-on-error rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center group">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">emergency</span>
+</button>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest font-inter text-sm w-full py-12 border-t border-surface-container mt-16">
+<div class="max-w-[1440px] mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<!-- Brand & Copyright -->
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="text-lg font-semibold text-primary">Mindful Student</span>
+<span class="text-on-surface-variant">© 2024 Mindful Student. Dedicated to student mental wellness.</span>
+</div>
+<!-- Links -->
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-on-surface-variant hover:underline hover:text-primary transition-all opacity-100 hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:underline hover:text-primary transition-all opacity-100 hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:underline hover:text-primary transition-all opacity-100 hover:opacity-80" href="#">Emergency Contacts</a>
+<a class="text-on-surface-variant hover:underline hover:text-primary transition-all opacity-100 hover:opacity-80" href="#">Help Center</a>
+</div>
+</div>
+</footer>
+</body></html>

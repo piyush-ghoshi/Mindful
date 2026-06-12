@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Appointment Confirmed - Mindful Student</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#3c4948",
+                    "surface-container-low": "#f1f3ff",
+                    "background": "#f9f9ff",
+                    "secondary": "#546160",
+                    "on-primary": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "tertiary": "#b91c24",
+                    "on-secondary-fixed": "#111e1d",
+                    "on-primary-fixed": "#00201c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#ff8a82",
+                    "secondary-container": "#d7e5e3",
+                    "on-surface": "#081b39",
+                    "inverse-on-surface": "#edf0ff",
+                    "on-surface-variant": "#3d4946",
+                    "on-primary-fixed-variant": "#005047",
+                    "surface-dim": "#cbdaff",
+                    "on-tertiary-container": "#860010",
+                    "surface-container": "#e8edff",
+                    "surface-tint": "#006b5f",
+                    "outline": "#6c7a76",
+                    "on-tertiary-fixed-variant": "#930013",
+                    "tertiary-fixed": "#ffdad7",
+                    "surface-variant": "#d8e2ff",
+                    "secondary-fixed": "#d7e5e3",
+                    "on-primary-container": "#004941",
+                    "outline-variant": "#bcc9c5",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#5a6766",
+                    "inverse-surface": "#1f304f",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#7bf7e3",
+                    "primary": "#006b5f",
+                    "surface-container-high": "#e0e8ff",
+                    "primary-container": "#3bbfad",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#410004",
+                    "primary-fixed-dim": "#5cdac7",
+                    "on-background": "#081b39",
+                    "surface-container-highest": "#d8e2ff",
+                    "surface-bright": "#f9f9ff",
+                    "inverse-primary": "#5cdac7",
+                    "tertiary-fixed-dim": "#ffb3ad",
+                    "secondary-fixed-dim": "#bbc9c7"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-padding": "40px",
+                    "max-width": "1440px",
+                    "base-unit": "8px",
+                    "margin-sm": "16px",
+                    "margin-lg": "64px",
+                    "margin-md": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary">
+<!-- TopNavBar Component -->
+<header class="bg-white dark:bg-slate-900 font-inter antialiased docked full-width top-0 z-50 sticky border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center h-16 px-6 max-w-[1440px] mx-auto">
+<!-- Brand -->
+<a class="text-xl font-bold text-teal-600 dark:text-teal-400 flex items-center gap-2" href="#">
+                Mindful Student
+            </a>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">Resources</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">Peer Support</a>
+<a class="text-teal-600 dark:text-teal-400 font-semibold border-b-2 border-teal-500 pb-1 hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">Bookings</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform" href="#">My Journal</a>
+</nav>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4 text-teal-500 dark:text-teal-400">
+<button class="hover:text-teal-700 dark:hover:text-teal-300 transition-all duration-200 active:scale-95 transform transition-transform flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-8 h-8 rounded-full overflow-hidden border border-slate-200 flex-shrink-0 active:scale-95 transform transition-transform">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="close up portrait of a young woman with natural lighting and a soft neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsWpW7Xe5SPE3RJfB6YFdAPJiStj5BiDYBMmeCMkfZl2ds6QkU2ckcMjo86l05JlX8Yt5SfBmWh7Ko4kciFv1cRwchiwy8nNhHiki6z_m-C8YxUQkwIbr8-tcXVPF0zXnk3u7i-YSwIujuRbmVeWisLPWSf0j9mLghh0-JWEK0gP3T4BuIyf3kEkyrnHchUxhTvswaTlTHbU0q6z76y6VG9W5WXJQ5xr0TUOZ-BmyLmi9s70q_ih4mZmuBWu6DYEz5XWNnWu0OIz8"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center p-gutter relative overflow-hidden">
+<!-- Decorative subtle background shapes -->
+<div class="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-surface-container rounded-full blur-[100px] opacity-60 z-0 pointer-events-none"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[30vw] h-[30vw] bg-secondary-container rounded-full blur-[80px] opacity-40 z-0 pointer-events-none"></div>
+<!-- Confirmation Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 p-container-padding max-w-[560px] w-full z-10 relative flex flex-col items-center text-center">
+<!-- Large Checkmark -->
+<div class="w-24 h-24 rounded-full bg-secondary-container flex items-center justify-center mb-margin-sm">
+<span class="material-symbols-outlined text-[64px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Appointment Confirmed! ✅</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-margin-md">Your mental health matters. We've reserved this time just for you.</p>
+<!-- Appointment Details Bento Box -->
+<div class="w-full bg-surface rounded-lg border border-outline-variant/50 p-6 flex flex-col gap-6 text-left mb-margin-md">
+<!-- Counsellor Info -->
+<div class="flex items-center gap-4">
+<img alt="Dr. Sarah Jenkins" class="w-16 h-16 rounded-full object-cover border-2 border-surface-container-lowest shadow-sm" data-alt="professional headshot of a friendly female counsellor in a warm office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9ox9QZTG8X2QuzyyxodSPxgH6oz-977cDv6_WuT7LSG39RqMhuIeeUMCz8eYPz2B7Dg-hXA3UvRage_tG1dyQPpnjEdI5GmRm2Lz1EZCFHg9lmK7TFMoXKrIxXEjDVOegg0IZsYChxdxXe-mLD3alPKGJK_ov2rGQ1ZzjU-BDCg-Z_LHqUdF2mtTPMHic4vD6l8g00Fnuil4FpUgut5SwOU5ry2DlcV7qhCizAZ4yIau5_1VYiUzQzR5Dt3ZY6-VrNpFlz9szPuA"/>
+<div>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-1">Your Counsellor</p>
+<p class="font-headline-md text-headline-md text-on-surface">Dr. Sarah Jenkins</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Clinical Psychologist</p>
+</div>
+</div>
+<div class="h-px w-full bg-outline-variant/30"></div>
+<!-- Time & Mode -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">calendar_month</span>
+<div>
+<p class="font-label-md text-label-md text-secondary mb-1">Date &amp; Time</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Thursday, Oct 24<br/>10:00 AM - 10:50 AM</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">videocam</span>
+<div>
+<p class="font-label-md text-label-md text-secondary mb-1">Session Mode</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Secure Video Call</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Privacy Assurance -->
+<div class="flex items-center gap-2 text-secondary mb-margin-lg bg-surface-container-low px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-sm">lock</span>
+<p class="font-body-sm text-body-sm">Your session is strictly confidential and encrypted.</p>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row w-full gap-4">
+<button class="flex-1 flex items-center justify-center gap-2 bg-surface-container-lowest border border-outline text-on-surface hover:bg-surface-container-low transition-colors duration-200 rounded-lg px-6 py-3 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[20px]">event</span>
+                    Add to Calendar
+                </button>
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary-container text-on-primary hover:bg-primary transition-colors duration-200 rounded-lg px-6 py-3 font-label-md text-label-md shadow-sm">
+                    Go to Dashboard
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Floating SOS Button -->
+<button aria-label="Emergency SOS" class="fixed bottom-8 right-8 z-50 w-16 h-16 bg-error text-on-error rounded-full shadow-lg hover:shadow-xl hover:bg-on-error-container transition-all duration-300 flex items-center justify-center group">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">emergency</span>
+</button>
+<!-- Footer Component -->
+<footer class="bg-slate-50 dark:bg-slate-950 font-inter text-sm w-full py-12 border-t mt-16 border-t border-slate-200 dark:border-slate-800 flat no shadows z-10 relative">
+<div class="max-w-[1440px] mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-lg font-semibold text-teal-600 dark:text-teal-400">
+                Mindful Student
+            </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all opacity-100 hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all opacity-100 hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all opacity-100 hover:opacity-80" href="#">Emergency Contacts</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-teal-700 transition-all opacity-100 hover:opacity-80" href="#">Help Center</a>
+</div>
+<div class="text-slate-500 dark:text-slate-400 text-center md:text-right">
+                © 2024 Mindful Student. Dedicated to student mental wellness.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mood History — Student #A42</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c5c6cf",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#899593",
+                        "on-background": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-secondary": "#ffffff",
+                        "primary": "#031634",
+                        "secondary-container": "#7bf7e3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "on-surface-variant": "#44474e",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "tertiary-fixed": "#d9e5e3",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary": "#006b5f",
+                        "surface-container-high": "#dce9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-container": "#007165",
+                        "tertiary": "#0e1918",
+                        "on-primary-fixed": "#081b39",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed": "#7bf7e3",
+                        "on-secondary-fixed-variant": "#005047",
+                        "surface-bright": "#f8f9ff",
+                        "background": "#f8f9ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1a2b4a",
+                        "tertiary-container": "#222d2c",
+                        "inverse-surface": "#213145",
+                        "on-primary-container": "#8293b7",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-tint": "#4e5e80",
+                        "on-primary-fixed-variant": "#364767",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline": "#75777e",
+                        "inverse-primary": "#b6c6ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "base": "4px",
+                        "sm": "1rem",
+                        "lg": "2.5rem",
+                        "xl": "4rem",
+                        "md": "1.5rem",
+                        "xs": "0.5rem",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "data-tabular": ["14px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .professional-shadow { box-shadow: 0 4px 12px rgba(3, 22, 52, 0.04); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-slate-950 dark:bg-black fixed left-0 top-0 h-screen w-64 z-50 border-r border-slate-800 shadow-xl flex flex-col py-6 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<span class="text-lg font-black text-white uppercase tracking-wider">Clinical Portal</span>
+<span class="text-xs text-slate-400 tracking-wide uppercase">Counsellor Access</span>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-medium py-2 px-4 rounded transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                New Session
+            </button>
+</div>
+<div class="flex flex-col gap-1 flex-1 font-inter text-sm font-medium">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                Appointments
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+                Messages
+            </a>
+<!-- Active Navigation -->
+<a class="flex items-center gap-3 px-4 py-3 text-teal-400 bg-slate-900 border-l-4 border-teal-400 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+                Students
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">description</span>
+                Notes
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50 mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+</nav>
+<!-- Main Wrapper -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-64 h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-6 w-full shrink-0 font-inter antialiased tracking-tight">
+<div class="flex items-center gap-4">
+<!-- Mobile menu toggle placeholder -->
+<button class="md:hidden text-slate-500 hover:text-slate-700">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="text-xl font-bold text-slate-900 dark:text-white md:hidden">MindCare Portal</div>
+<!-- Search Bar (on_left as per JSON) -->
+<div class="hidden md:flex relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 p-1 rounded-full transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-surface p-gutter md:p-lg">
+<div class="max-w-[1440px] mx-auto">
+<!-- Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-on-surface-variant font-body-sm text-body-sm hover:underline cursor-pointer">Students</span>
+<span class="text-on-surface-variant material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Profile #A42</span>
+</div>
+<h1 class="font-h1 text-h1 text-on-surface">Mood History — Student #A42</h1>
+</div>
+<button class="bg-primary text-on-primary font-body-sm text-body-sm px-4 py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 20px;">download</span>
+                        Download Report (PDF)
+                    </button>
+</div>
+<!-- Consent Banner -->
+<div class="bg-surface-container-lowest border border-secondary-fixed-dim rounded-lg p-4 flex items-start md:items-center gap-3 mb-8 shadow-sm">
+<span class="material-symbols-outlined text-secondary mt-0.5 md:mt-0" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+<strong class="text-on-surface font-medium">Consent Verified:</strong> Student has explicitly granted clinical access to self-reported mood data and journal entries.
+                    </p>
+</div>
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Mood Timeline -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container shadow-sm overflow-hidden flex flex-col h-[800px] professional-shadow">
+<div class="p-6 border-b border-surface-container bg-surface-bright flex justify-between items-center shrink-0">
+<h2 class="font-h2 text-h2 text-on-surface">Timeline</h2>
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-md border border-surface-container cursor-pointer hover:bg-surface-container transition-colors">
+<span class="font-body-sm text-body-sm">Last 30 Days</span>
+<span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 relative">
+<!-- Continuous Timeline Line -->
+<div class="absolute left-[39px] top-8 bottom-8 w-[2px] bg-surface-variant z-0"></div>
+<div class="space-y-8 relative z-10">
+<!-- Timeline Entry 1 -->
+<div class="flex gap-4 group">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-surface-variant flex items-center justify-center shrink-0 mt-1 shadow-sm group-hover:border-secondary transition-colors">
+<span class="text-xl">😟</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-surface-container rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="font-label-caps text-label-caps text-secondary uppercase tracking-wider">Anxious</span>
+<div class="font-data-tabular text-data-tabular text-on-surface-variant mt-1">Today, 9:45 AM</div>
+</div>
+<div class="px-2 py-1 bg-surface-container-low text-on-surface-variant rounded text-xs font-medium border border-surface-variant">Intensity: 7/10</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">"Feeling really overwhelmed about the upcoming midterms. Hard to focus in class today, kept thinking about what happens if I fail."</p>
+</div>
+</div>
+<!-- Timeline Entry 2 -->
+<div class="flex gap-4 group">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-surface-variant flex items-center justify-center shrink-0 mt-1 shadow-sm group-hover:border-secondary transition-colors">
+<span class="text-xl">😐</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-surface-container rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Neutral</span>
+<div class="font-data-tabular text-data-tabular text-on-surface-variant mt-1">Yesterday, 4:20 PM</div>
+</div>
+<div class="px-2 py-1 bg-surface-container-low text-on-surface-variant rounded text-xs font-medium border border-surface-variant">Intensity: 4/10</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface italic text-on-surface-variant">No journal entry provided.</p>
+</div>
+</div>
+<!-- Timeline Entry 3 -->
+<div class="flex gap-4 group">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-surface-variant flex items-center justify-center shrink-0 mt-1 shadow-sm group-hover:border-secondary transition-colors">
+<span class="text-xl">😔</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-surface-container rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="font-label-caps text-label-caps text-primary-fixed-variant uppercase tracking-wider">Sad</span>
+<div class="font-data-tabular text-data-tabular text-on-surface-variant mt-1">Oct 24, 8:15 PM</div>
+</div>
+<div class="px-2 py-1 bg-surface-container-low text-on-surface-variant rounded text-xs font-medium border border-surface-variant">Intensity: 6/10</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">"Just felt really drained after social activities. Wanted to be alone but then felt isolated when I was."</p>
+</div>
+</div>
+<!-- Timeline Entry 4 -->
+<div class="flex gap-4 group">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-2 border-surface-variant flex items-center justify-center shrink-0 mt-1 shadow-sm group-hover:border-secondary transition-colors">
+<span class="text-xl">🙂</span>
+</div>
+<div class="flex-1 bg-surface-container-lowest border border-surface-container rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-3">
+<div>
+<span class="font-label-caps text-label-caps text-secondary-container uppercase tracking-wider text-on-surface">Content</span>
+<div class="font-data-tabular text-data-tabular text-on-surface-variant mt-1">Oct 22, 1:00 PM</div>
+</div>
+<div class="px-2 py-1 bg-surface-container-low text-on-surface-variant rounded text-xs font-medium border border-surface-variant">Intensity: 5/10</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">"Had a good conversation with my study group. The breathing exercises from last session helped a bit before leaving the dorm."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Analytics & Insights -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Insight Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-secondary-fixed-dim p-6 shadow-sm professional-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container opacity-20 rounded-bl-full -z-10"></div>
+<div class="flex items-start gap-4">
+<div class="bg-secondary text-on-secondary p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div>
+<h3 class="font-h3 text-h3 text-on-surface mb-1">Key Insight</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                                        Most common mood reported in the last 14 days is <strong class="text-on-surface">Anxious 😟</strong>. Entries typically cluster around morning hours (8 AM - 10 AM).
+                                    </p>
+</div>
+</div>
+</div>
+<!-- 30-Day Trend Chart (CSS Representation) -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container p-6 shadow-sm professional-shadow">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-h3 text-h3 text-on-surface">30-Day Trend</h3>
+<span class="material-symbols-outlined text-on-surface-variant">show_chart</span>
+</div>
+<div class="h-48 w-full bg-surface-container-low rounded-lg p-4 flex items-end gap-1.5 relative border border-surface-variant">
+<!-- Y-Axis Labels (Simulated) -->
+<div class="absolute left-2 top-2 bottom-4 flex flex-col justify-between text-[10px] text-outline font-data-tabular">
+<span>High</span>
+<span>Mid</span>
+<span>Low</span>
+</div>
+<!-- Bar Chart Mockup -->
+<div class="ml-6 flex-1 flex items-end justify-between h-full pt-4">
+<div class="w-[8%] h-[40%] bg-surface-tint rounded-t-sm opacity-60 hover:opacity-100 transition-opacity" title="Content"></div>
+<div class="w-[8%] h-[30%] bg-surface-tint rounded-t-sm opacity-60 hover:opacity-100 transition-opacity"></div>
+<div class="w-[8%] h-[60%] bg-secondary rounded-t-sm opacity-80 hover:opacity-100 transition-opacity" title="Anxious"></div>
+<div class="w-[8%] h-[70%] bg-secondary rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"></div>
+<div class="w-[8%] h-[50%] bg-surface-tint rounded-t-sm opacity-60 hover:opacity-100 transition-opacity"></div>
+<div class="w-[8%] h-[40%] bg-primary-fixed-dim rounded-t-sm opacity-80 hover:opacity-100 transition-opacity" title="Sad"></div>
+<div class="w-[8%] h-[80%] bg-secondary rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"></div>
+<div class="w-[8%] h-[65%] bg-secondary rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"></div>
+<div class="w-[8%] h-[45%] bg-surface-tint rounded-t-sm opacity-60 hover:opacity-100 transition-opacity"></div>
+<div class="w-[8%] h-[75%] bg-secondary rounded-t-sm opacity-80 hover:opacity-100 transition-opacity"></div>
+</div>
+<!-- X-Axis Labels (Simulated) -->
+<div class="absolute bottom-1 left-10 right-4 flex justify-between text-[10px] text-outline font-data-tabular">
+<span>Oct 1</span>
+<span>Oct 15</span>
+<span>Today</span>
+</div>
+</div>
+</div>
+<!-- Mood Frequency Donut Chart (CSS Representation) -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container p-6 shadow-sm professional-shadow">
+<h3 class="font-h3 text-h3 text-on-surface mb-6">Mood Frequency</h3>
+<div class="flex items-center gap-8">
+<!-- Donut Representation -->
+<div class="w-32 h-32 rounded-full border-[12px] border-surface-container relative shrink-0" style="border-top-color: #006b5f; border-right-color: #006b5f; border-bottom-color: #b6c6ee; border-left-color: #4e5e80;">
+<div class="absolute inset-0 flex items-center justify-center font-h3 text-h3 text-on-surface">
+                                        24
+                                    </div>
+<div class="absolute inset-0 flex items-center justify-center font-label-caps text-label-caps text-on-surface-variant mt-8">
+                                        Entries
+                                    </div>
+</div>
+<!-- Legend -->
+<div class="flex-1 flex flex-col gap-3 font-body-sm text-body-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-secondary"></div>
+<span class="text-on-surface">Anxious</span>
+</div>
+<span class="font-data-tabular font-medium">50%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-primary-fixed-dim"></div>
+<span class="text-on-surface">Sad</span>
+</div>
+<span class="font-data-tabular font-medium">25%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-surface-tint"></div>
+<span class="text-on-surface">Neutral</span>
+</div>
+<span class="font-data-tabular font-medium">15%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-surface-container"></div>
+<span class="text-on-surface">Content</span>
+</div>
+<span class="font-data-tabular font-medium">10%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Assessment Scores -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-container p-6 shadow-sm professional-shadow">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-h3 text-h3 text-on-surface">Latest Clinical Scores</h3>
+<span class="font-label-caps text-label-caps text-outline uppercase">Oct 10, 2023</span>
+</div>
+<div class="space-y-5">
+<!-- PHQ-9 -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-body-md text-body-md font-medium text-on-surface">PHQ-9 (Depression)</span>
+<span class="font-data-tabular text-data-tabular text-primary-fixed-variant font-bold">12 / 27 <span class="font-body-sm font-normal text-on-surface-variant ml-1">Moderate</span></span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim" style="width: 44%"></div>
+</div>
+</div>
+<!-- GAD-7 -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="font-body-md text-body-md font-medium text-on-surface">GAD-7 (Anxiety)</span>
+<span class="font-data-tabular text-data-tabular text-secondary font-bold">14 / 21 <span class="font-body-sm font-normal text-on-surface-variant ml-1">Moderate</span></span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 66%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

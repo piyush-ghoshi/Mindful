@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindCare Portal - Secure Chat</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<!-- Tailwind CSS Setup -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c5c6cf",
+                        "on-surface": "#0b1c30",
+                        "on-tertiary-container": "#899593",
+                        "on-background": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-secondary": "#ffffff",
+                        "primary": "#031634",
+                        "secondary-container": "#7bf7e3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-low": "#eff4ff",
+                        "on-surface-variant": "#44474e",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "tertiary-fixed": "#d9e5e3",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary": "#006b5f",
+                        "surface-container-high": "#dce9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-secondary-container": "#007165",
+                        "tertiary": "#0e1918",
+                        "on-primary-fixed": "#081b39",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed": "#7bf7e3",
+                        "on-secondary-fixed-variant": "#005047",
+                        "surface-bright": "#f8f9ff",
+                        "background": "#f8f9ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1a2b4a",
+                        "tertiary-container": "#222d2c",
+                        "inverse-surface": "#213145",
+                        "on-primary-container": "#8293b7",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-tint": "#4e5e80",
+                        "on-primary-fixed-variant": "#364767",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline": "#75777e",
+                        "inverse-primary": "#b6c6ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "base": "4px",
+                        "sm": "1rem",
+                        "lg": "2.5rem",
+                        "xl": "4rem",
+                        "md": "1.5rem",
+                        "xs": "0.5rem",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter", "sans-serif"],
+                        "data-tabular": ["Inter", "sans-serif"],
+                        "label-caps": ["Inter", "sans-serif"],
+                        "h2": ["Inter", "sans-serif"],
+                        "h1": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "data-tabular": ["14px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-hidden flex h-screen w-full">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-slate-950 dark:bg-black font-inter text-sm font-medium fixed left-0 top-0 h-screen w-64 z-50 border-r border-slate-800 shadow-xl flex flex-col py-6">
+<!-- Header Info -->
+<div class="px-6 mb-8 flex flex-col gap-2">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
+<span class="material-symbols-outlined text-slate-300" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+<div>
+<div class="text-lg font-black text-white uppercase tracking-wider leading-none">Clinical Portal</div>
+<div class="text-slate-400 text-xs mt-1">Counsellor Access</div>
+</div>
+</div>
+<button class="mt-4 w-full bg-teal-600 hover:bg-teal-500 text-white py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>New Session</span>
+</button>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 flex flex-col gap-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Appointments -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Appointments</span>
+</a>
+<!-- Messages (ACTIVE STATE) -->
+<a class="flex items-center gap-3 px-4 py-3 text-teal-400 bg-slate-900 border-l-4 border-teal-400 transition-all scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span>Messages</span>
+</a>
+<!-- Students -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Students</span>
+</a>
+<!-- Notes -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Notes</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors hover:bg-slate-900/50 mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper (Offsets Sidebar) -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- Shared Component: TopNavBar -->
+<header class="bg-white dark:bg-slate-900 font-inter antialiased tracking-tight docked full-width top-0 z-40 border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center h-16 px-6 w-full ml-auto">
+<!-- Left: Search & Brand -->
+<div class="flex items-center gap-6">
+<div class="text-xl font-bold text-slate-900 dark:text-white">MindCare Portal</div>
+<div class="relative hidden lg:flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm w-64 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all" placeholder="Search records..." type="text"/>
+</div>
+</div>
+<!-- Right: Actions -->
+<div class="flex items-center gap-2 text-teal-600 dark:text-teal-400">
+<button class="p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-center ml-2">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</header>
+<!-- 3-Column Chat Workspace -->
+<div class="flex-1 flex overflow-hidden bg-background">
+<!-- COLUMN 1: Conversation List -->
+<aside class="w-80 flex-shrink-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col z-10">
+<!-- Header -->
+<div class="p-md border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
+<h2 class="font-h3 text-h3 text-on-surface">Active Sessions</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+<!-- Search -->
+<div class="p-sm border-b border-outline-variant">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface rounded-lg border border-outline-variant text-body-sm font-body-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all" placeholder="Find student alias..." type="text"/>
+</div>
+</div>
+<!-- List -->
+<div class="flex-1 overflow-y-auto">
+<!-- Item: Active -->
+<div class="flex items-start gap-3 p-sm border-b border-outline-variant bg-surface-variant cursor-pointer relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 font-h3 text-body-md shadow-sm">
+                            A4
+                        </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-data-tabular text-data-tabular text-on-surface truncate">Student #A42</span>
+<span class="font-body-sm text-[11px] text-secondary font-medium">10:42 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">I've been feeling really overwhelmed...</p>
+</div>
+</div>
+<!-- Item: Unread -->
+<div class="flex items-start gap-3 p-sm border-b border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-tint text-on-primary flex items-center justify-center flex-shrink-0 font-h3 text-body-md shadow-sm">
+                                B7
+                            </div>
+<div class="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full border-2 border-surface-container-lowest"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-data-tabular text-data-tabular text-on-surface font-semibold truncate">Student #B71</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium truncate">Can we reschedule our next talk?</p>
+</div>
+</div>
+<!-- Item: Read -->
+<div class="flex items-start gap-3 p-sm border-b border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors opacity-80 hover:opacity-100">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center flex-shrink-0 font-h3 text-body-md border border-outline-variant">
+                            M1
+                        </div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-data-tabular text-data-tabular text-on-surface truncate">Student #M19</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Mon</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Thank you for the resources.</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- COLUMN 2: Chat Area -->
+<section class="flex-1 flex flex-col min-w-0 relative bg-surface-bright">
+<!-- Chat Header -->
+<div class="h-[72px] px-md border-b border-outline-variant flex items-center justify-between bg-surface-container-lowest shadow-sm z-10 flex-shrink-0">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-h3 text-h3 shadow-sm">
+                            A4
+                        </div>
+<div>
+<h2 class="font-h2 text-[18px] text-on-surface flex items-center gap-2">
+                                Student #A42
+                                <span class="w-2 h-2 rounded-full bg-secondary inline-block"></span>
+</h2>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-caps text-[10px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+                                    End-to-End Encrypted
+                                </span>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Session started 10:30 AM</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors flex items-center justify-center" title="Video Call (Disabled)">
+<span class="material-symbols-outlined">videocam_off</span>
+</button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors flex items-center justify-center" title="More Options">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Messages Canvas -->
+<div class="flex-1 overflow-y-auto p-md flex flex-col gap-6 relative">
+<!-- Date Divider -->
+<div class="flex items-center justify-center my-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">Today</span>
+</div>
+<!-- System Message -->
+<div class="flex justify-center">
+<p class="font-body-sm text-[12px] text-on-surface-variant text-center max-w-md bg-surface-container-low p-2 rounded-lg border border-outline-variant/50">
+                            Confidentiality Notice: This session is bound by professional confidentiality standards.
+                        </p>
+</div>
+<!-- Student Message (Left) -->
+<div class="flex items-end gap-2 max-w-[80%]">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs flex-shrink-0">A4</div>
+<div class="flex flex-col gap-1">
+<div class="bg-surface-container-highest text-on-surface font-body-md text-body-sm p-4 rounded-2xl rounded-bl-sm shadow-[0_2px_4px_rgba(0,0,0,0.02)] border border-outline-variant/30">
+                                Hi. I'm not sure where to start today.
+                            </div>
+<span class="font-body-sm text-[11px] text-on-surface-variant ml-1">10:32 AM</span>
+</div>
+</div>
+<!-- Counsellor Message (Right) -->
+<div class="flex items-end gap-2 max-w-[80%] self-end flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs flex-shrink-0">
+<span class="material-symbols-outlined text-[16px]">account_circle</span>
+</div>
+<div class="flex flex-col gap-1 items-end">
+<div class="bg-primary text-on-primary font-body-md text-body-sm p-4 rounded-2xl rounded-br-sm shadow-sm">
+                                Hello. Take your time. We can start wherever feels comfortable for you, or we can just sit for a moment if you prefer.
+                            </div>
+<div class="flex items-center gap-1 mr-1">
+<span class="font-body-sm text-[11px] text-on-surface-variant">10:34 AM</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">done_all</span>
+</div>
+</div>
+</div>
+<!-- Student Message (Left) -->
+<div class="flex items-end gap-2 max-w-[80%] mt-2">
+<div class="w-8 h-8 rounded-full opacity-0 flex-shrink-0"></div> <!-- Spacer for grouping -->
+<div class="flex flex-col gap-1">
+<div class="bg-surface-container-highest text-on-surface font-body-md text-body-sm p-4 rounded-2xl rounded-bl-sm shadow-[0_2px_4px_rgba(0,0,0,0.02)] border border-outline-variant/30">
+                                I've been feeling really overwhelmed with assignments and the situation at home hasn't gotten better. I feel like I'm failing at everything right now.
+                            </div>
+<span class="font-body-sm text-[11px] text-on-surface-variant ml-1">10:42 AM</span>
+</div>
+</div>
+<!-- Scroll Anchor -->
+<div class="h-1" id="scroll-anchor"></div>
+</div>
+<!-- Input Area -->
+<div class="p-sm bg-surface-container-lowest border-t border-outline-variant shadow-[0_-4px_12px_rgba(0,0,0,0.02)] z-10 flex-shrink-0">
+<div class="flex items-end gap-3 bg-surface rounded-xl border border-outline-variant p-2 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors flex-shrink-0 self-center">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 resize-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 max-h-32 min-h-[44px] py-2.5 outline-none" placeholder="Type a secure message..." rows="1"></textarea>
+<div class="flex items-center gap-1 self-center">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mood</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary hover:bg-primary-container text-on-primary flex items-center justify-center transition-colors shadow-sm ml-1">
+<span class="material-symbols-outlined text-[20px] ml-1">send</span>
+</button>
+</div>
+</div>
+<div class="mt-2 text-center">
+<span class="font-body-sm text-[11px] text-on-surface-variant flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[12px]">verified_user</span>
+                            Messages are stored securely and comply with institutional privacy policies.
+                        </span>
+</div>
+</div>
+</section>
+<!-- COLUMN 3: Clinical Tools (Notes & Info) -->
+<aside class="w-[360px] flex-shrink-0 bg-surface-container-lowest border-l border-outline-variant flex flex-col z-10">
+<!-- Tab Headers -->
+<div class="flex border-b border-outline-variant bg-surface flex-shrink-0">
+<button class="flex-1 py-4 font-h3 text-[14px] text-primary border-b-2 border-primary bg-surface-container-lowest transition-colors text-center">
+                        Workspace
+                    </button>
+<button class="flex-1 py-4 font-h3 text-[14px] text-on-surface-variant hover:bg-surface-container-low transition-colors text-center border-b-2 border-transparent">
+                        Past Records
+                    </button>
+</div>
+<div class="flex-1 overflow-y-auto p-md flex flex-col gap-6">
+<!-- Student Info Card (Bento Style) -->
+<div class="bg-surface rounded-xl border border-outline-variant p-4 shadow-[0_4px_12px_rgba(3,22,52,0.02)] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-secondary-container/20 to-transparent rounded-bl-full -z-0"></div>
+<div class="flex items-start justify-between relative z-10 mb-4">
+<div>
+<h3 class="font-data-tabular text-[16px] text-on-surface font-semibold mb-1">Student #A42</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Grade 11 • Cohort B</p>
+</div>
+<span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                Active Consent
+                            </span>
+</div>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-2.5">
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-0.5">Last Risk Assmt</span>
+<span class="font-data-tabular text-body-sm text-on-surface font-medium">Low (Oct 12)</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-lg p-2.5">
+<span class="font-label-caps text-[10px] text-on-surface-variant block mb-0.5">Sessions YTD</span>
+<span class="font-data-tabular text-body-sm text-on-surface font-medium">4 Total</span>
+</div>
+</div>
+<button class="w-full py-2 bg-surface-container-highest hover:bg-surface-dim text-primary font-data-tabular text-[13px] rounded-lg transition-colors flex items-center justify-center gap-2 border border-outline-variant/50">
+<span class="material-symbols-outlined text-[18px]">timeline</span>
+                            View Mood History
+                        </button>
+</div>
+<!-- Session Notes Tool -->
+<div class="flex-1 flex flex-col min-h-[400px]">
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-h3 text-[16px] text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">edit_note</span>
+                                Session Notes
+                            </h3>
+<span class="font-label-caps text-[10px] text-on-surface-variant bg-surface-container px-2 py-1 rounded">Private</span>
+</div>
+<div class="flex-1 flex flex-col rounded-xl border border-outline-variant overflow-hidden shadow-[0_4px_12px_rgba(3,22,52,0.02)] bg-surface-container-lowest">
+<!-- Rich Text Toolbar -->
+<div class="bg-surface border-b border-outline-variant p-1.5 flex items-center gap-1 flex-wrap">
+<button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant transition-colors" title="Bold">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant transition-colors" title="Italic">
+<span class="material-symbols-outlined text-[18px]">format_italic</span>
+</button>
+<div class="w-px h-5 bg-outline-variant/50 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant transition-colors" title="Bullet List">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant transition-colors" title="Numbered List">
+<span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+</button>
+<div class="w-px h-5 bg-outline-variant/50 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-surface-container text-on-surface-variant transition-colors" title="Insert Template">
+<span class="material-symbols-outlined text-[18px]">article</span>
+</button>
+</div>
+<!-- Note Editor -->
+<textarea class="flex-1 w-full bg-transparent border-none p-4 font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant/40 resize-none focus:ring-0 focus:outline-none" placeholder="Begin typing private session notes here... (Not visible to student)"></textarea>
+<!-- Footer Actions -->
+<div class="bg-surface-container-low border-t border-outline-variant p-3 flex items-center justify-between">
+<span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">cloud_sync</span>
+                                    Auto-saved 1m ago
+                                </span>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-4 py-1.5 rounded-lg font-data-tabular text-[13px] transition-colors shadow-sm">
+                                    Save to File
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

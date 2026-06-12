@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful - AI Chatbot</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#00201c",
+                      "outline": "#6c7a76",
+                      "on-secondary-fixed": "#111e1d",
+                      "on-secondary-container": "#5a6766",
+                      "on-tertiary-fixed-variant": "#930013",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#d7e5e3",
+                      "on-surface": "#081b39",
+                      "on-secondary-fixed-variant": "#3c4948",
+                      "primary-fixed-dim": "#5cdac7",
+                      "tertiary-fixed-dim": "#ffb3ad",
+                      "background": "#f9f9ff",
+                      "surface-bright": "#f9f9ff",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed": "#ffdad7",
+                      "tertiary-container": "#ff8a82",
+                      "surface-container-low": "#f1f3ff",
+                      "tertiary": "#b91c24",
+                      "secondary-fixed": "#d7e5e3",
+                      "on-primary-fixed-variant": "#005047",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#e0e8ff",
+                      "on-surface-variant": "#3d4946",
+                      "surface": "#f9f9ff",
+                      "on-primary-container": "#004941",
+                      "primary": "#006b5f",
+                      "inverse-on-surface": "#edf0ff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#860010",
+                      "on-tertiary-fixed": "#410004",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#1f304f",
+                      "surface-container-highest": "#d8e2ff",
+                      "secondary-fixed-dim": "#bbc9c7",
+                      "surface-container": "#e8edff",
+                      "primary-container": "#3bbfad",
+                      "error": "#ba1a1a",
+                      "secondary": "#546160",
+                      "surface-tint": "#006b5f",
+                      "inverse-primary": "#5cdac7",
+                      "outline-variant": "#bcc9c5",
+                      "surface-variant": "#d8e2ff",
+                      "on-primary": "#ffffff",
+                      "surface-dim": "#cbdaff",
+                      "on-tertiary": "#ffffff",
+                      "on-background": "#081b39",
+                      "primary-fixed": "#7bf7e3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-sm": "16px",
+                      "gutter": "24px",
+                      "max-width": "1440px",
+                      "margin-lg": "64px",
+                      "container-padding": "40px",
+                      "margin-md": "32px",
+                      "base-unit": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Hide scrollbar for clean UI in certain areas */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex flex-col overflow-hidden antialiased">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface-container-lowest text-primary-container font-sans text-sm font-medium w-full border-b border-surface-container-highest shadow-sm z-50">
+<div class="flex justify-between items-center w-full px-8 h-16 max-w-max-width mx-auto">
+<!-- Brand -->
+<div class="text-2xl font-bold text-primary">Mindful</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex gap-8 h-full">
+<!-- Dashboard acts as entry point, highlighting it contextually -->
+<a class="flex items-center h-full text-primary border-b-2 border-primary-container pb-1 cursor-pointer font-label-md text-label-md" href="#">Dashboard</a>
+<a class="flex items-center h-full text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-label-md text-label-md" href="#">Resources</a>
+<a class="flex items-center h-full text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-label-md text-label-md" href="#">Forum</a>
+<a class="flex items-center h-full text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer font-label-md text-label-md" href="#">Roadmap</a>
+</div>
+<!-- Trailing Icons -->
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-outline hover:text-primary transition-colors duration-200 cursor-pointer active:opacity-80">notifications</span>
+<span class="material-symbols-outlined text-outline hover:text-primary transition-colors duration-200 cursor-pointer active:opacity-80">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- Main Layout (Two Columns) -->
+<main class="flex-1 flex w-full max-w-max-width mx-auto h-[calc(100vh-64px)] overflow-hidden">
+<!-- Left Column: Sidebar (Chat History) -->
+<aside class="w-[320px] bg-surface-container-low border-r border-outline-variant flex flex-col h-full flex-shrink-0">
+<div class="p-margin-sm">
+<button class="w-full bg-primary-container text-on-primary rounded-lg py-3 px-4 flex items-center justify-center gap-2 font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    New Chat
+                </button>
+</div>
+<div class="px-margin-sm pb-2">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-[12px]">Recent Conversations</h3>
+</div>
+<div class="flex-1 overflow-y-auto px-2 space-y-1 pb-margin-sm">
+<!-- Chat History Item (Active) -->
+<button class="w-full flex items-center gap-3 p-3 rounded-md bg-secondary-container text-on-secondary-container font-body-sm text-body-sm text-left transition-colors">
+<span class="material-symbols-outlined text-on-secondary-container text-[20px]">chat_bubble</span>
+<span class="truncate">Exam Stress &amp; Anxiety</span>
+</button>
+<!-- Chat History Item -->
+<button class="w-full flex items-center gap-3 p-3 rounded-md hover:bg-surface-container-high text-on-surface-variant font-body-sm text-body-sm text-left transition-colors">
+<span class="material-symbols-outlined text-outline text-[20px]">chat_bubble_outline</span>
+<span class="truncate">Sleep Issues</span>
+</button>
+<!-- Chat History Item -->
+<button class="w-full flex items-center gap-3 p-3 rounded-md hover:bg-surface-container-high text-on-surface-variant font-body-sm text-body-sm text-left transition-colors">
+<span class="material-symbols-outlined text-outline text-[20px]">chat_bubble_outline</span>
+<span class="truncate">Time Management Plan</span>
+</button>
+</div>
+</aside>
+<!-- Right Column: Main Chat Area -->
+<section class="flex-1 flex flex-col h-full bg-surface relative">
+<!-- Chat Header -->
+<header class="h-[72px] bg-surface-container-lowest border-b border-outline-variant flex items-center justify-between px-gutter flex-shrink-0 shadow-sm z-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-headline-md">🤖</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-on-surface text-[20px] m-0">MindBot</h2>
+<span class="w-2.5 h-2.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]" title="Online"></span>
+</div>
+<div class="flex items-center gap-1 text-outline font-body-sm text-body-sm text-[12px]">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                            End-to-end encrypted
+                        </div>
+</div>
+</div>
+<a class="flex items-center gap-2 text-error hover:text-on-error-container hover:bg-error-container/20 px-4 py-2 rounded-lg transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+                    Escalate to Counsellor
+                </a>
+</header>
+<!-- Chat Messages Canvas -->
+<div class="flex-1 overflow-y-auto p-gutter flex flex-col gap-margin-md bg-background">
+<!-- Date divider -->
+<div class="flex justify-center my-2">
+<span class="bg-surface-container-high text-on-surface-variant font-label-md text-[12px] px-3 py-1 rounded-full">Today</span>
+</div>
+<!-- Bot Message -->
+<div class="flex items-end gap-3 max-w-[80%] self-start">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[16px] flex-shrink-0 mb-1">🤖</div>
+<div class="bg-surface-container-lowest border border-outline-variant text-on-surface p-4 rounded-2xl rounded-bl-sm shadow-sm font-body-md text-body-md">
+                        Hi there. I noticed you've been feeling stressed about upcoming exams. How are you holding up today?
+                    </div>
+</div>
+<!-- Student Message -->
+<div class="flex items-end gap-3 max-w-[80%] self-end">
+<div class="bg-inverse-surface text-inverse-on-surface p-4 rounded-2xl rounded-br-sm shadow-sm font-body-md text-body-md">
+                        Honestly, not great. My biology final is tomorrow and I feel like I haven't retained anything. My chest is tight and I can't focus.
+                    </div>
+</div>
+<!-- Bot Message -->
+<div class="flex items-end gap-3 max-w-[80%] self-start">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[16px] flex-shrink-0 mb-1">🤖</div>
+<div class="bg-surface-container-lowest border border-outline-variant text-on-surface p-4 rounded-2xl rounded-bl-sm shadow-sm font-body-md text-body-md">
+                        It is completely normal to feel overwhelmed right before a big final. That tight feeling in your chest is a physical response to stress. <br/><br/>
+                        We can try a quick breathing exercise to calm your nervous system, or we can just talk through what's worrying you most. Which sounds better right now?
+                    </div>
+</div>
+</div>
+<!-- Bottom Input Area -->
+<div class="bg-surface-container-lowest border-t border-outline-variant p-gutter flex flex-col gap-3 flex-shrink-0">
+<!-- Quick Replies -->
+<div class="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
+<button class="whitespace-nowrap flex items-center gap-2 border border-outline-variant bg-surface hover:bg-surface-container-low text-on-surface-variant px-4 py-2 rounded-full font-label-md text-label-md transition-colors shadow-sm">
+                        Breathing Exercise <span class="text-[16px]">🌬️</span>
+</button>
+<button class="whitespace-nowrap flex items-center gap-2 border border-outline-variant bg-surface hover:bg-surface-container-low text-on-surface-variant px-4 py-2 rounded-full font-label-md text-label-md transition-colors shadow-sm">
+                        Talk it out <span class="text-[16px]">💬</span>
+</button>
+<button class="whitespace-nowrap flex items-center gap-2 border border-outline-variant bg-surface hover:bg-surface-container-low text-on-surface-variant px-4 py-2 rounded-full font-label-md text-label-md transition-colors shadow-sm">
+                        Coping Tips <span class="text-[16px]">📋</span>
+</button>
+</div>
+<!-- Input Field -->
+<div class="flex items-end gap-2 bg-surface-container-low border border-outline-variant rounded-3xl p-2 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all shadow-sm">
+<button class="p-2 text-outline hover:text-primary transition-colors flex-shrink-0 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 resize-none max-h-[120px] min-h-[40px] py-2 px-1 font-body-md text-body-md text-on-surface placeholder:text-outline" placeholder="Type your message..." rows="1"></textarea>
+<div class="flex items-center gap-1 flex-shrink-0">
+<button class="p-2 text-outline hover:text-primary transition-colors rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">mood</span>
+</button>
+<button class="bg-primary hover:bg-primary-container text-on-primary w-10 h-10 rounded-full flex items-center justify-center transition-colors shadow-md ml-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Persistent SOS FAB -->
+<button class="fixed bottom-8 right-8 w-[64px] h-[64px] bg-error text-on-error rounded-full flex flex-col items-center justify-center shadow-[0_8px_24px_rgba(186,26,26,0.3)] hover:scale-105 hover:bg-on-error-container transition-all z-50 group">
+<span class="material-symbols-outlined text-[28px] leading-none mb-0.5 group-hover:-translate-y-0.5 transition-transform">sos</span>
+<span class="font-label-md text-[10px] uppercase tracking-wider leading-none">Help</span>
+</button>
+</body></html>

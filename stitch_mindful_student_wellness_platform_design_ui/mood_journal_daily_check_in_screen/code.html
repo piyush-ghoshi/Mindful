@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful - Mood Journal</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#00201c",
+                    "outline": "#6c7a76",
+                    "on-secondary-fixed": "#111e1d",
+                    "on-secondary-container": "#5a6766",
+                    "on-tertiary-fixed-variant": "#930013",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#d7e5e3",
+                    "on-surface": "#081b39",
+                    "on-secondary-fixed-variant": "#3c4948",
+                    "primary-fixed-dim": "#5cdac7",
+                    "tertiary-fixed-dim": "#ffb3ad",
+                    "background": "#f9f9ff",
+                    "surface-bright": "#f9f9ff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#ffdad7",
+                    "tertiary-container": "#ff8a82",
+                    "surface-container-low": "#f1f3ff",
+                    "tertiary": "#b91c24",
+                    "secondary-fixed": "#d7e5e3",
+                    "on-primary-fixed-variant": "#005047",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e0e8ff",
+                    "on-surface-variant": "#3d4946",
+                    "surface": "#f9f9ff",
+                    "on-primary-container": "#004941",
+                    "primary": "#006b5f",
+                    "inverse-on-surface": "#edf0ff",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#860010",
+                    "on-tertiary-fixed": "#410004",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#1f304f",
+                    "surface-container-highest": "#d8e2ff",
+                    "secondary-fixed-dim": "#bbc9c7",
+                    "surface-container": "#e8edff",
+                    "primary-container": "#3bbfad",
+                    "error": "#ba1a1a",
+                    "secondary": "#546160",
+                    "surface-tint": "#006b5f",
+                    "inverse-primary": "#5cdac7",
+                    "outline-variant": "#bcc9c5",
+                    "surface-variant": "#d8e2ff",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#cbdaff",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#081b39",
+                    "primary-fixed": "#7bf7e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-sm": "16px",
+                    "gutter": "24px",
+                    "max-width": "1440px",
+                    "margin-lg": "64px",
+                    "container-padding": "40px",
+                    "margin-md": "32px",
+                    "base-unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopNavBar Component (from JSON) -->
+<nav class="bg-white dark:bg-slate-900 shadow-sm border-b border-slate-100 dark:border-slate-800 w-full z-40 sticky top-0">
+<div class="flex justify-between items-center w-full px-8 h-16 max-w-[1440px] mx-auto">
+<!-- Brand Logo -->
+<div class="flex items-center gap-2">
+<span aria-hidden="true" class="material-symbols-outlined text-teal-600 dark:text-teal-400 text-3xl icon-fill">spa</span>
+<span class="text-2xl font-bold text-teal-600 dark:text-teal-400 tracking-tight">Mindful</span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-8 font-sans text-sm font-medium">
+<a class="text-teal-600 dark:text-teal-400 border-b-2 border-teal-500 pb-1 cursor-pointer active:opacity-80 transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-teal-500 hover:text-teal-600 transition-colors duration-200 cursor-pointer active:opacity-80" href="#">Resources</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-teal-500 hover:text-teal-600 transition-colors duration-200 cursor-pointer active:opacity-80" href="#">Forum</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-teal-500 hover:text-teal-600 transition-colors duration-200 cursor-pointer active:opacity-80" href="#">Roadmap</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4 text-teal-500 dark:text-teal-400">
+<button aria-label="notifications" class="hover:text-teal-600 transition-colors duration-200 cursor-pointer active:opacity-80 flex items-center justify-center p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="account_circle" class="hover:text-teal-600 transition-colors duration-200 cursor-pointer active:opacity-80 flex items-center justify-center p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-container-padding py-margin-md lg:py-margin-lg">
+<!-- Page Header -->
+<header class="mb-margin-md">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Mood Journal</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Take a moment to reflect and record how you're feeling.</p>
+</header>
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Check-in Form -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-surface rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.04)] border border-outline-variant/30 p-8 flex flex-col h-full">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">How are you feeling today?</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                            Thursday, October 26, 2023
+                        </p>
+</div>
+<!-- Mood Selector -->
+<div class="grid grid-cols-5 gap-3 mb-8">
+<!-- Great (Unselected) -->
+<button aria-label="Great" class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container transition-colors group">
+<span class="material-symbols-outlined text-4xl text-secondary group-hover:text-primary transition-colors">sentiment_very_satisfied</span>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface">Great</span>
+</button>
+<!-- Good (Selected - Teal) -->
+<button aria-label="Good" aria-pressed="true" class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-primary bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined text-4xl text-primary icon-fill">sentiment_satisfied</span>
+<span class="font-label-md text-label-md text-primary">Good</span>
+</button>
+<!-- Okay (Unselected) -->
+<button aria-label="Okay" class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container transition-colors group">
+<span class="material-symbols-outlined text-4xl text-secondary group-hover:text-primary transition-colors">sentiment_neutral</span>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface">Okay</span>
+</button>
+<!-- Low (Unselected) -->
+<button aria-label="Low" class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container transition-colors group">
+<span class="material-symbols-outlined text-4xl text-secondary group-hover:text-primary transition-colors">sentiment_dissatisfied</span>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface">Low</span>
+</button>
+<!-- Struggling (Unselected) -->
+<button aria-label="Struggling" class="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-outline-variant/40 bg-surface-container-low hover:bg-surface-container transition-colors group">
+<span class="material-symbols-outlined text-4xl text-secondary group-hover:text-primary transition-colors">sentiment_very_dissatisfied</span>
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface">Struggling</span>
+</button>
+</div>
+<!-- Notes Area -->
+<div class="flex-grow flex flex-col mb-8">
+<label class="font-label-md text-label-md text-on-surface mb-2" for="journal-notes">Add a note (optional)</label>
+<textarea class="flex-grow w-full rounded-lg border border-outline-variant bg-surface-container-lowest p-4 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-primary focus:border-primary resize-none transition-shadow" id="journal-notes" placeholder="What's contributing to your mood today?" rows="4"></textarea>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md py-4 rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+                        Save Check-in
+                    </button>
+</div>
+</div>
+<!-- Right Column: Data & Trends -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<!-- 7-Day Calendar Strip -->
+<div class="bg-surface rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.04)] border border-outline-variant/30 p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">This Week</h3>
+</div>
+<div class="flex justify-between items-center px-2">
+<!-- Day Items -->
+<div class="flex flex-col items-center gap-3">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mon</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">sentiment_neutral</span>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 hidden sm:block mx-2"></div>
+<div class="flex flex-col items-center gap-3">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Tue</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">sentiment_dissatisfied</span>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 hidden sm:block mx-2"></div>
+<div class="flex flex-col items-center gap-3">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Wed</span>
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined icon-fill">sentiment_satisfied</span>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 hidden sm:block mx-2"></div>
+<div class="flex flex-col items-center gap-3">
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">Thu</span>
+<div class="w-10 h-10 rounded-full border-2 border-primary border-dashed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">add</span>
+</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 hidden sm:block mx-2"></div>
+<div class="flex flex-col items-center gap-3 opacity-50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Fri</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center"></div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 hidden sm:block mx-2"></div>
+<div class="flex flex-col items-center gap-3 opacity-50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sat</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center"></div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 hidden sm:block mx-2"></div>
+<div class="flex flex-col items-center gap-3 opacity-50">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sun</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center"></div>
+</div>
+</div>
+</div>
+<!-- Grid for Charts -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow">
+<!-- Trend Line Chart Card -->
+<div class="bg-surface rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.04)] border border-outline-variant/30 p-6 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Mood Trend</h3>
+<button aria-label="More options" class="p-1 rounded-md hover:bg-surface-container transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex-grow relative flex items-end min-h-[160px] pb-6 pt-4 border-l border-b border-outline-variant/30 ml-4 mb-4">
+<!-- Y-Axis Labels -->
+<div class="absolute -left-6 top-0 h-full flex flex-col justify-between py-4 text-[10px] text-on-surface-variant">
+<span><span class="material-symbols-outlined text-[14px]">sentiment_very_satisfied</span></span>
+<span><span class="material-symbols-outlined text-[14px]">sentiment_neutral</span></span>
+<span><span class="material-symbols-outlined text-[14px]">sentiment_very_dissatisfied</span></span>
+</div>
+<!-- Mock Line Chart SVG -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Grid Lines -->
+<line class="text-outline-variant/20" stroke="currentColor" stroke-dasharray="2 2" stroke-width="0.5" x1="0" x2="100" y1="20" y2="20"></line>
+<line class="text-outline-variant/20" stroke="currentColor" stroke-dasharray="2 2" stroke-width="0.5" x1="0" x2="100" y1="50" y2="50"></line>
+<line class="text-outline-variant/20" stroke="currentColor" stroke-dasharray="2 2" stroke-width="0.5" x1="0" x2="100" y1="80" y2="80"></line>
+<!-- The Line -->
+<polyline fill="none" points="0,50 20,70 40,30 60,40 80,20 100,50" stroke="#3bbfad" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+<!-- Data Points -->
+<circle cx="0" cy="50" fill="#f9f9ff" r="4" stroke="#3bbfad" stroke-width="2"></circle>
+<circle cx="20" cy="70" fill="#f9f9ff" r="4" stroke="#3bbfad" stroke-width="2"></circle>
+<circle class="drop-shadow-md" cx="40" cy="30" fill="#3bbfad" r="4" stroke="#ffffff" stroke-width="2"></circle>
+<circle cx="60" cy="40" fill="#f9f9ff" r="4" stroke="#3bbfad" stroke-width="2"></circle>
+<circle cx="80" cy="20" fill="#f9f9ff" r="4" stroke="#3bbfad" stroke-width="2"></circle>
+<circle cx="100" cy="50" fill="#f9f9ff" r="4" stroke="#3bbfad" stroke-width="2"></circle>
+</svg>
+<!-- X-Axis Labels -->
+<div class="absolute -bottom-5 left-0 w-full flex justify-between text-[11px] text-on-surface-variant font-medium px-1">
+<span>10/20</span>
+<span>10/22</span>
+<span>10/24</span>
+<span>Today</span>
+</div>
+</div>
+</div>
+<!-- Frequency Bar Chart Card -->
+<div class="bg-surface rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.04)] border border-outline-variant/30 p-6 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Frequency (30 Days)</h3>
+</div>
+<div class="flex flex-col gap-4 flex-grow justify-center">
+<!-- Bar Item -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">sentiment_very_satisfied</span>
+<div class="flex-grow h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 25%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant w-6 text-right">8</span>
+</div>
+<!-- Bar Item -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">sentiment_satisfied</span>
+<div class="flex-grow h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 45%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant w-6 text-right">14</span>
+</div>
+<!-- Bar Item -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">sentiment_neutral</span>
+<div class="flex-grow h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-outline-variant rounded-full" style="width: 15%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant w-6 text-right">5</span>
+</div>
+<!-- Bar Item -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">sentiment_dissatisfied</span>
+<div class="flex-grow h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 10%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant w-6 text-right">3</span>
+</div>
+<!-- Bar Item -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">sentiment_very_dissatisfied</span>
+<div class="flex-grow h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 5%"></div>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant w-6 text-right">1</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Full History Link -->
+<div class="flex justify-end">
+<a class="inline-flex items-center gap-2 font-label-md text-label-md text-primary hover:text-primary/80 transition-colors py-2 px-4 rounded-lg hover:bg-primary-container/10" href="#">
+                        View Full History
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (SOS) -->
+<button aria-label="SOS Emergency Support" class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-error text-on-error shadow-[0_4px_14px_rgba(186,26,26,0.3)] flex items-center justify-center font-bold text-lg hover:bg-error/90 hover:scale-105 transition-all z-50 group">
+<span class="font-label-md tracking-widest">SOS</span>
+<!-- Optional hover tooltip -->
+<span class="absolute right-full mr-4 bg-inverse-surface text-inverse-on-surface font-body-sm px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-sm">
+            Immediate Help
+        </span>
+</button>
+</body></html>

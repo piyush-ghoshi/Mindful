@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Counsellor Management - MindGuard Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#222d2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "surface": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1918",
+                        "tertiary-fixed": "#d9e5e3",
+                        "outline": "#75777e",
+                        "on-primary-fixed": "#081b39",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline-variant": "#c5c6cf",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#4e5e80",
+                        "on-secondary-fixed-variant": "#005047",
+                        "secondary-container": "#7bf7e3",
+                        "primary-container": "#1a2b4a",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#7bf7e3",
+                        "secondary": "#006b5f",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#44474e",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#8293b7",
+                        "primary": "#031634",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#364767",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b6c6ee",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#899593",
+                        "background": "#f8f9ff",
+                        "on-secondary-container": "#007165",
+                        "surface-container-high": "#dce9ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xs": "0.5rem",
+                        "sm": "1rem",
+                        "sidebar-width": "280px",
+                        "xl": "4rem",
+                        "base": "4px",
+                        "md": "1.5rem",
+                        "lg": "2.5rem",
+                        "gutter": "1.5rem"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "h3": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "data-tabular": ["14px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for table */
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: theme('colors.surface');
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="bg-slate-900 dark:bg-black font-inter text-sm antialiased docked h-screen left-0 w-64 border-r border-slate-800 shadow-xl fixed top-0 flex flex-col py-6 z-20">
+<div class="px-6 mb-8">
+<h1 class="text-white font-black text-xl">MindGuard</h1>
+</div>
+<div class="px-6 mb-6 flex items-center gap-3">
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full border border-slate-700" data-alt="Professional headshot of an administrative professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiXzx5-Gr0R9cOPhjrKI8jX-fS7Q-TS3f2ylieeHEOxYHTH7Umtx5OBaOF-pwdgmyHgFpAqmP3VRN7dT6Xc_FMPaniCjqkU8Vu5evBQ4J2GRYVwylflIj7ceDF7ext1I6pFdNOVf0ZDW3sRzw4eLukzOYVPCFlHlVBUui2c6jGtnGNg5MXrQDpAlVwOj7gpE34xz2xQXq5EsSD03aanjGOg7SUqAbNpwHujGO4KbKvi3cehEVwDNUSIjZ75bBLs4VocHQ8Re3x_YQ"/>
+<div>
+<p class="text-white font-semibold font-body-sm text-body-sm">System Admin</p>
+<p class="text-slate-400 text-xs">Institutional Access</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 bg-teal-500/10 text-teal-400 border-l-4 border-teal-500 px-4 py-3 font-semibold cursor-pointer transition-all duration-150 ease-in-out rounded-r-DEFAULT" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>Counsellors</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span>Resources</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span>Feedback</span>
+</a>
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors hover:bg-slate-800/50 cursor-pointer transition-all duration-150 ease-in-out rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar Component -->
+<header class="bg-white dark:bg-slate-900 font-inter text-sm font-medium tracking-tight docked full-width top-0 border-b border-b border-slate-200 dark:border-slate-800 shadow-sm flex justify-between items-center w-full px-6 py-3 z-10 sticky">
+<div class="flex items-center gap-6">
+<span class="text-lg font-bold text-blue-900 dark:text-blue-100 flex items-center gap-2">MindGuard Admin</span>
+<div class="relative hidden md:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all text-slate-700" placeholder="Global search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">help</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 transition-all duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-6 md:p-8 max-w-[1440px] mx-auto w-full">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="font-h1 text-h1 text-on-surface">Counsellor Management 👩‍⚕️</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage clinical staff, specializations, and availability.</p>
+</div>
+<button class="bg-secondary text-on-secondary px-4 py-2.5 rounded-DEFAULT font-h3 text-body-md flex items-center gap-2 hover:bg-on-secondary-container transition-colors shadow-sm w-fit">
+<span class="material-symbols-outlined">add</span>
+                    Add New Counsellor
+                </button>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant shadow-[0_4px_12px_rgba(3,22,52,0.04)] mb-6 flex flex-col md:flex-row gap-4 items-center">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-outline-variant rounded-DEFAULT focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors font-body-sm text-body-sm text-on-surface" placeholder="Search by name or ID..." type="text"/>
+</div>
+<div class="flex gap-4 w-full md:w-auto">
+<select class="border border-outline-variant rounded-DEFAULT py-2 px-3 focus:outline-none focus:border-secondary font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest appearance-none min-w-[140px]">
+<option value="">All Statuses</option>
+<option value="active">Active</option>
+<option value="leave">On Leave</option>
+<option value="inactive">Inactive</option>
+</select>
+<select class="border border-outline-variant rounded-DEFAULT py-2 px-3 focus:outline-none focus:border-secondary font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest appearance-none min-w-[160px]">
+<option value="">All Departments</option>
+<option value="clinical">Clinical Psychology</option>
+<option value="cbt">CBT Therapy</option>
+<option value="student">Student Wellness</option>
+</select>
+<button class="p-2 border border-outline-variant text-on-surface-variant rounded-DEFAULT hover:bg-surface-container transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+<!-- Data Table Card -->
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant shadow-[0_4px_12px_rgba(3,22,52,0.04)] overflow-hidden">
+<div class="overflow-x-auto table-container">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container/50 border-b border-outline-variant">
+<tr>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-6 whitespace-nowrap">Counsellor</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-6 whitespace-nowrap">Specialization</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-6 whitespace-nowrap">Department</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-6 whitespace-nowrap">Status</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-6 whitespace-nowrap w-48">Appt. Load</th>
+<th class="font-label-caps text-label-caps text-on-surface-variant py-3 px-6 whitespace-nowrap text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="Sarah Jenkins" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="Professional headshot of female clinical psychologist smiling gently" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB85q5ZrPUZsFqYsRSu-dMFUnocuoGFwkErSwTD_2NaLWmn518xiu5kLQ0VZ-gCXYhem1MkIcbyMiZlFm_bQ9qqdSBKMn2Gpm5h-cs422b0VmL6oERPBzLbgELMsQIr_S2vDs7NiA9mDNJxAsbNhDMVnEd8-AtzkRS4xI8FIvp8H03NftqwUhhiWM297H62S_fGf-oAMw4fzViOHKOr3d0B2lhg2oyK-EvGJ0GNJGUhRBuBwexyyKErZLiaRC61QOK3Yt4uxFTF8Uc"/>
+<div>
+<p class="font-data-tabular text-data-tabular text-on-surface group-hover:text-secondary transition-colors cursor-pointer">Dr. Sarah Jenkins</p>
+<p class="text-[12px] text-on-surface-variant">ID: MG-8821</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Trauma &amp; PTSD</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Clinical Psychology</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-secondary-container/30 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span> Active
+                                    </span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 85%;"></div>
+</div>
+<span class="text-[12px] font-medium text-on-surface-variant w-8">85%</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-surface-container rounded-DEFAULT transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-DEFAULT transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-h3 text-h3 font-bold border border-outline-variant">
+                                            MC
+                                        </div>
+<div>
+<p class="font-data-tabular text-data-tabular text-on-surface group-hover:text-secondary transition-colors cursor-pointer">Marcus Chen</p>
+<p class="text-[12px] text-on-surface-variant">ID: MG-9014</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Anxiety Disorders</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">CBT Therapy</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-[#FFF3E0] text-[#E65100] border border-[#FFE0B2]">
+<span class="material-symbols-outlined text-[14px] mr-1">schedule</span> On Leave
+                                    </span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2 opacity-50">
+<div class="flex-1 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-outline-variant rounded-full" style="width: 0%;"></div>
+</div>
+<span class="text-[12px] font-medium text-on-surface-variant w-8">0%</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-surface-container rounded-DEFAULT transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-DEFAULT transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="Elena Rodriguez" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="Professional headshot of female therapist in warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4zE-uEEUjutwZS4AnPAtESwXUGMMw30RatBj7jNc98yPQNo0SnUZG5c4pPXVc4S9h1AP806movkdAmLpHQ6admT8_Z0vbC5Iir5SyBi1vmrsRB8ht3usXwMFBd9M7X3iLvsVjss4KbrHNXxLB6qHllVwBsELmbgfSkVNB7ebio0KZVNcaMmwYwFVDADhXlO6otBginSrFK6FNBSMVf3Ed72wgHRvi02Eb9PwspWrpuqBcjpDoM3S32O3QfmhzZci7E0ZpEYuzWks"/>
+<div>
+<p class="font-data-tabular text-data-tabular text-on-surface group-hover:text-secondary transition-colors cursor-pointer">Elena Rodriguez</p>
+<p class="text-[12px] text-on-surface-variant">ID: MG-7732</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Academic Stress</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Student Wellness</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-secondary-container/30 text-secondary border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span> Active
+                                    </span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 45%;"></div>
+</div>
+<span class="text-[12px] font-medium text-on-surface-variant w-8">45%</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-surface-container rounded-DEFAULT transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/50 rounded-DEFAULT transition-colors" title="Deactivate">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors group opacity-75">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<img alt="David Kim" class="w-10 h-10 rounded-full object-cover border border-outline-variant grayscale" data-alt="Professional headshot of male counsellor looking serious" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPJ3KS2AQ_GW5F0h4ypm1zBgltyMlQOgxcsU_Wl4l3jbmPF34-Xho8h1YscOvfTpv3yuoiQXJS5UgBzsk0kQZnvGQ6tr_gt1UwxjxTz_XfyVNkeSYmR9G_5GIraf8ZVgSAVGxKMaQLBZuAQXWSBeGezJp-UnYE9NThORep9ARhbyjfJHP9cEmDY741FAM4PMlvY7gpeeEzZP4gZTANa0bdipkRBoUW45QbTyGb7lqK0_xus9BF_D_gAE3LB6JGHBtA7iDBGK-VlO0"/>
+<div>
+<p class="font-data-tabular text-data-tabular text-on-surface group-hover:text-secondary transition-colors cursor-pointer">Dr. David Kim</p>
+<p class="text-[12px] text-on-surface-variant">ID: MG-5510</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Substance Abuse</td>
+<td class="py-4 px-6 font-body-sm text-body-sm text-on-surface-variant">Clinical Psychology</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-medium bg-surface-variant text-outline border border-outline-variant">
+                                        Inactive
+                                    </span>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="text-[12px] font-medium text-outline w-full text-center">-</span>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-secondary hover:bg-surface-container rounded-DEFAULT transition-colors" title="View Profile">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination -->
+<div class="bg-surface-container-lowest border-t border-outline-variant px-6 py-3 flex items-center justify-between">
+<p class="font-body-sm text-body-sm text-on-surface-variant">Showing 1 to 4 of 24 entries</p>
+<div class="flex gap-1">
+<button class="p-1 border border-outline-variant rounded text-outline hover:bg-surface-container disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center border border-secondary bg-secondary/10 text-secondary rounded font-data-tabular text-data-tabular">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant hover:bg-surface-container text-on-surface-variant rounded font-data-tabular text-data-tabular">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant hover:bg-surface-container text-on-surface-variant rounded font-data-tabular text-data-tabular">3</button>
+<span class="px-2 flex items-end text-outline">...</span>
+<button class="p-1 border border-outline-variant rounded text-on-surface-variant hover:bg-surface-container">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

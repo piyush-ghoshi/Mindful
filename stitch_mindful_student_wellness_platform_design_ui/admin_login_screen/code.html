@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindGuard Admin - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#222d2c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#0b1c30",
+                      "tertiary-fixed-dim": "#bdc9c7",
+                      "surface": "#f8f9ff",
+                      "error": "#ba1a1a",
+                      "tertiary": "#0e1918",
+                      "tertiary-fixed": "#d9e5e3",
+                      "outline": "#75777e",
+                      "on-primary-fixed": "#081b39",
+                      "on-tertiary-fixed": "#131d1d",
+                      "outline-variant": "#c5c6cf",
+                      "surface-variant": "#d3e4fe",
+                      "surface-container": "#e5eeff",
+                      "surface-tint": "#4e5e80",
+                      "on-secondary-fixed-variant": "#005047",
+                      "secondary-container": "#7bf7e3",
+                      "primary-container": "#1a2b4a",
+                      "inverse-surface": "#213145",
+                      "on-secondary-fixed": "#00201c",
+                      "on-tertiary-fixed-variant": "#3e4948",
+                      "surface-dim": "#cbdbf5",
+                      "primary-fixed-dim": "#b6c6ee",
+                      "primary-fixed": "#d8e2ff",
+                      "on-background": "#0b1c30",
+                      "secondary-fixed": "#7bf7e3",
+                      "secondary": "#006b5f",
+                      "inverse-on-surface": "#eaf1ff",
+                      "secondary-fixed-dim": "#5cdac7",
+                      "on-tertiary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#44474e",
+                      "on-error": "#ffffff",
+                      "on-primary-container": "#8293b7",
+                      "primary": "#031634",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#364767",
+                      "surface-bright": "#f8f9ff",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#b6c6ee",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-tertiary-container": "#899593",
+                      "background": "#f8f9ff",
+                      "on-secondary-container": "#007165",
+                      "surface-container-high": "#dce9ff",
+                      "error-container": "#ffdad6",
+                      "surface-container-low": "#eff4ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "0.5rem",
+                      "sm": "1rem",
+                      "sidebar-width": "280px",
+                      "xl": "4rem",
+                      "base": "4px",
+                      "md": "1.5rem",
+                      "lg": "2.5rem",
+                      "gutter": "1.5rem"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "h2": ["Inter"],
+                      "h1": ["Inter"],
+                      "h3": ["Inter"],
+                      "data-tabular": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                      "data-tabular": ["14px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500"}],
+                      "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex">
+<!-- Main Container: Split Layout -->
+<main class="flex w-full h-screen">
+<!-- Left Column: Branding & Atmosphere (Hidden on mobile) -->
+<div class="hidden lg:flex lg:w-1/2 bg-primary relative overflow-hidden flex-col justify-between p-12">
+<!-- Abstract background image/pattern -->
+<div class="absolute inset-0 opacity-20 bg-cover bg-center mix-blend-overlay" data-alt="abstract dark navy blue gradient with soft flowing geometric waves and subtle light leaks conveying security and technology" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAk024-NLnHNbzfwVMTUUX5sWAxbYNWRvceturs_tAjlJzdLiexMcuc89PeulB5XVjuucd03jHg74MuhXz_q1sIgeDEkDt5Lbbx7xdhTBaw3f1hELH6L4-903cn2JBq38_jlaHKDUUzImU1SdPVp9XLRk_dpKXqxZ8aMWafTKoIyz4OCmE5ryPzOsY_Xpe5iacFoG0PWCtzcuxXr4j6Gx-2limIcdgAQBqat6BcbsC3uvQpmmMRCN4DWQ0JvmPWbr2Cy51cQ3ZwDPw');">
+</div>
+<!-- Subtle Grid Overlay -->
+<div class="absolute inset-0 bg-grid-pattern opacity-50"></div>
+<!-- Content overlay to ensure legibility -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-[2px]"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<!-- Logo & Brand -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest/10 flex items-center justify-center backdrop-blur-sm border border-surface-container-lowest/20">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">health_and_safety</span>
+</div>
+<span class="font-h3 text-h3 text-on-primary">MindGuard</span>
+</div>
+<!-- Hero Message -->
+<div class="max-w-md">
+<h1 class="font-h1 text-h1 text-on-primary mb-4 tracking-tight">Platform Administration</h1>
+<p class="font-body-lg text-body-lg text-on-primary/80">
+                        Securely manage institutional access, monitor system health, and oversee counsellor resources to support student mental wellbeing.
+                    </p>
+</div>
+<!-- Footer element (optional balance) -->
+<div class="text-on-primary/50 font-body-sm text-body-sm">
+                    © 2024 MindGuard Systems. All rights reserved.
+                </div>
+</div>
+</div>
+<!-- Right Column: Login Form -->
+<div class="w-full lg:w-1/2 flex items-center justify-center bg-surface-container-lowest p-6 sm:p-12">
+<div class="w-full max-w-[420px] flex flex-col">
+<!-- Form Header -->
+<div class="mb-10 text-center lg:text-left">
+<div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-surface-container mb-6">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<h2 class="font-h2 text-h2 text-on-surface mb-2">Admin Portal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Sign in with your institutional credentials to access the administration dashboard.</p>
+</div>
+<!-- Form Elements -->
+<form class="space-y-6">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="font-data-tabular text-data-tabular text-on-surface block" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant">mail</span>
+</div>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="email" name="email" placeholder="admin@institution.edu" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-data-tabular text-data-tabular text-on-surface block" for="password">Password</label>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors font-medium" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline-variant">lock</span>
+</div>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary text-on-primary font-body-md text-body-md font-medium py-3 px-4 rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors mt-2" type="button">
+                        Login as Administrator
+                    </button>
+</form>
+<!-- Security Notice -->
+<div class="mt-8 p-4 bg-surface rounded-lg border border-surface-variant flex items-start gap-3">
+<span class="material-symbols-outlined text-warning text-error shrink-0" style="font-variation-settings: 'FILL' 1;">warning</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 leading-relaxed">
+                        Authorized Personnel Only — All access is logged and monitored.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

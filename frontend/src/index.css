@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+/* Use class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-family-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Light mode background — soft warm canvas ── */
+body {
+  background-color: #f0faf8;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(20, 184, 166, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+}
+
+/* ── Dark mode background — deep slate with subtle glow ── */
+html.dark body {
+  background-color: #0b1221;
+  color: #e2e8f0;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(20, 184, 166, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(139, 92, 246, 0.07) 0%, transparent 50%);
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+}
+
+html.dark .glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(20, 184, 166, 0.3); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(20, 184, 166, 0.6); }
+
+/* ── Range input thumb ── */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #14b8a6;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(20, 184, 166, 0.4);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #14b8a6;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+/* ── Focus ring ── */
+:focus-visible {
+  outline: 2px solid rgba(20, 184, 166, 0.6);
+  outline-offset: 2px;
+}
+
+/* ── Animate blob ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-12px) scale(1.02); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* ── Subtle pulse ring ── */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
+}
+.pulse-ring { animation: pulse-ring 2.5s ease-out infinite; }

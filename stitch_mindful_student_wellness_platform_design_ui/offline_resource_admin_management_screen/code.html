@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MindGuard Admin - Map Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#222d2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "tertiary-fixed-dim": "#bdc9c7",
+                        "surface": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1918",
+                        "tertiary-fixed": "#d9e5e3",
+                        "outline": "#75777e",
+                        "on-primary-fixed": "#081b39",
+                        "on-tertiary-fixed": "#131d1d",
+                        "outline-variant": "#c5c6cf",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container": "#e5eeff",
+                        "surface-tint": "#4e5e80",
+                        "on-secondary-fixed-variant": "#005047",
+                        "secondary-container": "#7bf7e3",
+                        "primary-container": "#1a2b4a",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#3e4948",
+                        "surface-dim": "#cbdbf5",
+                        "primary-fixed-dim": "#b6c6ee",
+                        "primary-fixed": "#d8e2ff",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#7bf7e3",
+                        "secondary": "#006b5f",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed-dim": "#5cdac7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#44474e",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#8293b7",
+                        "primary": "#031634",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#364767",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b6c6ee",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-container": "#899593",
+                        "background": "#f8f9ff",
+                        "on-secondary-container": "#007165",
+                        "surface-container-high": "#dce9ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        xs: "0.5rem",
+                        sm: "1rem",
+                        "sidebar-width": "280px",
+                        xl: "4rem",
+                        base: "4px",
+                        md: "1.5rem",
+                        lg: "2.5rem",
+                        gutter: "1.5rem"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Inter"],
+                        "h1": ["Inter"],
+                        "h3": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "h2": ["24px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "h1": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "h3": ["20px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "600" }],
+                        "data-tabular": ["14px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "500" }],
+                        "label-caps": ["12px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "body-sm": ["14px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #c5c6cf;
+            border-radius: 10px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-hidden flex h-screen">
+<!-- JSON Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col py-6 w-64 border-r border-slate-800 shadow-xl bg-slate-900 dark:bg-black z-50">
+<div class="px-6 mb-8">
+<h1 class="text-white font-black text-xl tracking-tight">MindGuard</h1>
+</div>
+<div class="flex-1 flex flex-col gap-1 px-2 mt-4">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors cursor-pointer duration-150 ease-in-out hover:bg-slate-800/50 rounded-lg mx-2 font-inter text-sm antialiased" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                Dashboard
+            </a>
+<!-- Analytics (Inactive) -->
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors cursor-pointer duration-150 ease-in-out hover:bg-slate-800/50 rounded-lg mx-2 font-inter text-sm antialiased" href="#">
+<span class="material-symbols-outlined text-[20px]">monitoring</span>
+                Analytics
+            </a>
+<!-- Counsellors (Inactive) -->
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors cursor-pointer duration-150 ease-in-out hover:bg-slate-800/50 rounded-lg mx-2 font-inter text-sm antialiased" href="#">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+                Counsellors
+            </a>
+<!-- Resources (Active match for Map Management/Offline Resources) -->
+<a class="flex items-center gap-3 bg-teal-500/10 text-teal-400 border-l-4 border-teal-500 px-4 py-3 font-semibold cursor-pointer transition-all duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">library_books</span>
+                Resources
+            </a>
+<!-- Feedback (Inactive) -->
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors cursor-pointer duration-150 ease-in-out hover:bg-slate-800/50 rounded-lg mx-2 font-inter text-sm antialiased" href="#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                Feedback
+            </a>
+<!-- Settings (Inactive) -->
+<a class="flex items-center gap-3 text-slate-400 hover:text-white px-4 py-3 transition-colors cursor-pointer duration-150 ease-in-out hover:bg-slate-800/50 rounded-lg mx-2 font-inter text-sm antialiased mt-auto" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto px-6 pt-6 border-t border-slate-800">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white overflow-hidden">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="professional headshot of man with short hair wearing blue shirt against grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEY4dAqi1iYQgUtpiOUWdvgrBQPRJq5poaQdMP0BEFvqG2XUJHjb2C-eW4AM_bFViCyB-SCHfWAFxKBEqFJaLXHsJ2RxwJk0xXxorn2blheIrpxqiRjg1v7WuzGtA3eJVDTsRKpeK1OvGtjIhYZQlO7MY8veInEBpZrGUzxcIgwLUBIG3wuKeypi3EvxGAs5364oRuabYzJ4zMaEMO0T0KXaN5jqFRAwbGoR54p2Dfay-rekQfkPcsaIEr-jZe6TQFupv5G7q4SDU"/>
+</div>
+<div>
+<div class="text-white font-inter text-sm font-medium">System Admin</div>
+<div class="text-slate-400 font-inter text-xs">Institutional Access</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-64 min-w-0 bg-surface">
+<!-- JSON Component: TopNavBar -->
+<header class="bg-white dark:bg-slate-900 flex justify-between items-center w-full px-6 py-3 border-b border-slate-200 dark:border-slate-800 shadow-sm z-40 relative">
+<div class="flex items-center gap-4 flex-1">
+<div class="text-lg font-bold text-blue-900 dark:text-blue-100 flex items-center gap-2 font-inter tracking-tight">
+                    MindGuard Admin
+                </div>
+<!-- Search Bar (on_left) -->
+<div class="ml-8 relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-full py-2 pl-10 pr-4 text-sm font-inter text-blue-900 dark:text-blue-100 focus:ring-2 focus:ring-teal-500 placeholder-slate-400 outline-none" placeholder="Search resources, addresses..." type="text"/>
+</div>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:opacity-80 duration-200 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Two-Panel Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Panel: List & Controls -->
+<aside class="w-[420px] bg-surface flex flex-col border-r border-outline-variant shadow-[4px_0_12px_rgba(3,22,52,0.02)] z-10">
+<!-- Panel Header -->
+<div class="p-md border-b border-outline-variant bg-surface-container-lowest">
+<div class="flex justify-between items-start mb-sm">
+<h2 class="font-h2 text-h2 text-on-surface tracking-tight">Offline Resources <span class="text-xl">📍</span></h2>
+<span class="bg-surface-container text-on-surface-variant font-data-tabular text-data-tabular px-2 py-1 rounded-full text-xs">14 Total</span>
+</div>
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary font-data-tabular text-data-tabular py-3 rounded-lg shadow-sm hover:bg-primary/90 transition-colors focus:ring-2 focus:ring-secondary focus:outline-none">
+<span class="material-symbols-outlined text-sm">add</span>
+                        Add New Location
+                    </button>
+</div>
+<!-- Filter Chips -->
+<div class="px-md py-3 border-b border-outline-variant bg-surface flex gap-2 overflow-x-auto no-scrollbar items-center">
+<button class="px-3 py-1.5 rounded-full border border-secondary bg-secondary-container text-on-secondary-container font-label-caps text-label-caps whitespace-nowrap transition-colors">
+                        All
+                    </button>
+<button class="px-3 py-1.5 rounded-full border border-outline text-on-surface-variant hover:bg-surface-variant font-label-caps text-label-caps whitespace-nowrap transition-colors">
+                        Clinics
+                    </button>
+<button class="px-3 py-1.5 rounded-full border border-outline text-on-surface-variant hover:bg-surface-variant font-label-caps text-label-caps whitespace-nowrap transition-colors">
+                        Shelters
+                    </button>
+<button class="px-3 py-1.5 rounded-full border border-outline text-on-surface-variant hover:bg-surface-variant font-label-caps text-label-caps whitespace-nowrap transition-colors">
+                        Support Groups
+                    </button>
+</div>
+<!-- Scrollable List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-sm space-y-3 bg-surface-container-low">
+<!-- Card 1: Active -->
+<div class="bg-surface-container-lowest rounded-lg p-sm border border-outline-variant shadow-[0_2px_8px_rgba(3,22,52,0.04)] hover:shadow-[0_4px_12px_rgba(3,22,52,0.08)] transition-all cursor-pointer group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex justify-between items-start mb-2 pl-2">
+<div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary transition-colors">Downtown Wellness Center</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                                    124 Broad St, Suite 400
+                                </p>
+</div>
+<div class="bg-surface-container text-secondary font-label-caps text-label-caps px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_hospital</span> Clinic
+                            </div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/50 flex justify-between items-center pl-2">
+<span class="font-data-tabular text-data-tabular text-on-surface-variant text-sm">Status: <span class="text-secondary font-medium">Active</span></span>
+<!-- Toggle Switch (On) -->
+<button class="w-10 h-5 bg-secondary rounded-full relative transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-secondary">
+<span class="absolute right-1 top-1 w-3 h-3 bg-on-secondary rounded-full shadow-sm transition-all"></span>
+</button>
+</div>
+</div>
+<!-- Card 2: Inactive -->
+<div class="bg-surface-container-lowest rounded-lg p-sm border border-outline-variant shadow-[0_2px_8px_rgba(3,22,52,0.04)] hover:shadow-[0_4px_12px_rgba(3,22,52,0.08)] transition-all cursor-pointer group relative overflow-hidden opacity-75 hover:opacity-100">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-outline-variant"></div>
+<div class="flex justify-between items-start mb-2 pl-2">
+<div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary transition-colors">Safe Haven Shelter</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                                    890 Willow Creek Dr
+                                </p>
+</div>
+<div class="bg-surface-container text-primary-container font-label-caps text-label-caps px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">night_shelter</span> Shelter
+                            </div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/50 flex justify-between items-center pl-2">
+<span class="font-data-tabular text-data-tabular text-on-surface-variant text-sm">Status: <span class="text-outline font-medium">Inactive</span></span>
+<!-- Toggle Switch (Off) -->
+<button class="w-10 h-5 bg-surface-tint/30 rounded-full relative transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-outline">
+<span class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full shadow-sm transition-all"></span>
+</button>
+</div>
+</div>
+<!-- Card 3: Active -->
+<div class="bg-surface-container-lowest rounded-lg p-sm border border-outline-variant shadow-[0_2px_8px_rgba(3,22,52,0.04)] hover:shadow-[0_4px_12px_rgba(3,22,52,0.08)] transition-all cursor-pointer group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex justify-between items-start mb-2 pl-2">
+<div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary transition-colors">Northside Community Group</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+                                    Rec Center, Room B
+                                </p>
+</div>
+<div class="bg-surface-container text-tertiary-container font-label-caps text-label-caps px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">diversity_3</span> Support
+                            </div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/50 flex justify-between items-center pl-2">
+<span class="font-data-tabular text-data-tabular text-on-surface-variant text-sm">Status: <span class="text-secondary font-medium">Active</span></span>
+<!-- Toggle Switch (On) -->
+<button class="w-10 h-5 bg-secondary rounded-full relative transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-secondary">
+<span class="absolute right-1 top-1 w-3 h-3 bg-on-secondary rounded-full shadow-sm transition-all"></span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Interactive Map -->
+<div class="flex-1 relative bg-surface-variant overflow-hidden">
+<!-- Map Background Image -->
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-multiply" data-alt="aerial top down view of a city grid with muted blue and gray tones resembling a digital map interface" data-location="City Map Topography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKd7iiWI4LQPPwECbKaUnBJyoZUYvJtOw7vcEgN7tn4E4gtOG6b5q91aTDZak17QcBnd1sh0hogawaC-mQ-B1NLQXPMzOpviGjitxpVPoxd0M-JOq1Ojw7DGvlQyWEJkgBhAIMVGL5DyxKfiTfL_V0Mq_Cbi26xEDWvrbEoeBNafv6P3SsxKqAVas25NmR5wxdntjZTk-dkzsFeFt-PI4J6a-agMCWurid3g2ZCoxOS1nxrCx_PkctXNMXhR4PMnCH_yS9R1U4m-k"/>
+<!-- Map Controls Overlay -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-20">
+<button class="bg-surface-container-lowest text-on-surface p-2 rounded-md shadow-[0_4px_12px_rgba(3,22,52,0.08)] border border-outline-variant hover:bg-surface-variant transition-colors" title="Map Layers">
+<span class="material-symbols-outlined">layers</span>
+</button>
+<button class="bg-surface-container-lowest text-on-surface p-2 rounded-md shadow-[0_4px_12px_rgba(3,22,52,0.08)] border border-outline-variant hover:bg-surface-variant transition-colors" title="My Location">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<div class="absolute bottom-6 right-4 flex flex-col z-20 bg-surface-container-lowest rounded-md shadow-[0_4px_12px_rgba(3,22,52,0.08)] border border-outline-variant overflow-hidden">
+<button class="p-2 text-on-surface hover:bg-surface-variant transition-colors border-b border-outline-variant">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="p-2 text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<!-- Interactive Pins Overlay -->
+<div class="absolute inset-0 z-10">
+<!-- Pin 1: Active Clinic -->
+<div class="absolute top-[35%] left-[45%] group cursor-pointer -translate-x-1/2 -translate-y-full">
+<div class="relative flex flex-col items-center">
+<!-- Tooltip -->
+<div class="absolute bottom-full mb-2 bg-inverse-surface text-inverse-on-surface font-body-sm text-xs px-3 py-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 flex flex-col items-center">
+<span class="font-semibold">Downtown Wellness Center</span>
+<span class="text-outline-variant">Active • Clinic</span>
+<!-- Tooltip Arrow -->
+<div class="w-3 h-3 bg-inverse-surface rotate-45 absolute -bottom-1.5"></div>
+</div>
+<!-- Pin Graphic -->
+<div class="w-8 h-8 bg-secondary text-on-secondary rounded-full flex items-center justify-center shadow-[0_4px_8px_rgba(0,107,95,0.4)] border-2 border-surface-container-lowest z-20 relative transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">local_hospital</span>
+</div>
+<!-- Shadow/Base -->
+<div class="w-2 h-1 bg-primary/30 rounded-full mt-1 blur-[1px]"></div>
+</div>
+</div>
+<!-- Pin 2: Inactive Shelter -->
+<div class="absolute top-[60%] left-[65%] group cursor-pointer -translate-x-1/2 -translate-y-full">
+<div class="relative flex flex-col items-center">
+<!-- Tooltip -->
+<div class="absolute bottom-full mb-2 bg-inverse-surface text-inverse-on-surface font-body-sm text-xs px-3 py-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 flex flex-col items-center">
+<span class="font-semibold">Safe Haven Shelter</span>
+<span class="text-outline-variant">Inactive • Shelter</span>
+<div class="w-3 h-3 bg-inverse-surface rotate-45 absolute -bottom-1.5"></div>
+</div>
+<!-- Pin Graphic -->
+<div class="w-7 h-7 bg-outline text-surface-container-lowest rounded-full flex items-center justify-center shadow-[0_2px_4px_rgba(117,119,126,0.3)] border-2 border-surface-container-lowest z-20 relative transform group-hover:scale-110 transition-transform grayscale">
+<span class="material-symbols-outlined text-[16px]">night_shelter</span>
+</div>
+<div class="w-2 h-1 bg-primary/20 rounded-full mt-1 blur-[1px]"></div>
+</div>
+</div>
+<!-- Pin 3: Active Support Group -->
+<div class="absolute top-[20%] left-[75%] group cursor-pointer -translate-x-1/2 -translate-y-full">
+<div class="relative flex flex-col items-center">
+<!-- Tooltip -->
+<div class="absolute bottom-full mb-2 bg-inverse-surface text-inverse-on-surface font-body-sm text-xs px-3 py-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 flex flex-col items-center">
+<span class="font-semibold">Northside Community Group</span>
+<span class="text-outline-variant">Active • Support</span>
+<div class="w-3 h-3 bg-inverse-surface rotate-45 absolute -bottom-1.5"></div>
+</div>
+<!-- Pin Graphic -->
+<div class="w-8 h-8 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center shadow-[0_4px_8px_rgba(34,45,44,0.3)] border-2 border-surface-container-lowest z-20 relative transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">diversity_3</span>
+</div>
+<div class="w-2 h-1 bg-primary/30 rounded-full mt-1 blur-[1px]"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

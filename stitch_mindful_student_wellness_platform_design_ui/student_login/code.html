@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mindful - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#081b39",
+                        "surface-variant": "#d8e2ff",
+                        "primary-fixed-dim": "#5cdac7",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "on-tertiary-container": "#860010",
+                        "on-secondary-fixed-variant": "#3c4948",
+                        "secondary-fixed": "#d7e5e3",
+                        "surface-dim": "#cbdaff",
+                        "on-primary-fixed-variant": "#005047",
+                        "background": "#f9f9ff",
+                        "on-surface": "#081b39",
+                        "tertiary-fixed": "#ffdad7",
+                        "surface-container-low": "#f1f3ff",
+                        "on-surface-variant": "#3d4946",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#006b5f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "on-tertiary-fixed": "#410004",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#edf0ff",
+                        "surface": "#f9f9ff",
+                        "surface-container-highest": "#d8e2ff",
+                        "on-secondary-fixed": "#111e1d",
+                        "primary-container": "#3bbfad",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#d7e5e3",
+                        "surface-container-high": "#e0e8ff",
+                        "on-primary-fixed": "#00201c",
+                        "surface-container": "#e8edff",
+                        "on-secondary-container": "#5a6766",
+                        "primary-fixed": "#7bf7e3",
+                        "outline": "#6c7a76",
+                        "inverse-surface": "#1f304f",
+                        "on-primary-container": "#004941",
+                        "outline-variant": "#bcc9c5",
+                        "inverse-primary": "#5cdac7",
+                        "surface-tint": "#006b5f",
+                        "surface-bright": "#f9f9ff",
+                        "tertiary-container": "#ff8a82",
+                        "on-error": "#ffffff",
+                        "tertiary": "#b91c24",
+                        "secondary-fixed-dim": "#bbc9c7",
+                        "secondary": "#546160",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base-unit": "8px",
+                        "gutter": "24px",
+                        "margin-lg": "64px",
+                        "margin-sm": "16px",
+                        "container-padding": "40px",
+                        "max-width": "1440px",
+                        "margin-md": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm fixed top-0 w-full z-50 flex justify-between items-center px-8 h-20 max-w-[1440px] mx-auto font-['Inter'] antialiased">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tight text-teal-600 dark:text-teal-400">Mindful</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-teal-500 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer active:opacity-80 px-3 py-2 rounded-md" href="#">Resources</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-teal-500 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer active:opacity-80 px-3 py-2 rounded-md" href="#">Journal</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-teal-500 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer active:opacity-80 px-3 py-2 rounded-md" href="#">Community</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-teal-500 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer active:opacity-80 px-3 py-2 rounded-md" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<!-- Hidden secondary action on Login page conceptually, but rendered for structure -->
+<button class="hidden md:block font-label-md text-label-md text-primary hover:bg-surface-container-low px-4 py-2 rounded-lg transition-colors">Log In</button>
+<button class="font-label-md text-label-md bg-primary-container text-on-primary hover:bg-primary px-6 py-2 rounded-lg transition-colors shadow-sm">Get Started</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex mt-20">
+<!-- Left Column: Illustration -->
+<div class="hidden lg:flex w-1/2 relative bg-surface-variant overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Calm workspace illustration with a student sitting at a desk, potted plant, laptop, soft morning sunlight, minimal and serene atmosphere, soft pastel colors" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwv9G_KNd2_6ffNz-qlQaRv1o7-tmGl2AIlMzXnpRJmfaVDzo54q0Cl2eHrecu-oU598-ViFoH9o_SzkGXdUE4UgMmItPkLoRtikp_qRemoQCHmQvpS6OLlnY_dhHyIwhqkIT-u02_7K9KrUn8FmxdA12qsNyyUbr-pHfzmsvq2C2Dx9RAd6AkukRPI_00YVTA90vOEBXVnYA0ejVjSHshjyt2Lf5-Xkbpd5g9yp3S62UMkdkcdtHLwHVXGZa-gwA6xIBcazc3jy8');">
+</div>
+<div class="absolute inset-0 bg-inverse-surface/30 backdrop-blur-[2px]"></div>
+<div class="relative z-10 flex w-full h-full items-center justify-center p-16">
+<blockquote class="text-center">
+<p class="font-headline-xl text-headline-xl text-on-primary italic leading-tight max-w-lg drop-shadow-md">
+                        "Every day is a fresh start."
+                    </p>
+</blockquote>
+</div>
+</div>
+<!-- Right Column: Login Form -->
+<div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-24 bg-background">
+<div class="w-full max-w-[440px] bg-surface-container-lowest rounded-xl p-8 sm:p-10 shadow-[0_4px_24px_rgba(8,27,57,0.03)] border border-outline-variant/30">
+<div class="text-center mb-8">
+<span class="text-primary-container block mb-4" data-icon="spa" data-weight="fill" style="font-size: 40px;">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">spa</span>
+</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Welcome Back</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Please enter your details to sign in.</p>
+</div>
+<form class="flex flex-col gap-5">
+<!-- Email Input -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email or Student ID</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" id="email" placeholder="Enter your email" type="email"/>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all pr-12" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Forgot Password Link -->
+<div class="flex justify-end mt-[-8px]">
+<a class="font-label-md text-label-md text-primary-container hover:text-primary transition-colors" href="#">Forgot Password?</a>
+</div>
+<!-- Login Button -->
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3.5 rounded-lg hover:bg-primary hover:shadow-md transition-all mt-2" type="submit">
+                        Login
+                    </button>
+<!-- Divider -->
+<div class="flex items-center gap-4 my-4">
+<div class="flex-1 h-px bg-outline-variant/50"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant uppercase tracking-wider text-xs">or continue with</span>
+<div class="flex-1 h-px bg-outline-variant/50"></div>
+</div>
+<!-- Google SSO -->
+<button class="w-full bg-surface border border-outline-variant rounded-lg py-3 flex items-center justify-center gap-3 hover:bg-surface-container-low hover:border-outline transition-all" type="button">
+<svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="font-label-md text-label-md text-on-surface">Google</span>
+</button>
+</form>
+<!-- Sign Up Link -->
+<div class="mt-8 text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                        New to Mindful? 
+                        <a class="font-label-md text-label-md text-primary-container hover:text-primary transition-colors ml-1" href="#">Create an account</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (SOS) -->
+<button aria-label="Emergency SOS" class="fixed bottom-8 right-8 w-14 h-14 bg-error rounded-full shadow-lg flex items-center justify-center hover:bg-on-error-container hover:scale-105 transition-all z-50 group">
+<span class="text-on-error font-label-md text-label-md group-hover:hidden">SOS</span>
+<span class="material-symbols-outlined text-on-error hidden group-hover:block" style="font-variation-settings: 'FILL' 1;">emergency</span>
+</button>
+</body></html>
