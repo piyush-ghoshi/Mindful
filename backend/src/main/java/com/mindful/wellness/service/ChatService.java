@@ -434,7 +434,34 @@ public class ChatService {
             }
         }
 
-        return groqService.chat(conversationHistory, contextualContent);
+        String reply = groqService.chat(conversationHistory, contextualContent);
+        if (reply != null && !reply.trim().isEmpty()) {
+            return reply;
+        }
+
+        // ── Fallback when Groq AI is offline / invalid API key ─────────────────
+        if ("ASSESSMENT".equals(session.getSessionType())) {
+            int questionNum = (int) messageRepo.countBySessionIdAndRole(session.getId(), "USER");
+            int totalQuestions = ASSESSMENT_QUESTIONS.size() - 1;
+            if (questionNum < totalQuestions) {
+                return ASSESSMENT_QUESTIONS.get(questionNum);
+            } else {
+                return ASSESSMENT_QUESTIONS.get(totalQuestions);
+            }
+        }
+
+        // Casual chat fallback
+        String lower = userContent.toLowerCase();
+        if (lower.contains("anxious") || lower.contains("anxiety") || lower.contains("panic")) {
+            return "I hear you — anxiety can feel really overwhelming. 💚\n\nTry this right now: **box breathing** — inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 3 times. It activates your body's calming response.\n\nWhat's been triggering the anxiety for you?";
+        }
+        if (lower.contains("sad") || lower.contains("depress") || lower.contains("down")) {
+            return "Thank you for sharing that with me. 🌿 Feeling low is genuinely hard to carry.\n\nSmall steps matter — even a 10-minute walk in sunlight can shift your mood. Would you like to talk about what's been weighing on you?";
+        }
+        if (lower.contains("stress") || lower.contains("overwhelm")) {
+            return "When everything piles up, it's easy to feel paralysed. 💚\n\nTry this: identify just **one thing** — the smallest possible action — that would make today better. What's the biggest stressor for you right now?";
+        }
+        return "Thank you for sharing with me. 💚 I'm here and I'm listening.\n\nCould you tell me a bit more about how you've been feeling? I want to make sure I understand what you're going through.";
     }
 
     private String buildCasualOpening() {

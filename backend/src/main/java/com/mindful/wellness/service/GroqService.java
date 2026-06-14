@@ -138,8 +138,8 @@ public class GroqService {
                     String errBody = response.body() != null ? response.body().string() : "no body";
                     log.error("Groq API error {}: {}", response.code(), errBody);
 
-                    // Graceful fallback
-                    return getFallbackResponse(userMessage);
+                    // Return null so calling service can handle role/session-specific fallback
+                    return null;
                 }
 
                 String responseBody = response.body().string();
@@ -152,7 +152,7 @@ public class GroqService {
 
         } catch (Exception e) {
             log.error("Groq API call failed: {}", e.getMessage());
-            return getFallbackResponse(userMessage);
+            return null;
         }
     }
 
@@ -190,7 +190,7 @@ public class GroqService {
         String response = chat(empty, prompt);
 
         // Extract JSON from response (handle cases where model wraps in markdown)
-        if (response.contains("{")) {
+        if (response != null && response.contains("{")) {
             int start = response.indexOf('{');
             int end = response.lastIndexOf('}') + 1;
             if (end > start) return response.substring(start, end);

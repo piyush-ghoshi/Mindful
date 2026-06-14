@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Users, Search, TrendingUp, Calendar, MessageSquare, Loader2, RefreshCw } from 'lucide-react';
 import { apiClient } from '../../services/api';
 
@@ -31,6 +32,7 @@ const relativeDate = (iso?: string) => {
 };
 
 const CounsellorStudentsPage = () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState<StudentRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -204,6 +206,7 @@ const CounsellorStudentsPage = () => {
                         <Calendar size={16} />
                       </button>
                       <button
+                        onClick={() => navigate(`/counsellor/messages?userId=${s.id}`)}
                         title="Message"
                         className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                         <MessageSquare size={16} />

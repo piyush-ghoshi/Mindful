@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { CalendarCheck, Plus, Clock, Video, Phone, MapPin, XCircle, CheckCircle, AlertCircle } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CalendarCheck, Plus, Clock, Video, Phone, MapPin, XCircle, CheckCircle, AlertCircle, MessageSquare } from 'lucide-react';
 import { apiClient } from '../services/api';
 import type { Appointment } from '../types';
 import { useAuthReady } from '../hooks/useAuthReady';
@@ -18,6 +18,7 @@ const STATUS_CONFIG: Record<string, { label: string; light: string; dark: string
 const TYPE_ICONS: Record<string, React.ElementType> = { VIDEO:Video, PHONE:Phone, IN_PERSON:MapPin };
 
 const AppointmentsPage = () => {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -128,6 +129,12 @@ const AppointmentsPage = () => {
                   <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${cfg.light} ${cfg.dark}`}>
                     <StatusIcon size={12}/>{cfg.label}
                   </span>
+                  <button
+                    onClick={() => navigate(`/messages?userId=${appt.counsellorId}`)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-bold transition-all"
+                    title="Message Counsellor">
+                    <MessageSquare size={13} />
+                  </button>
                   {appt.status === 'CONFIRMED' && appt.appointmentType === 'VIDEO' && (
                     <button className="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl text-xs font-bold transition-colors">Join</button>
                   )}

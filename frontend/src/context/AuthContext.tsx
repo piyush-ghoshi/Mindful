@@ -56,6 +56,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           const [firstName = '', ...rest] = displayName.split(' ');
           const lastName = rest.join(' ');
           const storedRole = localStorage.getItem(`mindful_role_${fbUser.uid}`) ?? 'STUDENT';
+          localStorage.setItem(`mindful_role_${fbUser.uid}`, storedRole);
 
           setUser({
             id: fbUser.uid,

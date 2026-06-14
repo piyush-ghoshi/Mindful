@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { MessageSquare, Send, ArrowLeft, Loader2, User } from 'lucide-react';
 import { messagingService, type ConversationDto, type MessageDto } from '../services/messagingService';
+import { apiClient } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useAuthReady } from '../hooks/useAuthReady';
 
@@ -17,6 +19,9 @@ const timeAgo = (iso: string) => {
 const MessagesPage = () => {
   const { user } = useAuth();
   const authReady = useAuthReady();
+  const [searchParams] = useSearchParams();
+  const targetUserId = searchParams.get('userId');
+
   const [conversations, setConversations] = useState<ConversationDto[]>([]);
   const [activeConv, setActiveConv] = useState<ConversationDto | null>(null);
   const [messages, setMessages] = useState<MessageDto[]>([]);
@@ -30,15 +35,49 @@ const MessagesPage = () => {
   // Load conversations on mount
   useEffect(() => {
     if (!authReady) return;
+    setLoadingConvs(true);
     messagingService.getConversations()
-      .then(setConversations)
+      .then(async (convs) => {
+        setConversations(convs);
+        
+        // If there's a target user to message
+        if (targetUserId) {
+          const existing = convs.find(c => c.otherUserId === targetUserId);
+          if (existing) {
+            setActiveConv(existing);
+          } else {
+            // Fetch target user's basic info to construct a temp conversation
+            try {
+              const otherUser = await apiClient.get<any>(`/users/${targetUserId}`);
+              const tempConv: ConversationDto = {
+                id: 'temp-' + targetUserId,
+                otherUserId: targetUserId,
+                otherUserName: `${otherUser.firstName} ${otherUser.lastName}`,
+                otherUserRole: otherUser.role,
+                lastMessagePreview: null,
+                lastMessageAt: null,
+                unreadCount: 0
+              };
+              setConversations(prev => [tempConv, ...prev.filter(c => c.otherUserId !== targetUserId)]);
+              setActiveConv(tempConv);
+            } catch (err) {
+              console.error("Failed to load user for conversation bootstrap:", err);
+              setError("Could not start conversation with requested user.");
+            }
+          }
+        }
+      })
       .catch(() => setError('Could not load conversations.'))
       .finally(() => setLoadingConvs(false));
-  }, [authReady]);
+  }, [authReady, targetUserId]);
 
   // Load messages when active conversation changes
   useEffect(() => {
     if (!activeConv) return;
+    if (activeConv.id.startsWith('temp-')) {
+      setMessages([]);
+      return;
+    }
     setLoadingMsgs(true);
     messagingService.getMessages(activeConv.id)
       .then(page => setMessages([...page.content].reverse())) // API returns newest-first, reverse for display
@@ -59,12 +98,15 @@ const MessagesPage = () => {
     try {
       const msg = await messagingService.sendMessage(activeConv.otherUserId, content);
       setMessages(prev => [...prev, msg]);
-      // Update conversation preview
+      
+      const realConvId = msg.conversationId;
+      // Update conversation preview and replace temp ID with real ID
       setConversations(prev => prev.map(c =>
-        c.id === activeConv.id
-          ? { ...c, lastMessagePreview: content, lastMessageAt: msg.sentAt }
+        c.otherUserId === activeConv.otherUserId
+          ? { ...c, id: realConvId, lastMessagePreview: content, lastMessageAt: msg.sentAt }
           : c
       ));
+      setActiveConv(prev => prev ? { ...prev, id: realConvId, lastMessagePreview: content, lastMessageAt: msg.sentAt } : null);
     } catch {
       setError('Failed to send message.');
       setNewMessage(content); // restore

@@ -46,11 +46,18 @@ async function buildHeaders(contentType = 'application/json'): Promise<HeadersIn
 
   // Send stored role so backend assigns correct role on first sign-in
   try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key?.startsWith('mindful_role_')) {
-        const role = localStorage.getItem(key);
-        if (role) { headers['X-User-Role'] = role; break; }
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const role = localStorage.getItem(`mindful_role_${currentUser.uid}`) ?? 'STUDENT';
+      headers['X-User-Role'] = role;
+    } else {
+      // Fallback if currentUser is not populated yet
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith('mindful_role_')) {
+          const role = localStorage.getItem(key);
+          if (role) { headers['X-User-Role'] = role; break; }
+        }
       }
     }
   } catch { /* ignore */ }
