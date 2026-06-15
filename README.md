@@ -52,34 +52,34 @@ graph TD
 ## 📂 Project Structure
 
 ```
-Minor-2.0/
-├── README.md                           # Main Workspace Documentation
-└── Mindful/
-    ├── backend/                        # Spring Boot Java Application
-    │   ├── src/main/java/com/mindful/wellness/
-    │   │   ├── config/                 # Configurations (Firebase, CORS, beans)
-    │   │   ├── controller/             # REST API Controllers
-    │   │   ├── dto/                    # Data Transfer Objects
-    │   │   ├── entity/                 # JPA database entities
-    │   │   ├── repository/             # Spring Data repositories
-    │   │   ├── security/jwt/           # FirebaseTokenFilter & JwtAuthenticationFilter
-    │   │   └── service/                # Business logic & schedulers
-    │   ├── src/main/resources/
-    │   │   ├── db/migration/           # Flyway PostgreSQL migrations
-    │   │   └── application.properties  # App configurations
-    │   └── pom.xml                     # Maven configuration
-    │
-    └── frontend/                       # Vite React Single Page App
-        ├── src/
-        │   ├── components/             # Reusable React components
-        │   ├── context/                # Context providers (Auth, Theme)
-        │   ├── pages/                  # Student & Auth Pages
-        │   │   └── counsellor/         # Counsellor Pages
-        │   ├── services/               # API clients (apiClient, moodService, etc.)
-        │   ├── types/                  # TypeScript interfaces
-        │   └── index.css               # Global styling
-        ├── .env.local                  # Environment configuration
-        └── package.json                # npm dependencies & scripts
+Mindful/ (Repository Root)
+├── backend/                        # Spring Boot Java Application
+│   ├── src/main/java/com/mindful/wellness/
+│   │   ├── config/                 # Configurations (Firebase, CORS, beans)
+│   │   ├── controller/             # REST API Controllers
+│   │   ├── dto/                    # Data Transfer Objects
+│   │   ├── entity/                 # JPA database entities
+│   │   ├── repository/             # Spring Data repositories
+│   │   ├── security/jwt/           # FirebaseTokenFilter & JwtAuthenticationFilter
+│   │   └── service/                # Business logic & schedulers
+│   ├── src/main/resources/
+│   │   ├── db/migration/           # Flyway PostgreSQL migrations
+│   │   └── application.properties  # App configurations
+│   └── pom.xml                     # Maven configuration
+│
+├── frontend/                       # Vite React Single Page App
+│   ├── src/
+│   │   ├── components/             # Reusable React components
+│   │   ├── context/                # Context providers (Auth, Theme)
+│   │   ├── pages/                  # Student & Auth Pages
+│   │   │   └── counsellor/         # Counsellor Pages
+│   │   ├── services/               # API clients (apiClient, moodService, etc.)
+│   │   ├── types/                  # TypeScript interfaces
+│   │   └── index.css               # Global styling
+│   ├── .env.local                  # Environment configuration
+│   └── package.json                # npm dependencies & scripts
+│
+└── README.md                       # Repository Documentation (This File)
 ```
 
 ---
@@ -100,7 +100,7 @@ docker-compose up -d
 *PostgreSQL is exposed on port `5432` (database `mindful_db`, user `mindful`, password `mindful123`), and Redis is on port `6379`.*
 
 ### Step 2: Configure & Start the Backend
-1. **Config Properties**: Ensure [application.properties](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/resources/application.properties) database parameters match your environment:
+1. **Config Properties**: Ensure [application.properties](backend/src/main/resources/application.properties) database parameters match your environment:
    ```properties
    spring.datasource.url=jdbc:postgresql://localhost:5432/mindful_db
    spring.datasource.username=mindful
@@ -114,7 +114,7 @@ docker-compose up -d
    *The backend starts on `http://localhost:8080` (API endpoint prefix `/api`).*
 
 ### Step 3: Configure & Start the Frontend
-1. **Environment Variables**: Verify your local environment variables in [frontend/.env.local](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/frontend/.env.local):
+1. **Environment Variables**: Verify your local environment variables in [frontend/.env.local](frontend/.env.local):
    ```env
    VITE_API_BASE_URL=http://localhost:8080/api
    VITE_WEBSOCKET_URL=ws://localhost:8080/ws
@@ -133,7 +133,7 @@ docker-compose up -d
 ## 🔧 Authentication & Role-Based Access Control
 
 1. **Identity Provider**: Authentication is handled by **Firebase Authentication** on the client side.
-2. **Auto-Provisioning**: On requests, the frontend sends a Firebase ID token. The [FirebaseTokenFilter](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/java/com/mindful/wellness/security/jwt/FirebaseTokenFilter.java) validates this with the Firebase Admin SDK. If it is the user's first login, it automatically registers a matching record in the local database.
+2. **Auto-Provisioning**: On requests, the frontend sends a Firebase ID token. The [FirebaseTokenFilter](backend/src/main/java/com/mindful/wellness/security/jwt/FirebaseTokenFilter.java) validates this with the Firebase Admin SDK. If it is the user's first login, it automatically registers a matching record in the local database.
 3. **Counsellor Accounts**: All sign-ups default to the `STUDENT` role. To promote an account to `COUNSELLOR`, update the database record:
    ```sql
    UPDATE users SET role = 'COUNSELLOR' WHERE email = 'counsellor@example.com';
@@ -182,21 +182,21 @@ docker-compose up -d
 
 ## 🛠️ Recent Fixes & Improvements
 
-1. **Counsellor Availability Settings**: Fixed a JSON structure mismatch where the frontend sent a standard array list of weekday objects, but the backend [AvailabilityScheduleRepository](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/java/com/mindful/wellness/repository/AvailabilityScheduleRepository.java) and [AvailabilityService.java](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/java/com/mindful/wellness/service/AvailabilityService.java#L97) expected individual weekday lists (e.g. `monday`, `tuesday`). The handler payload was redesigned in [CounsellorAvailabilityPage.tsx](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/frontend/src/pages/counsellor/CounsellorAvailabilityPage.tsx#L65).
-2. **Student Name Visibility in Appointments**: Re-designed the table cell layout in [CounsellorAppointmentsPage.tsx](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/frontend/src/pages/counsellor/CounsellorAppointmentsPage.tsx#L174) to fully render the student's name next to their avatar rather than displaying only the ID suffix.
+1. **Counsellor Availability Settings**: Fixed a JSON structure mismatch where the frontend sent a standard array list of weekday objects, but the backend [AvailabilityScheduleRepository](backend/src/main/java/com/mindful/wellness/repository/AvailabilityScheduleRepository.java) and [AvailabilityService.java](backend/src/main/java/com/mindful/wellness/service/AvailabilityService.java#L97) expected individual weekday lists (e.g. `monday`, `tuesday`). The handler payload was redesigned in [CounsellorAvailabilityPage.tsx](frontend/src/pages/counsellor/CounsellorAvailabilityPage.tsx#L65).
+2. **Student Name Visibility in Appointments**: Re-designed the table cell layout in [CounsellorAppointmentsPage.tsx](frontend/src/pages/counsellor/CounsellorAppointmentsPage.tsx#L174) to fully render the student's name next to their avatar rather than displaying only the ID suffix.
 
 ---
 
 ## 🔍 Troubleshooting
 
 ### Backend Issues
-* **"firebase-key.json not found"**: Ensure the Firebase credential configuration file is placed under [backend/src/main/resources/](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/resources/) and matches the property path `firebase.credentials.path` inside [application.properties](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/resources/application.properties#L58).
+* **"firebase-key.json not found"**: Ensure the Firebase credential configuration file is placed under [backend/src/main/resources/](backend/src/main/resources/) and matches the property path `firebase.credentials.path` inside [application.properties](backend/src/main/resources/application.properties#L58).
 * **"Relation does not exist" or Database Errors**: Flyway database migrations might not have run. Execute `mvn flyway:info` to verify the database migrations status. Ensure the local Postgres container is healthy and running.
 * **Port 8080 in use**: Stop any existing processes using port 8080, or override the port by setting `server.port=8081` in `application.properties`.
 
 ### Frontend Issues
 * **401 Unauthorized Errors**: Check if the Firebase session has expired. Log out of the frontend and log back in to refresh the `firebase_id_token` in local storage.
-* **CORS Errors**: Ensure the origin of the running Vite client is listed in the CORS configuration settings inside [application.properties](file:///c:/Users/piyus/Desktop/Minor-2.0/Mindful/backend/src/main/resources/application.properties#L38) (`security.cors.allowed-origins`).
+* **CORS Errors**: Ensure the origin of the running Vite client is listed in the CORS configuration settings inside [application.properties](backend/src/main/resources/application.properties#L38) (`security.cors.allowed-origins`).
 * **Vite Dev Server Fails**: Delete cache folders and run install fresh:
   ```bash
   rm -rf node_modules dist
