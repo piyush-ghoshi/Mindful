@@ -39,6 +39,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    @org.springframework.beans.factory.annotation.Value("${security.cors.allowed-origins:*}")
+    private String allowedOrigins;
+
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -67,11 +70,20 @@ public class SecurityConfig {
                 // Configure CORS
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                    corsConfig.setAllowedOrigins(java.util.List.of(
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "https://mindful-umber.vercel.app"));
+                    java.util.List<String> originsList = new java.util.ArrayList<>();
+                    if (allowedOrigins != null && !allowedOrigins.trim().isEmpty()) {
+                        for (String origin : allowedOrigins.split(",")) {
+                            originsList.add(origin.trim());
+                        }
+                    }
+                    // Always allow current live Vercel deployments
+                    if (!originsList.contains("https://mindful-teal.vercel.app")) {
+                        originsList.add("https://mindful-teal.vercel.app");
+                    }
+                    if (!originsList.contains("https://mindful-umber.vercel.app")) {
+                        originsList.add("https://mindful-umber.vercel.app");
+                    }
+                    corsConfig.setAllowedOrigins(originsList);
                     corsConfig.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
                     corsConfig.setAllowedHeaders(java.util.List.of("*"));
                     corsConfig.setAllowCredentials(true);
