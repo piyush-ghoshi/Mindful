@@ -25,14 +25,23 @@ import java.util.Properties;
 @Slf4j
 public class SentimentAnalysisUtil {
 
-    private final StanfordCoreNLP pipeline;
+    private StanfordCoreNLP pipeline;
 
     public SentimentAnalysisUtil() {
-        Properties props = new Properties();
-        props.setProperty("annotators", "tokenize,ssplit,parse,sentiment");
-        props.setProperty("ssplit.isOneSentence", "true");
-        props.setProperty("tokenize.language", "en");
-        this.pipeline = new StanfordCoreNLP(props);
+        // Constructor is lightweight to ensure fast startup on Render
+    }
+
+    private synchronized StanfordCoreNLP getPipeline() {
+        if (this.pipeline == null) {
+            log.info("Initializing StanfordCoreNLP pipeline lazily (this will load sentiment models)...");
+            Properties props = new Properties();
+            props.setProperty("annotators", "tokenize,ssplit,parse,sentiment");
+            props.setProperty("ssplit.isOneSentence", "true");
+            props.setProperty("tokenize.language", "en");
+            this.pipeline = new StanfordCoreNLP(props);
+            log.info("StanfordCoreNLP pipeline successfully initialized.");
+        }
+        return this.pipeline;
     }
 
     /**
@@ -48,7 +57,7 @@ public class SentimentAnalysisUtil {
 
         try {
             Annotation annotation = new Annotation(text);
-            pipeline.annotate(annotation);
+            getPipeline().annotate(annotation);
 
             List<CoreMap> sentences = annotation.get(CoreAnnotations.SentencesAnnotation.class);
             if (sentences == null || sentences.isEmpty()) {
@@ -91,7 +100,8 @@ public class SentimentAnalysisUtil {
      * Get sentiment category based on score.
      * 
      * @param sentimentScore the sentiment score
-     * @return sentiment category (VERY_NEGATIVE, NEGATIVE, NEUTRAL, POSITIVE, VERY_POSITIVE)
+     * @return sentiment category (VERY_NEGATIVE, NEGATIVE, NEUTRAL, POSITIVE,
+     *         VERY_POSITIVE)
      */
     public String getSentimentCategory(Double sentimentScore) {
         if (sentimentScore == null) {
