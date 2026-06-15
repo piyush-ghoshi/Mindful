@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { isConfigValid } from './config/firebase';
 
 // ── Public pages ──────────────────────────────────────────────────────────────
 import LoginPage         from './pages/LoginPage';
@@ -50,6 +51,44 @@ const CounsellorRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 function App() {
+  if (!isConfigValid) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-slate-100 p-6">
+        <div className="max-w-md w-full bg-slate-800 border border-slate-700 rounded-xl p-8 shadow-2xl space-y-6">
+          <div className="flex items-center justify-center w-16 h-16 bg-amber-500/10 text-amber-500 rounded-full mx-auto">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl font-bold text-slate-50">Firebase Configuration Missing</h1>
+            <p className="text-slate-400 text-sm">
+              The application could not start because the required environment variables are not configured in your deployment.
+            </p>
+          </div>
+
+          <div className="bg-slate-950 rounded-lg p-4 font-mono text-xs text-teal-400 space-y-1 border border-slate-800">
+            <p className="text-slate-500">// Missing Vercel Environment Variables:</p>
+            <p>• VITE_FIREBASE_API_KEY</p>
+            <p>• VITE_FIREBASE_AUTH_DOMAIN</p>
+            <p>• VITE_FIREBASE_PROJECT_ID</p>
+            <p>• VITE_API_BASE_URL (should be /api)</p>
+          </div>
+
+          <div className="space-y-3 text-left">
+            <h3 className="text-sm font-semibold text-slate-200">How to fix this:</h3>
+            <ol className="text-xs text-slate-400 list-decimal list-inside space-y-2 leading-relaxed">
+              <li>Go to your Vercel Project Dashboard → Settings → Environment Variables.</li>
+              <li>Add the missing keys (copy values from your local <code>.env.local</code> file).</li>
+              <li>Go to the Deployments tab, click the three dots on your latest deployment, and select <strong>Redeploy</strong>.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const { loading } = useAuth();
 
   if (loading) {
