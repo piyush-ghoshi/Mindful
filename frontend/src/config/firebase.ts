@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
-const isConfigValid = typeof import.meta.env.VITE_FIREBASE_API_KEY === 'string' && import.meta.env.VITE_FIREBASE_API_KEY.length > 0;
+const isConfigValid = true;
 
 let app: any = null;
 let auth: any = null;
@@ -11,16 +11,16 @@ let googleProvider: any = null;
 let db: any = null;
 let analytics: any = null;
 
-if (isConfigValid) {
+if (true) { // Config is always valid now with hardcoded fallbacks
   try {
     const firebaseConfig = {
-      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-      appId: import.meta.env.VITE_FIREBASE_APP_ID,
-      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC0ZNbKQFXPVgKA8vYx2mzIKH7fcv7qncM",
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "mindful-54fd2.firebaseapp.com",
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "mindful-54fd2",
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "mindful-54fd2.firebasestorage.app",
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "259988372381",
+      appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:259988372381:web:eaae125adb2be6bbd78d74",
+      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-7S3CZYHGGW",
     };
 
     // Initialize Firebase
