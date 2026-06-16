@@ -1,4 +1,4 @@
-# Mindful Wellness Platform
+# 💚 Mindful Wellness Platform
 
 Welcome to **Mindful**, a premium, full-stack student mental health and wellness platform designed to facilitate secure support, self-tracking, and session booking between students and professional counsellors. 
 
@@ -6,7 +6,14 @@ This repository contains both the **Spring Boot backend** and the **Vite + React
 
 ---
 
-##  Technical Architecture
+## 🌐 Live Deployments
+
+* **Frontend (Vercel)**: [https://mindful-umber.vercel.app](https://mindful-umber.vercel.app) (Alternative: [https://mindful-teal.vercel.app](https://mindful-teal.vercel.app))
+* **Backend API (Render)**: [https://mindful-backend-ysue.onrender.com](https://mindful-backend-ysue.onrender.com)
+
+---
+
+## 🚀 Technical Architecture
 
 The platform is built as a decoupled full-stack application using a modern, scalable architecture:
 
@@ -29,27 +36,27 @@ graph TD
 
 ---
 
-##  Key Features
+## 🌟 Key Features
 
 ### 👤 Student Section
-*  **Interactive Dashboard**: View wellness metrics, daily logs, and upcoming sessions at a glance.
-*  **Mood Journaling**: Track emotions, energy levels, sleep quality, and triggers. Maps 1-10 UI scores to 1-5 database entries.
-*  **Session Booking**: Select preferred counsellors, dates, time slots, and session types (Video, Phone, In-person) with automatic double-booking prevention.
-*  **MindBot Chatbot**: An AI wellness companion powered by Groq AI. Supports casual conversation and comprehensive wellness assessments (which generate downloadable mental health reports).
-*  **Community Forum**: Safe, category-filtered space to share thoughts, create posts (optionally anonymous), like, and comment.
-*  **Wellness Tracker**: Personal goal-setting tool with gamified level-ups, points, and unlockable badges saved to browser storage.
-*  **Crisis Support**: Dedicated helpline and resource guide page.
+* 📊 **Interactive Dashboard**: View wellness metrics, daily logs, and upcoming sessions at a glance.
+* 📝 **Mood Journaling**: Track emotions, energy levels, sleep quality, and triggers. Maps 1-10 UI scores to 1-5 database entries.
+* 👥 **Session Booking**: Select preferred counsellors, dates, time slots, and session types (Video, Phone, In-person) with automatic double-booking prevention.
+* 💬 **MindBot Chatbot**: An AI wellness companion powered by Groq AI. Supports casual conversation and comprehensive wellness assessments (which generate downloadable mental health reports).
+* 👥 **Community Forum**: Safe, category-filtered space to share thoughts, create posts (optionally anonymous), like, and comment.
+* 🎮 **Wellness Tracker**: Personal goal-setting tool with gamified level-ups, points, and unlockable badges saved to browser storage.
+* 🆘 **Crisis Support**: Dedicated helpline and resource guide page.
 
 ### 🩺 Counsellor Section
-*  **Counsellor Dashboard**: Overview of unique student cases, average rating, session metrics, and upcoming sessions.
-*  **Appointment Manager**: Weekly calendar view to accept, reschedule, or cancel student sessions, and mark sessions as complete with session notes.
-*  **Availability Settings**: Set standard weekly working hours and calendar leave exceptions dynamically.
-*  **My Students Directory**: Historical lists of unique student cases with total sessions, last visit date, and average mood ratings.
-*  **Professional Profile**: Manage public credentials, including license number, specialisations, bio, qualifications, and session parameters.
+* 📊 **Counsellor Dashboard**: Overview of unique student cases, average rating, session metrics, and upcoming sessions.
+* 📅 **Appointment Manager**: Weekly calendar view to accept, reschedule, or cancel student sessions, and mark sessions as complete with session notes.
+* ⚙️ **Availability Settings**: Set standard weekly working hours and calendar leave exceptions dynamically.
+* 🗂️ **My Students Directory**: Historical lists of unique student cases with total sessions, last visit date, and average mood ratings.
+* 👤 **Professional Profile**: Manage public credentials, including license number, specialisations, bio, qualifications, and session parameters.
 
 ---
 
-##  Project Structure
+## 📂 Project Structure
 
 ```
 Mindful/ (Repository Root)
@@ -84,7 +91,7 @@ Mindful/ (Repository Root)
 
 ---
 
-##  Setup & Launch Guide
+## ⚡ Setup & Launch Guide
 
 ### Prerequisites
 * Java 17+ & Maven 3.8+
