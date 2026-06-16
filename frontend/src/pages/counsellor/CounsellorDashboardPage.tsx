@@ -6,7 +6,7 @@ import {
   Users, FileText,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { apiClient } from '../../services/api';
+import { appointmentService } from '../../services/appointmentService';
 import type { Appointment } from '../../types';
 
 const StatCard = ({ label, value, sub, icon: Icon, color }: {
@@ -32,8 +32,8 @@ const CounsellorDashboardPage = () => {
 
   const fetchAppointments = () => {
     setLoading(true);
-    apiClient.get<{ content?: Appointment[]; data?: Appointment[] }>('/appointments')
-      .then(res => setAppointments(Array.isArray(res.content ?? res.data) ? (res.content ?? res.data ?? []) : []))
+    appointmentService.getAppointments()
+      .then(setAppointments)
       .catch(() => {})
       .finally(() => setLoading(false));
   };
@@ -45,7 +45,7 @@ const CounsellorDashboardPage = () => {
   const handleConfirm = async (id: string) => {
     try {
       setLoading(true);
-      await apiClient.post(`/appointments/${id}/confirm`);
+      await appointmentService.confirm(id);
       fetchAppointments();
     } catch (err) {
       console.error('Failed to confirm appointment:', err);
@@ -56,7 +56,7 @@ const CounsellorDashboardPage = () => {
   const handleDecline = async (id: string) => {
     try {
       setLoading(true);
-      await apiClient.post(`/appointments/${id}/cancel`, { reason: 'Declined by counsellor' });
+      await appointmentService.cancel(id, 'Declined by counsellor');
       fetchAppointments();
     } catch (err) {
       console.error('Failed to decline appointment:', err);
