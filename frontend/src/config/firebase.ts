@@ -15,7 +15,12 @@ if (true) { // Config is always valid now with hardcoded fallbacks
   try {
     const firebaseConfig = {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC0ZNbKQFXPVgKA8vYx2mzIKH7fcv7qncM",
-      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "mindful-54fd2.firebaseapp.com",
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 
+                  (typeof window !== 'undefined' && 
+                   window.location.hostname !== 'localhost' && 
+                   !window.location.hostname.match(/^\d+\.\d+\.\d+\.\d+$/)
+                    ? window.location.hostname 
+                    : "mindful-54fd2.firebaseapp.com"),
       projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "mindful-54fd2",
       storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "mindful-54fd2.firebasestorage.app",
       messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "259988372381",

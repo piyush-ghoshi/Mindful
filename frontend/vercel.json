@@ -5,6 +5,10 @@
       "destination": "https://mindful-backend-ysue.onrender.com/api/:path*"
     },
     {
+      "source": "/__/auth/:path*",
+      "destination": "https://mindful-54fd2.firebaseapp.com/__/auth/:path*"
+    },
+    {
       "source": "/((?!assets/|favicon.ico).*)",
       "destination": "/index.html"
     }
