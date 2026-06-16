@@ -30,12 +30,39 @@ const CounsellorDashboardPage = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchAppointments = () => {
+    setLoading(true);
     apiClient.get<{ content?: Appointment[]; data?: Appointment[] }>('/appointments')
       .then(res => setAppointments(Array.isArray(res.content ?? res.data) ? (res.content ?? res.data ?? []) : []))
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchAppointments();
   }, []);
+
+  const handleConfirm = async (id: string) => {
+    try {
+      setLoading(true);
+      await apiClient.post(`/appointments/${id}/confirm`);
+      fetchAppointments();
+    } catch (err) {
+      console.error('Failed to confirm appointment:', err);
+      setLoading(false);
+    }
+  };
+
+  const handleDecline = async (id: string) => {
+    try {
+      setLoading(true);
+      await apiClient.post(`/appointments/${id}/cancel`, { reason: 'Declined by counsellor' });
+      fetchAppointments();
+    } catch (err) {
+      console.error('Failed to decline appointment:', err);
+      setLoading(false);
+    }
+  };
 
   const now = new Date();
   const today = appointments.filter(a => {
@@ -44,6 +71,18 @@ const CounsellorDashboardPage = () => {
   });
   const pending = appointments.filter(a => a.status === 'SCHEDULED');
   const upcoming = appointments.filter(a => new Date(a.scheduledStartTime) > now && a.status !== 'CANCELLED').slice(0, 5);
+
+  const uniqueStudentsCount = new Set(appointments.map(a => a.studentId).filter(Boolean)).size;
+
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
+  startOfWeek.setHours(0, 0, 0, 0);
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 7);
+  const weekSessions = appointments.filter(a => {
+    const d = new Date(a.scheduledStartTime);
+    return d >= startOfWeek && d < endOfWeek && a.status !== 'CANCELLED';
+  });
 
   const greeting = () => {
     const h = now.getHours();
@@ -95,9 +134,9 @@ const CounsellorDashboardPage = () => {
           icon={CalendarCheck} color="text-teal-600 dark:text-teal-400" />
         <StatCard label="Pending Requests" value={pending.length} sub="Action required"
           icon={AlertCircle} color="text-amber-600 dark:text-amber-400" />
-        <StatCard label="Total Students" value="—" sub="Under your care"
+        <StatCard label="Total Students" value={uniqueStudentsCount} sub="Under your care"
           icon={Users} color="text-violet-600 dark:text-violet-400" />
-        <StatCard label="This Week" value={appointments.length} sub="Total sessions"
+        <StatCard label="This Week" value={weekSessions.length} sub="Total sessions"
           icon={TrendingUp} color="text-sky-600 dark:text-sky-400" />
       </div>
 
@@ -181,10 +220,10 @@ const CounsellorDashboardPage = () => {
                         <td className="py-3.5 px-5 text-right">
                           {isPending ? (
                             <div className="flex justify-end gap-2">
-                              <button className="px-3 py-1.5 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                              <button onClick={() => handleDecline(appt.id)} className="px-3 py-1.5 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                                 Decline
                               </button>
-                              <button className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-semibold transition-colors">
+                              <button onClick={() => handleConfirm(appt.id)} className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-semibold transition-colors">
                                 Accept
                               </button>
                             </div>

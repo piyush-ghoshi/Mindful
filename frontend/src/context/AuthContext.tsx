@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { firebaseAuthService } from '../services/firebaseAuthService';
-import { setAuthToken } from '../services/api';
+import { setAuthToken, apiClient } from '../services/api';
 import type { AuthResponse, User } from '../types';
 
 /** Holds the pending Google user info while the profile-completion modal is open */
@@ -55,7 +55,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           const displayName = fbUser.displayName ?? '';
           const [firstName = '', ...rest] = displayName.split(' ');
           const lastName = rest.join(' ');
-          const storedRole = localStorage.getItem(`mindful_role_${fbUser.uid}`) ?? 'STUDENT';
+          let storedRole = localStorage.getItem(`mindful_role_${fbUser.uid}`) ?? 'STUDENT';
+
+          // Fetch profile from backend to sync role (essential if role updated in database directly)
+          try {
+            const profile = await apiClient.get<any>(`/users/${fbUser.uid}`);
+            if (profile && profile.role) {
+              storedRole = profile.role;
+            }
+          } catch (e) {
+            console.warn('Could not fetch user profile from backend, using local/default role:', e);
+          }
           localStorage.setItem(`mindful_role_${fbUser.uid}`, storedRole);
 
           setUser({

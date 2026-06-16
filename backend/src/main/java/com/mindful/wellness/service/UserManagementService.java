@@ -124,6 +124,24 @@ public class UserManagementService {
      * @return list of matching counsellors
      */
     public List<CounsellorProfileDto> getCounsellors(CounsellorFiltersDto filters) {
+        // Ensure all users with COUNSELLOR role have a CounsellorProfile record
+        List<User> counsellorUsers = userRepository.findByRole(com.mindful.wellness.entity.UserRole.COUNSELLOR);
+        for (User user : counsellorUsers) {
+            if (!counsellorProfileRepository.findByUserId(user.getId()).isPresent()) {
+                CounsellorProfile newProfile = CounsellorProfile.builder()
+                        .userId(user.getId())
+                        .counsellorId("COUN-" + user.getId().toString().substring(0, 8))
+                        .licenseNumber("LIC-" + user.getId().toString().substring(0, 8))
+                        .rating(0.0)
+                        .totalAppointments(0)
+                        .maxAppointmentsPerDay(8)
+                        .appointmentDuration(30)
+                        .isAcceptingNewStudents(true)
+                        .build();
+                counsellorProfileRepository.save(newProfile);
+            }
+        }
+
         List<CounsellorProfile> counsellors;
 
         if (filters.getInstitutionId() != null) {
