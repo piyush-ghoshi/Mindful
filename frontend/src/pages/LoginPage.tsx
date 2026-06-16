@@ -13,12 +13,20 @@ const GoogleIcon = () => (
   </svg>
 );
 
+import { useEffect } from 'react';
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, signInWithGoogle, loading, error: authError } = useAuth();
+  const { login, signInWithGoogle, loading, error: authError, isAuthenticated } = useAuth();
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, from]);
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -55,10 +63,7 @@ const LoginPage = () => {
   const handleGoogle = async () => {
     try {
       setGoogleLoading(true);
-      const { isNewUser } = await signInWithGoogle();
-      // New user → GoogleProfileModal will appear (pendingGoogleUser is set in context)
-      // Existing user → navigate straight to dashboard
-      if (!isNewUser) navigate(from, { replace: true });
+      await signInWithGoogle();
     } catch { /* shown via authError */ }
     finally { setGoogleLoading(false); }
   };

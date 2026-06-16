@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User as FirebaseUser } from 'firebase/auth';
-import { firebaseAuthService, type GoogleSignInResult } from '../services/firebaseAuthService';
+import { firebaseAuthService } from '../services/firebaseAuthService';
 import { setAuthToken } from '../services/api';
 import type { AuthResponse, User } from '../types';
 
@@ -20,8 +20,8 @@ interface AuthContextType {
   pendingGoogleUser: PendingGoogleUser | null;
   register: (email: string, password: string, firstName: string, lastName: string, role?: string) => Promise<AuthResponse>;
   login: (email: string, password: string) => Promise<AuthResponse>;
-  /** Triggers Google popup. If new user, sets pendingGoogleUser instead of navigating. */
-  signInWithGoogle: () => Promise<{ isNewUser: boolean }>;
+  /** Triggers Google redirect. If new user, sets pendingGoogleUser after redirect back. */
+  signInWithGoogle: () => Promise<void>;
   /** Called after the profile-completion modal is submitted */
   completeGoogleSignUp: (firstName: string, lastName: string, role: string) => Promise<void>;
   /** Dismiss pending state (e.g. user closes modal) */
@@ -82,6 +82,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return unsubscribe;
   }, []);
 
+  // ── Firebase auth redirect listener ────────────────────────────────────────
+  useEffect(() => {
+    const handleRedirect = async () => {
+      try {
+        const result = await firebaseAuthService.handleRedirectResult();
+        if (result && result.isNewUser) {
+          setPendingGoogleUser({
+            suggestedFirstName: result.suggestedFirstName,
+            suggestedLastName: result.suggestedLastName,
+          });
+        }
+      } catch (err) {
+        console.error('Redirect auth error:', err);
+        setError(firebaseAuthService.handleAuthError(err).message);
+      }
+    };
+    handleRedirect();
+  }, []);
+
   // ── Helpers ───────────────────────────────────────────────────────────────
   const withLoading = async <T,>(fn: () => Promise<T>): Promise<T> => {
     setError(null);
@@ -110,32 +129,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * - New user       → resolves with { isNewUser: true }, pendingGoogleUser is set,
    *                    caller shows the profile-completion modal.
    */
-  const signInWithGoogle = async (): Promise<{ isNewUser: boolean }> => {
+  const signInWithGoogle = async (): Promise<void> => {
     setError(null);
     setLoading(true);
-    let result: GoogleSignInResult;
     try {
-      result = await firebaseAuthService.loginWithGoogle();
+      await firebaseAuthService.loginWithGoogleRedirect();
     } catch (err) {
       const msg = firebaseAuthService.handleAuthError(err).message;
       setError(msg);
       setLoading(false);
       throw new Error(msg);
     }
-
-    if (result.isNewUser) {
-      // Don't navigate yet — surface the profile-completion modal
-      setPendingGoogleUser({
-        suggestedFirstName: result.suggestedFirstName,
-        suggestedLastName: result.suggestedLastName,
-      });
-      setLoading(false);
-      return { isNewUser: true };
-    }
-
-    // Existing user — auth state listener will update `user`
-    setLoading(false);
-    return { isNewUser: false };
   };
 
   /**

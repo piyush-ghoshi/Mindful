@@ -6,6 +6,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   getAdditionalUserInfo,
   signOut,
   onAuthStateChanged,
@@ -73,9 +75,38 @@ export class FirebaseAuthService {
     return this.buildAuthResponse(firebaseUser, firstName, lastName);
   }
 
-  /** Google sign-in / sign-up */
+  /** Google sign-in / sign-up (Popup) */
   async loginWithGoogle(): Promise<GoogleSignInResult> {
     const credential = await signInWithPopup(auth, googleProvider);
+    const firebaseUser = credential.user;
+    const additionalInfo = getAdditionalUserInfo(credential);
+
+    const idToken = await firebaseUser.getIdToken();
+    this.storeIdToken(idToken);
+
+    const displayName = firebaseUser.displayName ?? '';
+    const [firstName = '', ...rest] = displayName.split(' ');
+    const lastName = rest.join(' ');
+
+    return {
+      authResponse: this.buildAuthResponse(firebaseUser, firstName, lastName),
+      isNewUser: additionalInfo?.isNewUser ?? false,
+      suggestedFirstName: firstName,
+      suggestedLastName: lastName,
+    };
+  }
+
+  /** Start Google sign-in redirect */
+  async loginWithGoogleRedirect(): Promise<void> {
+    if (!googleProvider) throw new Error('Firebase Google Auth Provider not configured');
+    await signInWithRedirect(auth, googleProvider);
+  }
+
+  /** Handle redirect result after returning to the page */
+  async handleRedirectResult(): Promise<GoogleSignInResult | null> {
+    const credential = await getRedirectResult(auth);
+    if (!credential) return null;
+
     const firebaseUser = credential.user;
     const additionalInfo = getAdditionalUserInfo(credential);
 

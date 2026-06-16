@@ -36,9 +36,17 @@ const ROLES = [
   },
 ];
 
+import { useEffect } from 'react';
+
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const { register, signInWithGoogle, loading, error: authError } = useAuth();
+  const { register, signInWithGoogle, loading, error: authError, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '',
@@ -81,10 +89,7 @@ const RegisterPage = () => {
   const handleGoogle = async () => {
     try {
       setGoogleLoading(true);
-      const { isNewUser } = await signInWithGoogle();
-      // New user → GoogleProfileModal appears automatically (pendingGoogleUser set in context)
-      // Returning user → go straight to dashboard
-      if (!isNewUser) navigate('/dashboard');
+      await signInWithGoogle();
     } catch { /* shown via authError */ }
     finally { setGoogleLoading(false); }
   };
