@@ -63,7 +63,8 @@ const LoginPage = () => {
   const handleGoogle = async () => {
     try {
       setGoogleLoading(true);
-      await signInWithGoogle();
+      const { isNewUser } = await signInWithGoogle();
+      if (!isNewUser) navigate(from, { replace: true });
     } catch { /* shown via authError */ }
     finally { setGoogleLoading(false); }
   };

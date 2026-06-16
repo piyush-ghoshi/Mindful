@@ -20,8 +20,8 @@ interface AuthContextType {
   pendingGoogleUser: PendingGoogleUser | null;
   register: (email: string, password: string, firstName: string, lastName: string, role?: string) => Promise<AuthResponse>;
   login: (email: string, password: string) => Promise<AuthResponse>;
-  /** Triggers Google redirect. If new user, sets pendingGoogleUser after redirect back. */
-  signInWithGoogle: () => Promise<void>;
+  /** Triggers Google popup. If new user, sets pendingGoogleUser instead of navigating. */
+  signInWithGoogle: () => Promise<{ isNewUser: boolean }>;
   /** Called after the profile-completion modal is submitted */
   completeGoogleSignUp: (firstName: string, lastName: string, role: string) => Promise<void>;
   /** Dismiss pending state (e.g. user closes modal) */
@@ -82,25 +82,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return unsubscribe;
   }, []);
 
-  // ── Firebase auth redirect listener ────────────────────────────────────────
-  useEffect(() => {
-    const handleRedirect = async () => {
-      try {
-        const result = await firebaseAuthService.handleRedirectResult();
-        if (result && result.isNewUser) {
-          setPendingGoogleUser({
-            suggestedFirstName: result.suggestedFirstName,
-            suggestedLastName: result.suggestedLastName,
-          });
-        }
-      } catch (err) {
-        console.error('Redirect auth error:', err);
-        setError(firebaseAuthService.handleAuthError(err).message);
-      }
-    };
-    handleRedirect();
-  }, []);
-
   // ── Helpers ───────────────────────────────────────────────────────────────
   const withLoading = async <T,>(fn: () => Promise<T>): Promise<T> => {
     setError(null);
@@ -129,17 +110,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    * - New user       → resolves with { isNewUser: true }, pendingGoogleUser is set,
    *                    caller shows the profile-completion modal.
    */
-  const signInWithGoogle = async (): Promise<void> => {
+  const signInWithGoogle = (): Promise<{ isNewUser: boolean }> => {
     setError(null);
-    setLoading(true);
-    try {
-      await firebaseAuthService.loginWithGoogleRedirect();
-    } catch (err) {
-      const msg = firebaseAuthService.handleAuthError(err).message;
-      setError(msg);
-      setLoading(false);
-      throw new Error(msg);
-    }
+    return firebaseAuthService.loginWithGoogle()
+      .then((result) => {
+        if (result.isNewUser) {
+          setPendingGoogleUser({
+            suggestedFirstName: result.suggestedFirstName,
+            suggestedLastName: result.suggestedLastName,
+          });
+        }
+        return { isNewUser: result.isNewUser };
+      })
+      .catch((err) => {
+        const msg = firebaseAuthService.handleAuthError(err).message;
+        setError(msg);
+        throw new Error(msg);
+      });
   };
 
   /**

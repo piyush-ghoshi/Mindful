@@ -89,7 +89,8 @@ const RegisterPage = () => {
   const handleGoogle = async () => {
     try {
       setGoogleLoading(true);
-      await signInWithGoogle();
+      const { isNewUser } = await signInWithGoogle();
+      if (!isNewUser) navigate('/dashboard');
     } catch { /* shown via authError */ }
     finally { setGoogleLoading(false); }
   };
