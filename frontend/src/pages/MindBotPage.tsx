@@ -172,7 +172,7 @@ const MindBotPage = () => {
     setLoading(true);
     chatService.getActiveSession()
       .then(sess => {
-        if (sess) {
+        if (sess && sess.messages) {
           setSession(sess);
           setMessages(sess.messages);
         }

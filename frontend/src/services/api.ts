@@ -75,6 +75,9 @@ export class ApiClient {
   }
 
   private async handleResponse<T>(response: Response): Promise<T> {
+    if (response.status === 204 || response.status === 205) {
+      return null as unknown as T;
+    }
     if (!response.ok) {
       const error: ApiError = { code: response.status.toString(), message: response.statusText };
       try {
