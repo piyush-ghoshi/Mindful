@@ -287,6 +287,9 @@ public class ChatService {
         while (exercises.size()   < 5) exercises.add("Daily 10-minute mindful movement");
         while (meditations.size() < 5) meditations.add("5-minute breathing exercise morning and evening");
 
+        // Clamp wellness score to valid DB constraint range [0, 100]
+        wellnessScore = Math.max(0, Math.min(100, wellnessScore));
+
         MentalHealthReport report = MentalHealthReport.builder()
                 .userId(userId)
                 .sessionId(sessionId)
@@ -304,6 +307,7 @@ public class ChatService {
 
         report = reportRepo.save(report);
         session.setReportGenerated(true);
+        session.setIsActive(false); // End session when report is generated
         sessionRepo.save(session);
 
         log.info("Report generated for user {}: phase={} level={}", userId, phaseNum, severity);

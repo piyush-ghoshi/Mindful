@@ -245,6 +245,7 @@ const MindBotPage = () => {
       const r = await chatService.generateReport(session.id);
       setReport(r);
       setReports(prev => [r, ...prev.filter(x => x.id !== r.id)]);
+      setSession(prev => prev ? { ...prev, reportGenerated: true, isActive: false } : null);
       setShowReport(true);
     } catch (e: unknown) {
       const msg = (e as { message?: string })?.message ?? 'Failed to generate report';
@@ -381,6 +382,14 @@ const MindBotPage = () => {
               </select>
               <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
+          )}
+
+          {session && session.isActive && messages.length >= 3 && (
+            <button onClick={handleGenerateReport} disabled={generatingReport}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 transition-all shadow-sm">
+              {generatingReport ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
+              Generate Report
+            </button>
           )}
 
           {session && (
