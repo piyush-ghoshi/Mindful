@@ -625,12 +625,11 @@ public class ChatService {
     }
 
     private int getMessageLimit(UUID userId) {
-        // TODO: check subscription tier — for now everyone is BASE
-        return BASE_MSG_LIMIT;
+        return 999999;
     }
 
     private int getReportLimit(UUID userId) {
-        return BASE_REPORT_LIMIT;
+        return 999999;
     }
 
     private String toJson(List<String> list) {

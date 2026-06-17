@@ -117,9 +117,9 @@ const SessionPicker = ({ onStart, rateLimitInfo }: {
     {/* Rate limit info */}
     {rateLimitInfo && (
       <div className="flex items-center gap-6 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 rounded-xl px-5 py-3 border border-slate-100 dark:border-slate-700/50">
-        <span>💬 {rateLimitInfo.messagesUsedToday}/{rateLimitInfo.messagesDailyLimit} msgs today</span>
-        <span>📋 {rateLimitInfo.reportsUsedToday}/{rateLimitInfo.reportsDailyLimit} reports today</span>
-        <span className="text-teal-600 dark:text-teal-400 font-semibold">Base Plan</span>
+        <span>💬 Unlimited Chats</span>
+        <span>📋 Unlimited Reports</span>
+        <span className="text-teal-600 dark:text-teal-400 font-semibold">Premium Enabled</span>
       </div>
     )}
   </div>
@@ -547,15 +547,7 @@ const MindBotPage = () => {
                   </div>
                 )}
 
-                {/* Rate limit bar */}
-                <div className="flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-500 px-1">
-                  <span className="font-semibold">Daily:</span>
-                  <div className="flex-1 h-1 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                    <div className="h-full bg-teal-500 rounded-full transition-all"
-                      style={{ width: `${((session.messageCount || 0) / (rateLimitInfo?.messagesDailyLimit ?? 10)) * 100}%` }} />
-                  </div>
-                  <span>{session.messageCount}/{rateLimitInfo?.messagesDailyLimit ?? 10} msgs</span>
-                </div>
+
 
                 {/* Text input row */}
                 <div className="flex items-end gap-2">
