@@ -121,8 +121,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
    *                    caller shows the profile-completion modal.
    */
   const signInWithGoogle = (): Promise<{ isNewUser: boolean }> => {
+    const promise = firebaseAuthService.loginWithGoogle();
     setError(null);
-    return firebaseAuthService.loginWithGoogle()
+    return promise
       .then((result) => {
         if (result.isNewUser) {
           setPendingGoogleUser({

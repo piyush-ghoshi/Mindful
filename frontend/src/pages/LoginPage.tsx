@@ -60,13 +60,15 @@ const LoginPage = () => {
     finally { setSubmitting(false); }
   };
 
-  const handleGoogle = async () => {
-    try {
-      setGoogleLoading(true);
-      const { isNewUser } = await signInWithGoogle();
-      if (!isNewUser) navigate(from, { replace: true });
-    } catch { /* shown via authError */ }
-    finally { setGoogleLoading(false); }
+  const handleGoogle = () => {
+    const promise = signInWithGoogle();
+    setGoogleLoading(true);
+    promise
+      .then(({ isNewUser }) => {
+        if (!isNewUser) navigate(from, { replace: true });
+      })
+      .catch(() => { /* shown via authError */ })
+      .finally(() => setGoogleLoading(false));
   };
 
   const inputCls = (err: string) =>

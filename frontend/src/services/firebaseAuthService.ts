@@ -76,24 +76,30 @@ export class FirebaseAuthService {
   }
 
   /** Google sign-in / sign-up (Popup) */
-  async loginWithGoogle(): Promise<GoogleSignInResult> {
-    const credential = await signInWithPopup(auth, googleProvider);
-    const firebaseUser = credential.user;
-    const additionalInfo = getAdditionalUserInfo(credential);
+  loginWithGoogle(): Promise<GoogleSignInResult> {
+    try {
+      const popupPromise = signInWithPopup(auth, googleProvider);
+      return popupPromise.then(async (credential) => {
+        const firebaseUser = credential.user;
+        const additionalInfo = getAdditionalUserInfo(credential);
 
-    const idToken = await firebaseUser.getIdToken();
-    this.storeIdToken(idToken);
+        const idToken = await firebaseUser.getIdToken();
+        this.storeIdToken(idToken);
 
-    const displayName = firebaseUser.displayName ?? '';
-    const [firstName = '', ...rest] = displayName.split(' ');
-    const lastName = rest.join(' ');
+        const displayName = firebaseUser.displayName ?? '';
+        const [firstName = '', ...rest] = displayName.split(' ');
+        const lastName = rest.join(' ');
 
-    return {
-      authResponse: this.buildAuthResponse(firebaseUser, firstName, lastName),
-      isNewUser: additionalInfo?.isNewUser ?? false,
-      suggestedFirstName: firstName,
-      suggestedLastName: lastName,
-    };
+        return {
+          authResponse: this.buildAuthResponse(firebaseUser, firstName, lastName),
+          isNewUser: additionalInfo?.isNewUser ?? false,
+          suggestedFirstName: firstName,
+          suggestedLastName: lastName,
+        };
+      });
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   /** Start Google sign-in redirect */
