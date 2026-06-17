@@ -444,6 +444,54 @@ public class ChatService {
         }
 
         // ── Fallback when Groq AI is offline / invalid API key ─────────────────
+        String lower = userContent.toLowerCase().trim();
+
+        // 1. Misuse / Educational / Unrelated testing (Preempt everything)
+        if (lower.contains("code") || lower.contains("programming") || lower.contains("math") || 
+            lower.contains("history") || lower.contains("science") || lower.contains("educational") || 
+            lower.contains("homework") || lower.contains("essay") || lower.contains("physics") ||
+            lower.contains("chemistry") || lower.contains("biology") || lower.contains("algebra") ||
+            lower.contains("calculus") || lower.contains("write a program") || lower.contains("write code") ||
+            lower.contains("solve ") || lower.contains("calculate") || lower.contains("programmer") ||
+            lower.contains("java") || lower.contains("python") || lower.contains("javascript") ||
+            lower.contains("teach me")) {
+            return "I'm there to help your mental state and analyse your mental state, do not misuse me.";
+        }
+
+        // 2. Hi / Hello
+        if (lower.matches("^(hi|hello|hey|greetings|yo|hello there|hi there)(\\s+.*|\\!|\\.|\\,)?$")) {
+            return "Hello! 💚 How can I help you today? What's on your mind?";
+        }
+
+        // 3. Name introduction ("i am piyush", "my name is piyush", "i'm piyush")
+        if (lower.startsWith("i am ") || lower.startsWith("i'm ") || lower.startsWith("my name is ")) {
+            String name = "";
+            if (lower.startsWith("i am ")) {
+                name = userContent.substring(5).trim();
+            } else if (lower.startsWith("i'm ")) {
+                name = userContent.substring(4).trim();
+            } else if (lower.startsWith("my name is ")) {
+                name = userContent.substring(11).trim();
+            }
+            if (!name.isEmpty()) {
+                name = name.replaceAll("[\\.\\!\\,\\?]+$", "").trim();
+                if (!name.isEmpty()) {
+                    name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    return "Hello " + name + "! 💚 Nice to meet you. How are you feeling today?";
+                }
+            }
+        }
+
+        // 4. Sexual / Relationship problems
+        if (lower.contains("sex") || lower.contains("sexual") || lower.contains("intimacy") || 
+            lower.contains("relationship") || lower.contains("breakup") || lower.contains("break up") || 
+            lower.contains("boyfriend") || lower.contains("girlfriend") || lower.contains("partner") ||
+            lower.contains("love") || lower.contains("cheat") || lower.contains("marital") || 
+            lower.contains("marriage") || lower.contains("divorce")) {
+            return "Thank you for sharing that with me. 💚 Conversations about intimacy, sexual wellness, or relationship challenges can be deeply personal and sometimes carry stress or anxiety. I'm here as a safe space to discuss how this is affecting your mental state. What specific feelings or situations are on your mind?";
+        }
+
+        // 5. Assessment question flow
         if ("ASSESSMENT".equals(session.getSessionType())) {
             int questionNum = (int) messageRepo.countBySessionIdAndRole(session.getId(), "USER");
             int totalQuestions = ASSESSMENT_QUESTIONS.size() - 1;
@@ -454,8 +502,7 @@ public class ChatService {
             }
         }
 
-        // Casual chat fallback
-        String lower = userContent.toLowerCase();
+        // 6. Casual chat mental health specific fallbacks
         if (lower.contains("anxious") || lower.contains("anxiety") || lower.contains("panic")) {
             return "I hear you — anxiety can feel really overwhelming. 💚\n\nTry this right now: **box breathing** — inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 3 times. It activates your body's calming response.\n\nWhat's been triggering the anxiety for you?";
         }
@@ -465,6 +512,8 @@ public class ChatService {
         if (lower.contains("stress") || lower.contains("overwhelm")) {
             return "When everything piles up, it's easy to feel paralysed. 💚\n\nTry this: identify just **one thing** — the smallest possible action — that would make today better. What's the biggest stressor for you right now?";
         }
+
+        // 7. Generic casual responses
         return "Thank you for sharing with me. 💚 I'm here and I'm listening.\n\nCould you tell me a bit more about how you've been feeling? I want to make sure I understand what you're going through.";
     }
 

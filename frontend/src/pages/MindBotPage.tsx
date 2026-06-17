@@ -266,37 +266,187 @@ const MindBotPage = () => {
 
   const handleDownloadReport = () => {
     if (!report) return;
-    const el = document.getElementById('mindbot-report');
-    if (!el) return;
-    // Simple print-to-PDF via browser
-    const win = window.open('', '_blank');
-    if (!win) return;
-    win.document.write(`
-      <!DOCTYPE html><html><head>
-      <title>${report.title}</title>
-      <style>
-        body { font-family: 'Segoe UI', sans-serif; color: #1e293b; padding: 32px; max-width: 700px; margin: 0 auto; }
-        h1 { color: #006b5f; } h2 { color: #006b5f; font-size: 14px; }
-        .badge { background: #f0faf8; border: 1px solid #ccfbf1; color: #0d9488; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: bold; }
-        .section { margin-top: 20px; } ul { padding-left: 18px; } li { margin: 6px 0; font-size: 13px; }
-        .disclaimer { font-size: 10px; color: #94a3b8; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; }
-        .watermark { position: fixed; opacity: 0.06; font-size: 80px; font-weight: 900; color: #14b8a6; transform: rotate(-30deg); top: 35%; left: 10%; pointer-events: none; }
-      </style></head><body>
-      <div class="watermark">MINDFUL</div>
-      <h1>${report.title}</h1>
-      <p>${user?.firstName ?? 'User'} ${user?.lastName ?? ''} · ${new Date(report.createdAt).toLocaleString()}</p>
-      <span class="badge">Mental State: ${report.mentalStateLevel} · Score: ${report.wellnessScore}/100</span>
-      <div class="section"><h2>OBSERVED CONDITION</h2><ul>${report.conditionPoints.map(p => `<li>${p}</li>`).join('')}</ul></div>
-      <div class="section"><h2>RECOMMENDED EXERCISES</h2><ul>${report.recommendedExercises.map(e => `<li>${e}</li>`).join('')}</ul></div>
-      <div class="section"><h2>RECOMMENDED MEDITATIONS</h2><ul>${report.recommendedMeditations.map(m => `<li>${m}</li>`).join('')}</ul></div>
-      <div class="section"><h2>FINAL REVIEW</h2><p>${report.conclusion}</p></div>
-      ${report.counsellorReferralSuggested ? '<p style="color:red;font-weight:bold;">⚠️ Counsellor consultation strongly recommended.</p>' : ''}
-      <div class="disclaimer">⚠️ AI-generated report for personal reference only. Not a clinical diagnosis. Consult a licensed mental health professional for medical advice. © Mindful</div>
-      </body></html>
-    `);
-    win.document.close();
-    win.focus();
-    setTimeout(() => { win.print(); win.close(); }, 500);
+
+    // Direct file download of a beautifully styled HTML report
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${report.title}</title>
+        <style>
+          body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            color: #1e293b; 
+            padding: 40px 24px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            line-height: 1.6;
+            background-color: #f8fafc;
+          }
+          .card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+          }
+          h1 { 
+            color: #0f766e; 
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-weight: 800;
+          } 
+          p.meta {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+          }
+          h2 { 
+            color: #0f766e; 
+            font-size: 16px; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+          }
+          .badge { 
+            background: #f0fdf4; 
+            border: 1px solid #bbf7d0; 
+            color: #16a34a; 
+            padding: 6px 14px; 
+            border-radius: 99px; 
+            font-size: 13px; 
+            font-weight: 600; 
+            display: inline-block;
+            margin-bottom: 20px;
+          }
+          .badge.moderate {
+            background: #fef3c7;
+            border-color: #fde68a;
+            color: #d97706;
+          }
+          .badge.high, .badge.severe {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626;
+          }
+          ul { 
+            padding-left: 20px; 
+            margin: 0;
+          } 
+          li { 
+            margin: 10px 0; 
+            font-size: 14px; 
+            color: #334155;
+          }
+          .conclusion-text {
+            font-size: 15px;
+            color: #334155;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            border-left: 4px solid #0f766e;
+            margin-top: 16px;
+          }
+          .disclaimer { 
+            font-size: 11px; 
+            color: #94a3b8; 
+            margin-top: 40px; 
+            border-top: 1px solid #e2e8f0; 
+            padding-top: 20px; 
+            line-height: 1.5;
+          }
+          .watermark { 
+            position: absolute; 
+            opacity: 0.03; 
+            font-size: 120px; 
+            font-weight: 900; 
+            color: #0f766e; 
+            transform: rotate(-30deg); 
+            top: 40%; 
+            left: 20%; 
+            pointer-events: none; 
+            user-select: none;
+          }
+          .alert-suggested {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            color: #c53030;
+            padding: 16px;
+            border-radius: 16px;
+            font-weight: 600;
+            margin-top: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+          @media print {
+            body { background-color: #ffffff; padding: 0; }
+            .card { border: none; box-shadow: none; padding: 0; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="watermark">MINDFUL</div>
+          <h1>${report.title}</h1>
+          <p class="meta">Patient: ${user?.firstName ?? 'User'} ${user?.lastName ?? ''} &middot; Date: ${new Date(report.createdAt).toLocaleString()}</p>
+          
+          <div class="badge ${report.mentalStateLevel.toLowerCase()}">
+            Mental State Level: ${report.mentalStateLevel} &middot; Wellness Score: ${report.wellnessScore}/100
+          </div>
+          
+          <h2>Observed Condition Points</h2>
+          <ul>
+            ${report.conditionPoints.map(p => `<li>${p}</li>`).join('')}
+          </ul>
+          
+          <h2>Recommended Exercises</h2>
+          <ul>
+            ${report.recommendedExercises.map(e => `<li>${e}</li>`).join('')}
+          </ul>
+          
+          <h2>Recommended Meditations</h2>
+          <ul>
+            ${report.recommendedMeditations.map(m => `<li>${m}</li>`).join('')}
+          </ul>
+          
+          <h2>Final Assessment Conclusion</h2>
+          <div class="conclusion-text">
+            ${report.conclusion}
+          </div>
+          
+          ${report.counsellorReferralSuggested ? `
+            <div class="alert-suggested">
+              ⚠️ Counsellor consultation strongly recommended. Please visit the dashboard to book a session.
+            </div>
+          ` : ''}
+          
+          <div class="disclaimer">
+            <strong>Disclaimer:</strong> This is an AI-generated wellness assessment report for personal educational and guidance reference purposes only. It does not constitute a clinical medical diagnosis or psychiatric prescription. If you are experiencing distress, please consult a licensed mental health professional or counselor.
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Mindful_Report_Phase_${report.phaseNumber}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Voice input
