@@ -96,6 +96,15 @@ export class FirebaseAuthService {
           suggestedFirstName: firstName,
           suggestedLastName: lastName,
         };
+      }).catch(async (error) => {
+        // Fallback to redirect if popup is blocked
+        const err = (error as any).code;
+        if (err === 'auth/popup-blocked' || err === 'auth/operation-not-supported-in-this-environment') {
+          await signInWithRedirect(auth, googleProvider);
+          // The result will be handled by handleRedirectResult after redirect back
+          return Promise.reject(new Error('Redirect initiated'));
+        }
+        return Promise.reject(error);
       });
     } catch (error) {
       return Promise.reject(error);

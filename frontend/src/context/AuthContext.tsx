@@ -89,6 +89,47 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setLoading(false);
       }
     });
+
+    // After setting up auth state listener, check for a redirect result (e.g., after signInWithRedirect)
+    firebaseAuthService.handleRedirectResult()
+      .then((result) => {
+        if (result) {
+          // Process the redirect result similarly to loginWithGoogle
+          const { authResponse, isNewUser, suggestedFirstName, suggestedLastName } = result;
+          // Store token from authResponse
+          if (authResponse && authResponse.token) {
+            setAuthToken(authResponse.token);
+          }
+          // Update user state using the data from authResponse.user
+          const userData = authResponse.user;
+          setUser({
+            id: userData.id,
+            email: userData.email,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            role: userData.role as User['role'],
+            isEmailVerified: userData.isEmailVerified,
+            isActive: true,
+            profilePictureUrl: userData.profilePictureUrl,
+            createdAt: userData.createdAt,
+          });
+          // If the user is new, open the profile completion modal
+          if (isNewUser) {
+            setPendingGoogleUser({
+              suggestedFirstName,
+              suggestedLastName,
+            });
+          }
+        }
+      })
+      .catch((err) => {
+        // If the error indicates a redirect was initiated, we can ignore it here
+        const msg = (err as Error).message;
+        if (msg !== 'Redirect initiated') {
+          console.error('Redirect handling error:', err);
+        }
+      });
+
     return unsubscribe;
   }, []);
 
@@ -134,9 +175,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return { isNewUser: result.isNewUser };
       })
       .catch((err) => {
-        const msg = firebaseAuthService.handleAuthError(err).message;
-        setError(msg);
-        throw new Error(msg);
+        const msg = (err as Error).message;
+        if (msg === 'Redirect initiated') {
+          // Redirect flow will navigate away; no further action needed
+          return { isNewUser: false };
+        }
+        const userMsg = firebaseAuthService.handleAuthError(err).message;
+        setError(userMsg);
+        throw new Error(userMsg);
       });
   };
 

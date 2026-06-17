@@ -60,15 +60,15 @@ const LoginPage = () => {
     finally { setSubmitting(false); }
   };
 
-  const handleGoogle = () => {
-    const promise = signInWithGoogle();
-    setGoogleLoading(true);
-    promise
-      .then(({ isNewUser }) => {
-        if (!isNewUser) navigate(from, { replace: true });
-      })
-      .catch(() => { /* shown via authError */ })
-      .finally(() => setGoogleLoading(false));
+  const handleGoogle = async () => {
+    try {
+      setGoogleLoading(true);
+      await signInWithGoogle(); // this now triggers redirect flow
+    } catch {
+      // authError will be shown via context error state
+    } finally {
+      setGoogleLoading(false);
+    }
   };
 
   const inputCls = (err: string) =>
