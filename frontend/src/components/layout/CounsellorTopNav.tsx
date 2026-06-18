@@ -19,9 +19,12 @@ const CounsellorTopNav = ({ onMenuToggle }: Props) => {
             aria-label="Toggle menu">
             <Menu size={20} className="text-slate-600 dark:text-slate-400" />
           </button>
-          <span className="text-xl font-bold text-slate-900 dark:text-white hidden md:block">
-            MindCare Portal
-          </span>
+          <div className="flex items-center gap-2.5">
+            <img src="/mindful-logo.png" alt="Mindful" className="w-8 h-8 rounded-xl object-cover" />
+            <span className="text-lg font-black text-slate-900 dark:text-white hidden md:block tracking-tight">
+              Mindful
+            </span>
+          </div>
           {/* Search */}
           <div className="relative hidden md:block">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />

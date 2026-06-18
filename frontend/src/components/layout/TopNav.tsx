@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, Sun, Moon, ChevronDown, User, Settings, LogOut, Leaf, HeartPulse } from 'lucide-react';
+import { Menu, Sun, Moon, ChevronDown, User, Settings, LogOut, HeartPulse } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -76,9 +76,7 @@ const TopNav = ({ onMenuToggle }: TopNavProps) => {
           </button>
 
           <Link to="/dashboard" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-md shadow-teal-500/30 group-hover:shadow-lg group-hover:shadow-teal-500/40 transition-all duration-200">
-              <Leaf size={17} className="text-white" />
-            </div>
+            <img src="/mindful-logo.png" alt="Mindful" className="w-9 h-9 rounded-xl object-cover shadow-md shadow-teal-500/30 group-hover:shadow-lg group-hover:shadow-teal-500/40 transition-all duration-200" />
             <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 tracking-tight">
               Mindful
             </span>

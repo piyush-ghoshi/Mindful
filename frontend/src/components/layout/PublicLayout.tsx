@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Leaf, Menu, X, Sun, Moon, LogOut } from 'lucide-react';
+import { Menu, X, Sun, Moon, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -40,9 +40,7 @@ const PublicLayout = () => {
 
           {/* Brand */}
           <Link to={isAuthenticated ? dashPath : '/'} className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-md shadow-teal-500/30 group-hover:shadow-lg group-hover:shadow-teal-500/40 transition-all">
-              <Leaf size={17} className="text-white" />
-            </div>
+            <img src="/mindful-logo.png" alt="Mindful" className="w-9 h-9 rounded-xl object-cover shadow-md shadow-teal-500/30 group-hover:shadow-lg group-hover:shadow-teal-500/40 transition-all" />
             <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 tracking-tight">
               Mindful
             </span>
@@ -158,9 +156,7 @@ const PublicLayout = () => {
         style={{ borderTop: '1px solid rgba(20,184,166,0.12)', background: theme === 'dark' ? 'rgba(11,18,33,0.8)' : 'rgba(240,250,248,0.9)' }}>
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center">
-              <Leaf size={15} className="text-white" />
-            </div>
+            <img src="/mindful-logo.png" alt="Mindful" className="w-8 h-8 rounded-lg object-cover" />
             <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400">Mindful</span>
           </div>
           <nav className="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400">

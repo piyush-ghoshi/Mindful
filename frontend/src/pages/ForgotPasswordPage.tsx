@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Leaf, ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const ForgotPasswordPage = () => {
@@ -25,9 +25,7 @@ const ForgotPasswordPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-[#f9f9ff] dark:bg-slate-950 p-6">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-teal-500 mb-4 shadow-lg shadow-teal-500/30">
-            <Leaf size={28} className="text-white"/>
-          </div>
+          <img src="/mindful-logo.png" alt="Mindful" className="w-14 h-14 rounded-2xl object-cover mx-auto mb-4 shadow-lg shadow-teal-500/30" />
           <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Reset Password</h1>
           <p className="text-slate-500 dark:text-slate-400 mt-1">We'll send you a reset link.</p>
         </div>

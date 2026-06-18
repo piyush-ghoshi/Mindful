@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Bot, BookOpen, CalendarCheck, Library,
   MessageSquare, TrendingUp, Settings, LogOut, AlertTriangle,
-  Users, User, Leaf, Heart,
+  Users, User, Heart,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -42,9 +42,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
 
           {/* Brand */}
           <div className="flex items-center gap-2.5 px-3 pt-3 pb-4 mb-1">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shadow-md shadow-teal-500/30 flex-shrink-0">
-              <Leaf size={17} className="text-white" />
-            </div>
+            <img src="/mindful-logo.png" alt="Mindful" className="w-9 h-9 rounded-xl object-cover shadow-md shadow-teal-500/30 flex-shrink-0" />
             <div>
               <h1 className="text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 leading-tight">Mindful</h1>
               <p className="text-[10px] text-slate-500 dark:text-slate-500 leading-tight">Student Portal</p>

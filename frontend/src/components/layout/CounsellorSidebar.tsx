@@ -33,13 +33,11 @@ const CounsellorSidebar = ({ open, onClose }: Props) => {
       ${open ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
     `}>
       {/* Brand */}
-      <div className="px-6 py-6 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
-        <div className="w-10 h-10 rounded-xl bg-teal-500/10 dark:bg-teal-400/20 border border-teal-500/20 dark:border-teal-400/30 flex items-center justify-center flex-shrink-0">
-          <Stethoscope size={20} className="text-teal-600 dark:text-teal-400" />
-        </div>
+      <div className="px-6 py-5 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
+        <img src="/mindful-logo.png" alt="Mindful" className="w-10 h-10 rounded-xl object-cover flex-shrink-0" />
         <div>
-          <h1 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wider leading-tight">Clinical Portal</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Counsellor Access</p>
+          <h1 className="text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 leading-tight">Mindful</h1>
+          <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">Counsellor Portal</p>
         </div>
       </div>
 

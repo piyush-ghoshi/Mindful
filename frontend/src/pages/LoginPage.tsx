@@ -117,17 +117,65 @@ const LoginPage = () => {
               </p>
             </div>
 
-            {/* Transformation illustration */}
-            <div className="relative">
-              <img
-                src="/mindful-transformation.png"
-                alt="Student mental health transformation with Mindful"
-                className="w-full rounded-2xl object-cover shadow-2xl border border-white/10"
-                style={{ maxHeight: '280px', objectPosition: 'center top' }}
-              />
-              <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(15,32,39,0.8))' }} />
-              <div className="absolute bottom-3 left-0 right-0 text-center">
-                <p className="text-white/70 text-xs font-medium">Mindful transforms how students experience mental wellness</p>
+            {/* Visual Transformation Flow */}
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+              
+              <p className="text-teal-400/80 text-xs font-bold uppercase tracking-wider text-center mb-6">
+                Your Wellness Journey
+              </p>
+              
+              <div className="flex items-center justify-between gap-4 relative">
+                {/* Left Card: Stressed Student */}
+                <div className="flex-1 flex flex-col items-center group">
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-inner transition-transform duration-300 group-hover:scale-[1.02]">
+                    <img 
+                      src="/stressed_student.png" 
+                      alt="Stressed student showing overwhelm, anxiety, and mental conditions" 
+                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-2.5">
+                      <span className="text-white text-[11px] font-bold leading-tight">Before</span>
+                      <span className="text-white/60 text-[9px] leading-tight">Overwhelmed & Anxious</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Center Connection: Mindful Logo */}
+                <div className="flex flex-col items-center justify-center gap-1.5 z-10">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 p-0.5 shadow-lg shadow-teal-500/30 flex items-center justify-center animate-pulse">
+                    <div className="w-full h-full rounded-full bg-[#0f2027] flex items-center justify-center p-1">
+                      <img 
+                        src="/mindful-logo.png" 
+                        alt="Mindful Logo" 
+                        className="w-8 h-8 object-contain"
+                      />
+                    </div>
+                  </div>
+                  <span className="text-teal-300 text-[9px] font-extrabold uppercase tracking-widest text-center bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded-full">
+                    Mindful
+                  </span>
+                  <div className="flex gap-1 mt-0.5">
+                    <span className="w-1 h-1 rounded-full bg-teal-400 animate-ping" />
+                    <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                  </div>
+                </div>
+
+                {/* Right Card: Happy Student */}
+                <div className="flex-1 flex flex-col items-center group">
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-emerald-500/30 bg-emerald-500/5 shadow-inner transition-transform duration-300 group-hover:scale-[1.02]">
+                    <img 
+                      src="/happy_student.png" 
+                      alt="Happy, satisfied, and peaceful student" 
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-emerald-950/30 to-transparent flex flex-col justify-end p-2.5">
+                      <span className="text-emerald-300 text-[11px] font-bold leading-tight">After</span>
+                      <span className="text-white/60 text-[9px] leading-tight">Peaceful & Supported</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

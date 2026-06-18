@@ -1,4 +1,4 @@
-import { Download, AlertTriangle, CheckCircle, AlertCircle, Info, Leaf } from 'lucide-react';
+import { Download, AlertTriangle, CheckCircle, AlertCircle, Info } from 'lucide-react';
 import type { MentalHealthReportDto, SeverityLevel } from '../services/chatService';
 
 interface Props {
@@ -42,7 +42,7 @@ const MindBotReport = ({ report, userName, onDownload }: Props) => {
         <div className="relative flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2 opacity-80">
-              <Leaf size={14} />
+              <img src="/mindful-logo.png" alt="Mindful" className="w-3.5 h-3.5 rounded object-cover" />
               <span className="text-xs font-bold uppercase tracking-widest">Mindful · MindBot Report</span>
             </div>
             <h2 className="text-2xl font-black leading-tight">{report.title}</h2>
