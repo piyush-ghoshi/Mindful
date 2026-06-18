@@ -134,11 +134,7 @@ const RegisterPage = () => {
         <div className="hidden lg:flex w-1/2 flex-col justify-between p-14 relative">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img 
-              src="/mindful_logo.png" 
-              alt="Mindful Logo" 
-              className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(20,184,166,0.3)]"
-            />
+            <img src="/mindful-logo.png" alt="Mindful" className="w-11 h-11 rounded-2xl object-cover shadow-lg shadow-teal-500/40" />
             <span className="text-white font-bold text-xl tracking-tight">Mindful</span>
           </div>
 
@@ -196,11 +192,7 @@ const RegisterPage = () => {
           <div className="w-full max-w-md py-4">
             {/* Mobile logo */}
             <div className="flex items-center gap-3 mb-6 lg:hidden">
-              <img 
-                src="/mindful_logo.png" 
-                alt="Mindful Logo" 
-                className="w-9 h-9 object-contain"
-              />
+              <img src="/mindful-logo.png" alt="Mindful" className="w-9 h-9 rounded-xl object-cover" />
               <span className="text-white font-bold text-lg">Mindful</span>
             </div>
 
