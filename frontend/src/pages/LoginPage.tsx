@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Eye, EyeOff, Leaf } from 'lucide-react';
+import { Eye, EyeOff, Sparkles, ArrowRight, Shield, Brain, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import GoogleProfileModal from '../components/GoogleProfileModal';
 
@@ -13,19 +13,20 @@ const GoogleIcon = () => (
   </svg>
 );
 
-import { useEffect } from 'react';
+const FEATURES = [
+  { icon: Brain, text: 'AI-powered mental wellness companion' },
+  { icon: Shield, text: 'Private & confidential — always' },
+  { icon: Heart, text: 'Connect with real counsellors' },
+];
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, signInWithGoogle, loading, error: authError, isAuthenticated } = useAuth();
-
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(from, { replace: true });
-    }
+    if (isAuthenticated) navigate(from, { replace: true });
   }, [isAuthenticated, navigate, from]);
 
   const [form, setForm] = useState({ email: '', password: '' });
@@ -33,13 +34,14 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.email) e.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Invalid email address';
     if (!form.password) e.password = 'Password is required';
-    else if (form.password.length < 6) e.password = 'Password must be at least 6 characters';
+    else if (form.password.length < 6) e.password = 'At least 6 characters';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -63,112 +65,211 @@ const LoginPage = () => {
   const handleGoogle = async () => {
     try {
       setGoogleLoading(true);
-      await signInWithGoogle(); // this now triggers redirect flow
-    } catch {
-      // authError will be shown via context error state
-    } finally {
-      setGoogleLoading(false);
-    }
+      await signInWithGoogle();
+    } catch { /* shown via authError */ }
+    finally { setGoogleLoading(false); }
   };
 
-  const inputCls = (err: string) =>
-    `w-full bg-slate-50 dark:bg-slate-900/50 border rounded-lg px-4 py-3 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all ${err ? 'border-red-400 dark:border-red-500' : 'border-slate-200 dark:border-slate-700'}`;
+  const inputCls = (field: string) =>
+    `w-full bg-white/10 border-2 rounded-2xl px-4 py-3.5 text-white placeholder:text-white/40 focus:outline-none transition-all duration-200 text-sm ${
+      errors[field]
+        ? 'border-red-400/70 bg-red-400/5'
+        : focusedField === field
+        ? 'border-teal-400/80 bg-white/15 shadow-lg shadow-teal-500/10'
+        : 'border-white/20 hover:border-white/30'
+    }`;
 
   return (
     <>
-      <div className="min-h-screen flex bg-[#f9f9ff] dark:bg-slate-950">
-        {/* Left illustration */}
-        <div className="hidden lg:flex w-1/2 relative overflow-hidden items-center justify-center">
-          <div className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80')" }}/>
-          <div className="absolute inset-0 bg-[#006b5f]/60"/>
-          <blockquote className="relative z-10 text-center px-16">
-            <p className="text-5xl font-bold text-white italic leading-tight max-w-lg drop-shadow-md">
-              "Every day is a fresh start."
-            </p>
-            <p className="mt-6 text-teal-100 text-lg">Your mental wellness journey begins here.</p>
-          </blockquote>
+      {/* Full-screen gradient background */}
+      <div className="min-h-screen flex" style={{
+        background: 'linear-gradient(135deg, #0f2027 0%, #1a3a4a 30%, #0d3d30 60%, #0f2027 100%)',
+      }}>
+        {/* Animated orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-20 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #14b8a6, transparent)' }} />
+          <div className="absolute top-1/2 -right-48 w-[500px] h-[500px] rounded-full opacity-10 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #6366f1, transparent)' }} />
+          <div className="absolute -bottom-32 left-1/3 w-80 h-80 rounded-full opacity-15 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #10b981, transparent)' }} />
         </div>
 
-        {/* Right form */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-16">
-          <div className="w-full max-w-md">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-teal-500 mb-4 shadow-lg shadow-teal-500/30">
-                <Leaf size={28} className="text-white"/>
-              </div>
-              <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Welcome Back</h1>
-              <p className="text-slate-500 dark:text-slate-400 mt-1">Please enter your details to sign in.</p>
+        {/* Left panel */}
+        <div className="hidden lg:flex w-1/2 flex-col justify-between p-14 relative">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/40">
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-white" stroke="currentColor" strokeWidth={2.5}>
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" strokeLinecap="round"/>
+                <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <span className="text-white font-bold text-xl tracking-tight">Mindful</span>
+          </div>
+
+          {/* Main text */}
+          <div className="space-y-10">
+            <div>
+              <h1 className="text-5xl font-black text-white leading-tight mb-4">
+                Your mind<br />
+                <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #34d399, #14b8a6)' }}>
+                  deserves care.
+                </span>
+              </h1>
+              <p className="text-white/60 text-lg leading-relaxed max-w-md">
+                A safe space to track your wellness, talk to an AI companion, and connect with real counsellors — all in one place.
+              </p>
             </div>
 
-            <div className="bg-white dark:bg-slate-800/60 rounded-2xl p-8 border border-slate-100 dark:border-slate-700/50 shadow-sm">
+            <div className="space-y-4">
+              {FEATURES.map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0 border border-white/10">
+                    <Icon size={18} className="text-teal-400" />
+                  </div>
+                  <span className="text-white/70 text-sm">{text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Testimonial */}
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
+              <p className="text-white/70 text-sm italic leading-relaxed">
+                "Mindful helped me recognize my anxiety patterns and connect with a counsellor who genuinely understood me."
+              </p>
+              <div className="flex items-center gap-3 mt-4">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-white text-xs font-bold">
+                  A
+                </div>
+                <div>
+                  <p className="text-white/80 text-xs font-semibold">Ananya S.</p>
+                  <p className="text-white/40 text-xs">Student, Delhi University</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom */}
+          <p className="text-white/30 text-xs">© 2025 Mindful Wellness. All rights reserved.</p>
+        </div>
+
+        {/* Right panel — form */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10 relative">
+          <div className="w-full max-w-md">
+            {/* Mobile logo */}
+            <div className="flex items-center gap-3 mb-8 lg:hidden">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 text-white" stroke="currentColor" strokeWidth={2.5}>
+                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" strokeLinecap="round"/>
+                  <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <span className="text-white font-bold text-lg">Mindful</span>
+            </div>
+
+            {/* Card */}
+            <div className="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+              {/* Header */}
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles size={16} className="text-teal-400" />
+                  <span className="text-teal-400 text-xs font-semibold uppercase tracking-widest">Welcome back</span>
+                </div>
+                <h2 className="text-3xl font-black text-white">Sign in</h2>
+                <p className="text-white/50 text-sm mt-1">to your Mindful account</p>
+              </div>
+
+              {/* Error */}
               {authError && (
-                <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 text-sm">
+                <div className="mb-5 p-3.5 rounded-2xl bg-red-400/10 border border-red-400/30 text-red-300 text-sm flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-400 flex-shrink-0" />
                   {authError}
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-200" htmlFor="email">
-                    Email or Student ID
+              {/* Google button */}
+              <button
+                onClick={handleGoogle}
+                disabled={loading || submitting || googleLoading}
+                className="w-full flex items-center justify-center gap-3 bg-white/90 hover:bg-white text-slate-800 font-semibold py-3.5 rounded-2xl transition-all duration-200 disabled:opacity-50 shadow-lg text-sm mb-5 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99]"
+              >
+                <GoogleIcon />
+                {googleLoading ? 'Connecting…' : 'Continue with Google'}
+              </button>
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex-1 h-px bg-white/15" />
+                <span className="text-white/30 text-xs">or sign in with email</span>
+                <div className="flex-1 h-px bg-white/15" />
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2" htmlFor="email">
+                    Email address
                   </label>
-                  <input id="email" name="email" type="email" value={form.email}
-                    onChange={handleChange} placeholder="Enter your email"
-                    disabled={loading || submitting} className={inputCls(errors.email)}/>
-                  {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                  <input
+                    id="email" name="email" type="email"
+                    value={form.email} onChange={handleChange}
+                    placeholder="you@university.edu"
+                    disabled={loading || submitting}
+                    onFocus={() => setFocusedField('email')}
+                    onBlur={() => setFocusedField(null)}
+                    className={inputCls('email')}
+                  />
+                  {errors.email && <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1"><span>⚠</span>{errors.email}</p>}
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-200" htmlFor="password">
+                <div>
+                  <label className="block text-white/70 text-xs font-semibold uppercase tracking-wider mb-2" htmlFor="password">
                     Password
                   </label>
                   <div className="relative">
-                    <input id="password" name="password" type={showPassword ? 'text' : 'password'}
-                      value={form.password} onChange={handleChange} placeholder="••••••••"
-                      disabled={loading || submitting} className={`${inputCls(errors.password)} pr-12`}/>
-                    <button type="button" onClick={() => setShowPassword(s => !s)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
-                      {showPassword ? <EyeOff size={18}/> : <Eye size={18}/>}
+                    <input
+                      id="password" name="password" type={showPassword ? 'text' : 'password'}
+                      value={form.password} onChange={handleChange}
+                      placeholder="••••••••"
+                      disabled={loading || submitting}
+                      onFocus={() => setFocusedField('password')}
+                      onBlur={() => setFocusedField(null)}
+                      className={`${inputCls('password')} pr-12`}
+                    />
+                    <button
+                      type="button" onClick={() => setShowPassword(s => !s)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                     </button>
                   </div>
-                  {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+                  {errors.password && <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1"><span>⚠</span>{errors.password}</p>}
                 </div>
 
-                <div className="flex justify-end -mt-2">
-                  <Link to="/forgot-password"
-                    className="text-sm font-semibold text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
-                    Forgot Password?
+                <div className="flex justify-end">
+                  <Link to="/forgot-password" className="text-teal-400 hover:text-teal-300 text-xs font-semibold transition-colors">
+                    Forgot password?
                   </Link>
                 </div>
 
-                <button type="submit" disabled={loading || submitting}
-                  className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3.5 rounded-lg transition-all disabled:opacity-60 shadow-sm shadow-teal-500/20">
-                  {loading || submitting ? 'Signing in…' : 'Login'}
+                <button
+                  type="submit"
+                  disabled={loading || submitting}
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-white font-bold py-4 rounded-2xl transition-all duration-200 disabled:opacity-50 shadow-lg shadow-teal-500/30 hover:shadow-xl hover:shadow-teal-500/40 hover:scale-[1.01] active:scale-[0.99] text-sm mt-2"
+                >
+                  {loading || submitting ? (
+                    <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Signing in…</>
+                  ) : (
+                    <>Sign in <ArrowRight size={16} /></>
+                  )}
                 </button>
               </form>
 
-              {/* Divider */}
-              <div className="flex items-center gap-3 my-5">
-                <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700"/>
-                <span className="text-xs text-slate-400 dark:text-slate-500 font-medium uppercase tracking-wider">
-                  or continue with
-                </span>
-                <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700"/>
-              </div>
-
-              {/* Google button */}
-              <button onClick={handleGoogle} disabled={loading || submitting || googleLoading}
-                className="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 rounded-lg py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all disabled:opacity-60 shadow-sm">
-                <GoogleIcon/>
-                {googleLoading ? 'Connecting to Google…' : 'Continue with Google'}
-              </button>
-
-              <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
-                New to Mindful?{' '}
-                <Link to="/register"
-                  className="font-semibold text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
-                  Create an account
+              <p className="mt-6 text-center text-white/40 text-sm">
+                Don't have an account?{' '}
+                <Link to="/register" className="text-teal-400 hover:text-teal-300 font-semibold transition-colors">
+                  Create one free →
                 </Link>
               </p>
             </div>
@@ -176,8 +277,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {/* Profile completion modal — shown when a new Google user signs in */}
-      <GoogleProfileModal onComplete={() => navigate(from, { replace: true })}/>
+      <GoogleProfileModal onComplete={() => navigate(from, { replace: true })} />
     </>
   );
 };
