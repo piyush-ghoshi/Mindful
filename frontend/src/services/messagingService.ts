@@ -52,4 +52,9 @@ export const messagingService = {
   deleteMessage(messageId: string): Promise<void> {
     return apiClient.delete<void>(`/messages/${messageId}`);
   },
+
+  /** Delete (hide) an entire conversation. */
+  deleteConversation(conversationId: string): Promise<void> {
+    return apiClient.delete<void>(`/messages/conversations/${conversationId}`);
+  },
 };
