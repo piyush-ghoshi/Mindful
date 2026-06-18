@@ -99,17 +99,16 @@ const LoginPage = () => {
         <div className="hidden lg:flex w-1/2 flex-col justify-between p-14 relative">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/40">
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-white" stroke="currentColor" strokeWidth={2.5}>
-                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" strokeLinecap="round"/>
-                <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4" strokeLinecap="round"/>
-              </svg>
-            </div>
+            <img 
+              src="/mindful_logo.png" 
+              alt="Mindful Logo" 
+              className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(20,184,166,0.3)]"
+            />
             <span className="text-white font-bold text-xl tracking-tight">Mindful</span>
           </div>
 
           {/* Main text */}
-          <div className="space-y-10">
+          <div className="space-y-8">
             <div>
               <h1 className="text-5xl font-black text-white leading-tight mb-4">
                 Your mind<br />
@@ -117,36 +116,82 @@ const LoginPage = () => {
                   deserves care.
                 </span>
               </h1>
-              <p className="text-white/60 text-lg leading-relaxed max-w-md">
+              <p className="text-white/60 text-base leading-relaxed max-w-md">
                 A safe space to track your wellness, talk to an AI companion, and connect with real counsellors — all in one place.
               </p>
             </div>
 
-            <div className="space-y-4">
-              {FEATURES.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0 border border-white/10">
-                    <Icon size={18} className="text-teal-400" />
-                  </div>
-                  <span className="text-white/70 text-sm">{text}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Testimonial */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
-              <p className="text-white/70 text-sm italic leading-relaxed">
-                "Mindful helped me recognize my anxiety patterns and connect with a counsellor who genuinely understood me."
+            {/* Visual Transformation Flow */}
+            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+              
+              <p className="text-teal-400/80 text-xs font-bold uppercase tracking-wider text-center mb-6">
+                Your Wellness Journey
               </p>
-              <div className="flex items-center gap-3 mt-4">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-white text-xs font-bold">
-                  A
+              
+              <div className="flex items-center justify-between gap-4 relative">
+                {/* Left Card: Stressed Student */}
+                <div className="flex-1 flex flex-col items-center group">
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-inner transition-transform duration-300 group-hover:scale-[1.02]">
+                    <img 
+                      src="/stressed_student.png" 
+                      alt="Stressed student showing overwhelm, anxiety, and mental conditions" 
+                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-2.5">
+                      <span className="text-white text-[11px] font-bold leading-tight">Before</span>
+                      <span className="text-white/60 text-[9px] leading-tight">Overwhelmed & Anxious</span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white/80 text-xs font-semibold">Ananya S.</p>
-                  <p className="text-white/40 text-xs">Student, Delhi University</p>
+
+                {/* Center Connection: Mindful Logo */}
+                <div className="flex flex-col items-center justify-center gap-1.5 z-10">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500 p-0.5 shadow-lg shadow-teal-500/30 flex items-center justify-center animate-pulse">
+                    <div className="w-full h-full rounded-full bg-[#0f2027] flex items-center justify-center p-1">
+                      <img 
+                        src="/mindful_logo.png" 
+                        alt="Mindful Logo" 
+                        className="w-8 h-8 object-contain"
+                      />
+                    </div>
+                  </div>
+                  <span className="text-teal-300 text-[9px] font-extrabold uppercase tracking-widest text-center bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded-full">
+                    Mindful
+                  </span>
+                  <div className="flex gap-1 mt-0.5">
+                    <span className="w-1 h-1 rounded-full bg-teal-400 animate-ping" />
+                    <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                  </div>
+                </div>
+
+                {/* Right Card: Happy Student */}
+                <div className="flex-1 flex flex-col items-center group">
+                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-emerald-500/30 bg-emerald-500/5 shadow-inner transition-transform duration-300 group-hover:scale-[1.02]">
+                    <img 
+                      src="/happy_student.png" 
+                      alt="Happy, satisfied, and peaceful student" 
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-emerald-950/30 to-transparent flex flex-col justify-end p-2.5">
+                      <span className="text-emerald-300 text-[11px] font-bold leading-tight">After</span>
+                      <span className="text-white/60 text-[9px] leading-tight">Peaceful & Supported</span>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div className="space-y-3">
+              {FEATURES.map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0 border border-white/10">
+                    <Icon size={15} className="text-teal-400" />
+                  </div>
+                  <span className="text-white/70 text-xs">{text}</span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -159,12 +204,11 @@ const LoginPage = () => {
           <div className="w-full max-w-md">
             {/* Mobile logo */}
             <div className="flex items-center gap-3 mb-8 lg:hidden">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 text-white" stroke="currentColor" strokeWidth={2.5}>
-                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" strokeLinecap="round"/>
-                  <path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4" strokeLinecap="round"/>
-                </svg>
-              </div>
+              <img 
+                src="/mindful_logo.png" 
+                alt="Mindful Logo" 
+                className="w-9 h-9 object-contain"
+              />
               <span className="text-white font-bold text-lg">Mindful</span>
             </div>
 
