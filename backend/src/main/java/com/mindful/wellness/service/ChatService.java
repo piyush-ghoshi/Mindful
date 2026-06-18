@@ -236,6 +236,12 @@ public class ChatService {
             return toReportDto(existing.get(), userId);
         }
 
+        // Determine severity from session
+        String severity = session.getDetectedSeverity() != null ? session.getDetectedSeverity() : "MODERATE";
+
+        // Look up user
+        com.mindful.wellness.entity.User user = userRepository.findById(userId).orElse(null);
+
         // Gather user messages
         List<ChatMessage> messages = messageRepo.findBySessionIdOrderByCreatedAtAsc(sessionId);
         List<String> userMessages = messages.stream()
