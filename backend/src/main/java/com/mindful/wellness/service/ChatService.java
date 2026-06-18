@@ -124,9 +124,7 @@ public class ChatService {
         session = sessionRepo.save(session);
 
         // Send opening message from bot
-        String opening = "ASSESSMENT".equals(sessionType.toUpperCase())
-                ? ASSESSMENT_QUESTIONS.get(0)
-                : buildCasualOpening();
+        String opening = buildCasualOpening();
 
         saveMessage(session.getId(), userId, "BOT", opening, null);
 
@@ -244,11 +242,6 @@ public class ChatService {
                 .filter(m -> "USER".equals(m.getRole()))
                 .map(ChatMessage::getContent)
                 .collect(Collectors.toList());
-
-        String severity = session.getDetectedSeverity();
-        if (severity == null) severity = "LOW";
-
-        User user = userRepository.findById(userId).orElse(null);
         String userName = user != null ? user.getFullName() : "User";
 
         int phaseNum = reportRepo.nextPhaseNumber(userId);
@@ -413,30 +406,16 @@ public class ChatService {
         // Build conversation history for Groq
         List<ChatMessage> history = messageRepo.findBySessionIdOrderByCreatedAtAsc(session.getId());
         List<Map<String, String>> conversationHistory = history.stream()
-                .map(m -> Map.of(
-                    "role", "USER".equals(m.getRole()) ? "user" : "assistant",
-                    "content", m.getContent()
-                ))
+                .map(msg -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("role", msg.getRole());
+                    map.put("content", msg.getContent());
+                    return map;
+                })
                 .collect(Collectors.toList());
 
-        // Prefix context for assessment vs casual
+        // Use the latest user message as context (dynamic chat)
         String contextualContent = userContent;
-        if (uploaded != null && !uploaded.isBlank()) {
-            contextualContent = "[Previous Report Uploaded]\n" + uploaded + "\n\n[User Message]\n" + userContent;
-        }
-
-        // For assessment: add context about which question we're on
-        if ("ASSESSMENT".equals(session.getSessionType())) {
-            int questionNum = (int) messageRepo.countBySessionIdAndRole(session.getId(), "USER");
-            int totalQuestions = ASSESSMENT_QUESTIONS.size() - 1;
-            if (questionNum < totalQuestions) {
-                String nextQuestionText = ASSESSMENT_QUESTIONS.get(questionNum);
-                contextualContent = String.format("[Assessment Question %d of %d]\nUser reply: %s\n\nInstructions: Validate the user's feelings/reply empathetically, then ask the next question exactly or naturally:\n%s", 
-                    questionNum, totalQuestions, userContent, nextQuestionText);
-            } else {
-                contextualContent = String.format("[Final assessment question answered]\nUser reply: %s\n\nInstructions: Validate the user's final answer, summarize the assessment, and tell them that their report is ready to be generated.", userContent);
-            }
-        }
 
         String reply = groqService.chat(conversationHistory, contextualContent);
         if (reply != null && !reply.trim().isEmpty()) {
@@ -491,16 +470,7 @@ public class ChatService {
             return "Thank you for sharing that with me. 💚 Conversations about intimacy, sexual wellness, or relationship challenges can be deeply personal and sometimes carry stress or anxiety. I'm here as a safe space to discuss how this is affecting your mental state. What specific feelings or situations are on your mind?";
         }
 
-        // 5. Assessment question flow
-        if ("ASSESSMENT".equals(session.getSessionType())) {
-            int questionNum = (int) messageRepo.countBySessionIdAndRole(session.getId(), "USER");
-            int totalQuestions = ASSESSMENT_QUESTIONS.size() - 1;
-            if (questionNum < totalQuestions) {
-                return ASSESSMENT_QUESTIONS.get(questionNum);
-            } else {
-                return ASSESSMENT_QUESTIONS.get(totalQuestions);
-            }
-        }
+        
 
         // 6. Casual chat mental health specific fallbacks
         if (lower.contains("anxious") || lower.contains("anxiety") || lower.contains("panic")) {
