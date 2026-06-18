@@ -414,7 +414,14 @@ public class ChatService {
         List<Map<String, String>> conversationHistory = history.stream()
                 .map(msg -> {
                     Map<String, String> map = new HashMap<>();
-                    map.put("role", msg.getRole());
+                    // Groq API expects "user" / "assistant" — map stored roles
+                    String role = msg.getRole();
+                    if ("BOT".equalsIgnoreCase(role) || "assistant".equalsIgnoreCase(role)) {
+                        role = "assistant";
+                    } else {
+                        role = "user";
+                    }
+                    map.put("role", role);
                     map.put("content", msg.getContent());
                     return map;
                 })
@@ -449,7 +456,14 @@ public class ChatService {
         }
 
         // 3. Name introduction ("i am piyush", "my name is piyush", "i'm piyush")
-        if (lower.startsWith("i am ") || lower.startsWith("i'm ") || lower.startsWith("my name is ")) {
+        // Exclude common feeling/state words so "i am feeling sad" is NOT treated as a name
+        List<String> notNameWords = List.of("feeling", "so", "very", "really", "not", "doing",
+                "fine", "good", "great", "okay", "ok", "bad", "sad", "happy", "tired",
+                "stressed", "anxious", "depressed", "lonely", "scared", "angry", "worried",
+                "struggling", "having", "going", "trying");
+        boolean looksLikeName = (lower.startsWith("i am ") || lower.startsWith("i'm ") || lower.startsWith("my name is "))
+                && notNameWords.stream().noneMatch(w -> lower.contains("i am " + w) || lower.contains("i'm " + w));
+        if (looksLikeName) {
             String name = "";
             if (lower.startsWith("i am ")) {
                 name = userContent.substring(5).trim();
