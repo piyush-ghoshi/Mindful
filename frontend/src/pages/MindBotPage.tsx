@@ -276,7 +276,7 @@ const MindBotPage = () => {
         <title>${report.title}</title>
         <style>
           body { 
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            font-family: 'Times New Roman', Times, Georgia, serif; 
             color: #1e293b; 
             padding: 40px 24px; 
             max-width: 800px; 

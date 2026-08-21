@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+/* Times New Roman is a native system font — no import needed */
 
 @import "tailwindcss";
 
@@ -7,7 +6,7 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-family-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-family-sans: 'Times New Roman', Times, Georgia, serif;
 }
 
 * {
@@ -24,7 +23,7 @@ html.dark {
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-family: 'Times New Roman', Times, Georgia, serif;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
