@@ -50,6 +50,10 @@ public class ChatSession {
     @Column(name = "average_risk_score", precision = 3, scale = 1)
     private java.math.BigDecimal averageRiskScore;
     
+    /** Highest risk score seen in this session */
+    @Column(name = "highest_risk_score")
+    private Integer highestRiskScore;
+    
     /** Flag indicating if any crisis-level risk was detected */
     @Column(name = "crisis_detected", nullable = false)
     @Builder.Default

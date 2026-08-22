@@ -509,6 +509,7 @@ public class ChatService {
                         return null; // We'll use direct repository query instead
                     })
                     .filter(Objects::nonNull)
+                    .map(o -> (com.mindful.wellness.entity.MoodAssessment) o)
                     .collect(Collectors.toList());
             
             // Calculate average sentiment (mood score)

@@ -51,9 +51,6 @@ public class MoodAssessment {
     @Column(name = "user_id", nullable = false)
     private UUID userId;
     
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
-    
     // ── Mood Analysis ──────────────────────────────────────────────────────────
     
     /**
