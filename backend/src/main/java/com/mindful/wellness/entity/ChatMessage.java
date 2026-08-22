@@ -38,6 +38,18 @@ public class ChatMessage {
     /** Detected severity in this message (null for BOT messages) */
     @Column(name = "severity_flag", length = 20)
     private String severityFlag;
+    
+    /** Detected mood for quick reference (denormalized from mood_assessments) */
+    @Column(name = "mood_detected", length = 50)
+    private String moodDetected;
+    
+    /** Sentiment score for quick reference (denormalized from mood_assessments) */
+    @Column(name = "sentiment_score", precision = 3, scale = 2)
+    private java.math.BigDecimal sentimentScore;
+    
+    /** Risk indicators detected in this message (JSON array) */
+    @Column(name = "risk_indicators", columnDefinition = "TEXT")
+    private String riskIndicators;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

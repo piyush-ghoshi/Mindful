@@ -45,6 +45,10 @@ public class ChatService {
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
     private final GroqService groqService;
+    private final MoodAnalysisService moodAnalysisService;
+    private final SeverityAssessmentService severityAssessmentService;
+    private final ActionRecommendationService actionRecommendationService;
+    private final CrisisInterventionService crisisInterventionService;
 
     // ── Rate limits ────────────────────────────────────────────────────────────
     private static final int BASE_MSG_LIMIT    = 10;
@@ -177,8 +181,111 @@ public class ChatService {
         }
 
         // Save user message
-        saveMessage(session.getId(), userId, "USER", content, severity);
+        ChatMessage userMessage = saveMessage(session.getId(), userId, "USER", content, severity);
         session.setMessageCount(session.getMessageCount() + 1);
+        
+        // ✨ Phase 1: Analyze mood for this message
+        com.mindful.wellness.dto.MoodAssessmentDto moodAssessment = null;
+        try {
+            moodAssessment = moodAnalysisService.analyzeMood(
+                content, 
+                session.getId(), 
+                userMessage.getId(), 
+                userId
+            );
+            
+            // Update message with mood data (denormalized for quick access)
+            userMessage.setMoodDetected(moodAssessment.getDetectedMood().name());
+            userMessage.setSentimentScore(moodAssessment.getSentimentScore());
+            if (moodAssessment.getRiskIndicators() != null && !moodAssessment.getRiskIndicators().isEmpty()) {
+                userMessage.setRiskIndicators(toJson(moodAssessment.getRiskIndicators()));
+            }
+            messageRepo.save(userMessage);
+            
+            // Update session with mood metrics
+            updateSessionMoodMetrics(session);
+            
+            log.info("Mood analyzed for message {}: {} (sentiment: {}, intensity: {})", 
+                userMessage.getId(), 
+                moodAssessment.getDetectedMood(),
+                moodAssessment.getSentimentScore(),
+                moodAssessment.getMoodIntensity());
+            
+        } catch (Exception e) {
+            log.error("Failed to analyze mood for message {}: {}", userMessage.getId(), e.getMessage());
+            // Don't fail the whole message send if mood analysis fails
+        }
+        
+        // ✨ Phase 2: Assess risk level (suicide/self-harm risk)
+        com.mindful.wellness.dto.RiskAssessmentDto riskAssessment = null;
+        try {
+            riskAssessment = severityAssessmentService.assessRisk(
+                content,
+                session.getId(),
+                userMessage.getId(),
+                userId,
+                moodAssessment
+            );
+            
+            // Update session with risk metrics
+            updateSessionRiskMetrics(session, riskAssessment);
+            
+            log.info("Risk assessed for message {}: {}/10 - {} - Action: {}", 
+                userMessage.getId(),
+                riskAssessment.getTotalRiskScore(),
+                riskAssessment.getRiskLevel(),
+                riskAssessment.getRecommendedAction());
+            
+            // Override severity if risk is critical
+            if (riskAssessment.isCrisis()) {
+                severity = "SEVERE";
+                session.setDetectedSeverity("SEVERE");
+            }
+            
+            // ✨ Phase 3: Generate action recommendations
+            if (riskAssessment.getTotalRiskScore() >= 3) {
+                try {
+                    List<com.mindful.wellness.dto.ActionRecommendationDto> recommendations =
+                        actionRecommendationService.generateRecommendations(
+                            riskAssessment,
+                            userId,
+                            session.getId()
+                        );
+                    
+                    log.info("Generated {} action recommendations for user {} based on risk {}/10",
+                        recommendations.size(), userId, riskAssessment.getTotalRiskScore());
+                    
+                } catch (Exception e) {
+                    log.error("Failed to generate action recommendations: {}", e.getMessage());
+                    // Don't fail the message send
+                }
+            }
+            
+            // ✨ Phase 4: Crisis Intervention (auto-trigger for risk >= 9)
+            if (riskAssessment.isCrisis()) {
+                try {
+                    com.mindful.wellness.entity.CrisisIntervention crisisIntervention =
+                        crisisInterventionService.initiateCrisisIntervention(
+                            riskAssessment,
+                            userId,
+                            session.getId(),
+                            userMessage.getId()
+                        );
+                    
+                    log.warn("🚨 CRISIS INTERVENTION {} initiated for user {} - Risk: {}/10",
+                        crisisIntervention.getId(), userId, riskAssessment.getTotalRiskScore());
+                    
+                } catch (Exception e) {
+                    log.error("Failed to initiate crisis intervention: {}", e.getMessage());
+                    // Crisis intervention failure is critical, but don't crash the message send
+                    // The SEVERE bot response will still be sent
+                }
+            }
+            
+        } catch (Exception e) {
+            log.error("Failed to assess risk for message {}: {}", userMessage.getId(), e.getMessage());
+            // Don't fail the whole message send if risk assessment fails
+        }
 
         // Update session severity if worse
         if (severity != null) {
@@ -385,6 +492,73 @@ public class ChatService {
         session.setIsActive(false);
         session.setEndedAt(LocalDateTime.now());
         sessionRepo.save(session);
+    }
+    
+    /**
+     * Update session with aggregated mood metrics.
+     */
+    private void updateSessionMoodMetrics(ChatSession session) {
+        try {
+            // Get all mood assessments for this session
+            List<com.mindful.wellness.entity.MoodAssessment> assessments = 
+                moodAnalysisService.getSessionMoodTrajectory(session.getId())
+                    .getDataPoints()
+                    .stream()
+                    .map(dp -> {
+                        // This is a simplified version - in production, query the repository
+                        return null; // We'll use direct repository query instead
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            
+            // Calculate average sentiment (mood score)
+            java.math.BigDecimal avgSentiment = messageRepo.findBySessionIdOrderByCreatedAtAsc(session.getId())
+                .stream()
+                .filter(m -> m.getSentimentScore() != null)
+                .map(ChatMessage::getSentimentScore)
+                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+            
+            long sentimentCount = messageRepo.findBySessionIdOrderByCreatedAtAsc(session.getId())
+                .stream()
+                .filter(m -> m.getSentimentScore() != null)
+                .count();
+            
+            if (sentimentCount > 0) {
+                avgSentiment = avgSentiment.divide(
+                    java.math.BigDecimal.valueOf(sentimentCount), 
+                    2, 
+                    java.math.RoundingMode.HALF_UP
+                );
+                session.setAverageMoodScore(avgSentiment);
+            }
+            
+            sessionRepo.save(session);
+            
+        } catch (Exception e) {
+            log.warn("Failed to update session mood metrics: {}", e.getMessage());
+            // Non-critical, don't fail the main flow
+        }
+    }
+    
+    /**
+     * Update session with risk metrics.
+     */
+    private void updateSessionRiskMetrics(ChatSession session, com.mindful.wellness.dto.RiskAssessmentDto riskAssessment) {
+        try {
+            // Update highest risk score if this is worse
+            Integer currentHighest = session.getHighestRiskScore();
+            if (currentHighest == null || riskAssessment.getTotalRiskScore() > currentHighest) {
+                session.setHighestRiskScore(riskAssessment.getTotalRiskScore());
+                log.debug("Updated session {} highest risk score to {}", 
+                    session.getId(), riskAssessment.getTotalRiskScore());
+            }
+            
+            sessionRepo.save(session);
+            
+        } catch (Exception e) {
+            log.warn("Failed to update session risk metrics: {}", e.getMessage());
+            // Non-critical, don't fail the main flow
+        }
     }
 
     private ChatMessage saveMessage(UUID sessionId, UUID userId, String role, String content, String severity) {

@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mindful.wellness.dto.MoodAnalysisResult;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -197,6 +199,127 @@ public class GroqService {
         return "{}";
     }
 
+    /**
+     * Analyze mood and mental state using LLM.
+     * 
+     * @param messageContent The user message to analyze
+     * @param conversationContext Recent conversation history (last 3-5 messages)
+     * @return MoodAnalysisResult with detected mood, sentiment, and risk indicators
+     */
+    public MoodAnalysisResult analyzeMoodWithAI(String messageContent, List<String> conversationContext) {
+        String contextStr = conversationContext != null && !conversationContext.isEmpty()
+            ? String.join(" | ", conversationContext)
+            : "No prior context";
+        
+        String prompt = String.format("""
+            Analyze the following message for mood and mental health indicators.
+            
+            User message: "%s"
+            
+            Recent conversation context: %s
+            
+            Perform a detailed emotional and psychological analysis. Return ONLY valid JSON (no markdown, no explanation):
+            {
+              "mood": "SAD|HAPPY|ANXIOUS|ANGRY|OVERWHELMED|HOPELESS|CALM|NEUTRAL|FRUSTRATED|HOPEFUL",
+              "moodIntensity": 0.75,
+              "sentimentScore": -0.6,
+              "dominantEmotions": ["sadness", "fatigue", "worry"],
+              "riskIndicators": ["hopelessness", "isolation"],
+              "confidence": 0.85,
+              "rationale": "Brief explanation of the assessment"
+            }
+            
+            Field descriptions:
+            - mood: The PRIMARY mood (choose ONE from the list above)
+            - moodIntensity: How strong is this mood? 0.0 (barely present) to 1.0 (overwhelming)
+            - sentimentScore: Overall positivity/negativity: -1.0 (very negative) to 1.0 (very positive)
+            - dominantEmotions: 2-4 specific emotions detected (lowercase, specific)
+            - riskIndicators: Mental health concerns detected (empty array if none):
+              * "suicidal_ideation" - thoughts of suicide
+              * "self_harm_intent" - thoughts of hurting oneself
+              * "hopelessness" - feeling no hope for future
+              * "severe_isolation" - extreme loneliness/withdrawal
+              * "panic_symptoms" - panic attack indicators
+              * "substance_abuse_mention" - mentions of drugs/alcohol
+            - confidence: Your confidence in this analysis (0.0 to 1.0)
+            - rationale: 1-2 sentence explanation
+            
+            IMPORTANT:
+            - Be sensitive and empathetic in your analysis
+            - Err on the side of caution for risk indicators
+            - Consider context from previous messages
+            - If unsure, use lower confidence score
+            """,
+            messageContent,
+            contextStr
+        );
+        
+        try {
+            String response = chat(Collections.emptyList(), prompt);
+            
+            if (response == null || response.trim().isEmpty()) {
+                log.warn("Empty response from LLM for mood analysis");
+                return null;
+            }
+            
+            // Extract JSON from response (handle cases where model wraps in markdown)
+            String jsonStr = extractJson(response);
+            if (jsonStr == null) {
+                log.warn("Could not extract JSON from LLM response");
+                return null;
+            }
+            
+            // Parse JSON to MoodAnalysisResult
+            MoodAnalysisResult result = objectMapper.readValue(jsonStr, MoodAnalysisResult.class);
+            
+            // Validate result
+            if (result.getMood() == null || result.getMoodIntensity() == null || result.getSentimentScore() == null) {
+                log.warn("Incomplete mood analysis result from LLM");
+                return null;
+            }
+            
+            log.debug("LLM mood analysis successful: mood={}, intensity={}, sentiment={}, confidence={}", 
+                result.getMood(), result.getMoodIntensity(), result.getSentimentScore(), result.getConfidence());
+            
+            return result;
+            
+        } catch (Exception e) {
+            log.error("Failed to analyze mood with AI: {}", e.getMessage());
+            return null;
+        }
+    }
+    
+    /**
+     * Extract JSON from LLM response (handles markdown wrapping).
+     */
+    private String extractJson(String response) {
+        if (response == null) {
+            return null;
+        }
+        
+        // Remove markdown code blocks if present
+        String cleaned = response.trim();
+        
+        // Check for ```json ... ``` wrapper
+        if (cleaned.startsWith("```json") || cleaned.startsWith("```")) {
+            int start = cleaned.indexOf('{');
+            int end = cleaned.lastIndexOf('}');
+            if (start != -1 && end != -1 && end > start) {
+                return cleaned.substring(start, end + 1);
+            }
+        }
+        
+        // Find JSON object boundaries
+        int start = cleaned.indexOf('{');
+        int end = cleaned.lastIndexOf('}');
+        
+        if (start != -1 && end != -1 && end > start) {
+            return cleaned.substring(start, end + 1);
+        }
+        
+        return null;
+    }
+    
     /**
      * Fallback response when Groq is unavailable.
      */

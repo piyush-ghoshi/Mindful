@@ -41,6 +41,24 @@ public class ChatSession {
     /** Severity detected: LOW / MODERATE / HIGH / SEVERE */
     @Column(name = "detected_severity", length = 20)
     private String detectedSeverity;
+    
+    /** Average mood score (sentiment) across all messages in this session */
+    @Column(name = "average_mood_score", precision = 3, scale = 2)
+    private java.math.BigDecimal averageMoodScore;
+    
+    /** Average risk score (0-10) across all assessments in this session */
+    @Column(name = "average_risk_score", precision = 3, scale = 1)
+    private java.math.BigDecimal averageRiskScore;
+    
+    /** Flag indicating if any crisis-level risk was detected */
+    @Column(name = "crisis_detected", nullable = false)
+    @Builder.Default
+    private Boolean crisisDetected = false;
+    
+    /** Flag indicating if action recommendations have been generated */
+    @Column(name = "action_plan_generated", nullable = false)
+    @Builder.Default
+    private Boolean actionPlanGenerated = false;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
