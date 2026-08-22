@@ -23,7 +23,7 @@ public interface CrisisInterventionRepository extends JpaRepository<CrisisInterv
     List<CrisisIntervention> findActiveInterventions(@Param("userId") UUID userId);
     
     @Query("SELECT ci FROM CrisisIntervention ci WHERE ci.userId = :userId " +
-           "AND ci.severityLevel >= 9 ORDER BY ci.createdAtdesc DESC")
+           "AND ci.severityLevel >= 9 ORDER BY ci.createdAt DESC")
     List<CrisisIntervention> findCriticalCrises(@Param("userId") UUID userId);
     
     @Query("SELECT ci FROM CrisisIntervention ci WHERE ci.followUpRequired = true " +
