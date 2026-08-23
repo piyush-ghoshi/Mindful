@@ -2,6 +2,8 @@ package com.mindful.wellness.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -52,6 +54,7 @@ public class RiskAssessment {
      * Risk factors detected (JSON).
      * Example: {"suicidal_ideation": 10, "hopelessness": 7, "isolation": 5}
      */
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "risk_factors", columnDefinition = "jsonb")
     private String riskFactors;
     
@@ -59,6 +62,7 @@ public class RiskAssessment {
      * Protective factors (JSON).
      * Example: {"social_support": true, "coping_skills": 0.6, "help_seeking": true}
      */
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "protective_factors", columnDefinition = "jsonb")
     private String protectiveFactors;
     
