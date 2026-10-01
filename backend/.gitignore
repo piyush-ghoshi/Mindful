@@ -46,6 +46,13 @@ logs/
 *.sqlite
 *.sqlite3
 
+# Firebase service account keys (NEVER commit)
+*firebase*adminsdk*.json
+*-firebase-*.json
+firebase-key.json
+firebase-credentials*.json
+src/main/resources/mindful-*.json
+
 # OS
 .DS_Store
 Thumbs.db

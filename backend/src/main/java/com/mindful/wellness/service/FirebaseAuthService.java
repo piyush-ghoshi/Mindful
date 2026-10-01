@@ -24,12 +24,18 @@ import java.util.Optional;
  * Handles user registration, login, and authentication using Firebase Admin SDK.
  */
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class FirebaseAuthService {
 
     private final FirebaseAuth firebaseAuth;
     private final UserRepository userRepository;
+
+    public FirebaseAuthService(
+            @org.springframework.beans.factory.annotation.Autowired(required = false) FirebaseAuth firebaseAuth,
+            UserRepository userRepository) {
+        this.firebaseAuth = firebaseAuth;
+        this.userRepository = userRepository;
+    }
 
     /**
      * Register a new user with Firebase and create a local user record.

@@ -1,6 +1,8 @@
 package com.mindful.wellness.controller;
 
 import com.mindful.wellness.dto.*;
+import com.mindful.wellness.entity.ChatSession;
+import com.mindful.wellness.repository.ChatSessionRepository;
 import com.mindful.wellness.service.ChatService;
 import com.mindful.wellness.service.MoodAnalysisService;
 import com.mindful.wellness.util.AuthUtil;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +43,7 @@ public class ChatController {
     private final com.mindful.wellness.service.SeverityAssessmentService severityAssessmentService;
     private final com.mindful.wellness.repository.RiskAssessmentRepository riskAssessmentRepository;
     private final com.mindful.wellness.service.ActionRecommendationService actionRecommendationService;
+    private final ChatSessionRepository chatSessionRepository;
     private final AuthUtil authUtil;
 
     /** Start a new session — type = ASSESSMENT or CASUAL */
@@ -178,9 +182,12 @@ public class ChatController {
             @PathVariable UUID sessionId) {
         try {
             UUID userId = authUtil.getUserId(auth);
-            // TODO: Add ownership check
+            verifySessionOwnership(userId, sessionId);
             MoodTrajectoryDto trajectory = moodAnalysisService.getSessionMoodTrajectory(sessionId);
             return ResponseEntity.ok(trajectory);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("message", "Access denied"));
         } catch (Exception e) {
             log.error("Error getting mood analysis", e);
             return ResponseEntity.internalServerError()
@@ -200,9 +207,12 @@ public class ChatController {
             @PathVariable UUID sessionId) {
         try {
             UUID userId = authUtil.getUserId(auth);
-            // TODO: Add ownership check
+            verifySessionOwnership(userId, sessionId);
             List<MoodShiftDto> shifts = moodAnalysisService.detectMoodShifts(sessionId);
             return ResponseEntity.ok(shifts);
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("message", "Access denied"));
         } catch (Exception e) {
             log.error("Error getting mood shifts", e);
             return ResponseEntity.internalServerError()
@@ -224,7 +234,7 @@ public class ChatController {
             @PathVariable UUID sessionId) {
         try {
             UUID userId = authUtil.getUserId(auth);
-            // TODO: Add ownership check
+            verifySessionOwnership(userId, sessionId);
             
             List<com.mindful.wellness.entity.RiskAssessment> assessments = 
                 riskAssessmentRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
@@ -242,6 +252,9 @@ public class ChatController {
                     .orElse(0),
                 "assessments", dtos
             ));
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("message", "Access denied"));
         } catch (Exception e) {
             log.error("Error getting risk analysis", e);
             return ResponseEntity.internalServerError()
@@ -373,7 +386,7 @@ public class ChatController {
             @PathVariable UUID sessionId) {
         try {
             UUID userId = authUtil.getUserId(auth);
-            // TODO: Add ownership check
+            verifySessionOwnership(userId, sessionId);
             
             List<com.mindful.wellness.dto.ActionRecommendationDto> recs = 
                 actionRecommendationService.getSessionRecommendations(sessionId);
@@ -383,6 +396,9 @@ public class ChatController {
                 "recommendationCount", recs.size(),
                 "recommendations", recs
             ));
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("message", "Access denied"));
         } catch (Exception e) {
             log.error("Error getting session recommendations", e);
             return ResponseEntity.internalServerError()
@@ -432,6 +448,19 @@ public class ChatController {
     }
     
     // ── Helper Methods ─────────────────────────────────────────────────────────
+
+    /**
+     * Verify the authenticated user owns the given session.
+     * Throws AccessDeniedException if the session doesn't belong to the user.
+     */
+    private void verifySessionOwnership(UUID userId, UUID sessionId) {
+        ChatSession session = chatSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new IllegalArgumentException("Session not found: " + sessionId));
+        if (!session.getUserId().equals(userId)) {
+            log.warn("User {} attempted to access session {} owned by another user", userId, sessionId);
+            throw new AccessDeniedException("You do not have permission to access this session");
+        }
+    }
     
     private com.mindful.wellness.dto.RiskAssessmentDto toRiskDto(com.mindful.wellness.entity.RiskAssessment assessment) {
         // Parse JSON fields

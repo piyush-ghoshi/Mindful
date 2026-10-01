@@ -78,12 +78,22 @@ public interface NotificationRepository extends JpaRepository<Notification, UUID
     List<Notification> findByRelatedEntityIdAndRelatedEntityType(UUID relatedEntityId, String relatedEntityType);
 
     /**
-     * Count unread notifications for a user.
+     * Find all unread notifications for a user (status not READ).
+     * 
+     * @param userId the user ID
+     * @return list of unread notifications
+     */
+    @Query("SELECT n FROM Notification n WHERE n.userId = :userId AND n.status != 'READ' ORDER BY n.createdAt DESC")
+    List<Notification> findUnreadByUserId(@Param("userId") UUID userId);
+
+    /**
+     * Count unread notifications for a user (status not READ).
      * 
      * @param userId the user ID
      * @return count of unread notifications
      */
-    long countByUserIdAndStatus(UUID userId, NotificationStatus status);
+    @Query("SELECT COUNT(n) FROM Notification n WHERE n.userId = :userId AND n.status != 'READ'")
+    long countUnreadByUserId(@Param("userId") UUID userId);
 
     /**
      * Find notifications created within a date range.

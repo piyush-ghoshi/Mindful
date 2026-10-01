@@ -14,7 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import org.springframework.test.context.ActiveProfiles;
+
 @SpringBootTest
+@ActiveProfiles("test")
 public class DatabaseTest {
 
     @Autowired

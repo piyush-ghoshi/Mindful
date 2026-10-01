@@ -16,9 +16,22 @@ backend/target/
 .factorypath
 bin/
 
-# Firebase & Secrets
+# Firebase & Secrets — broad patterns to catch any service account JSON
 backend/mindful-54fd2-firebase-adminsdk-fbsvc-2e613fd09a.json
 backend/src/main/resources/firebase-key.json
+backend/src/main/resources/mindful-*.json
+*firebase*adminsdk*.json
+*-firebase-*.json
+firebase-key.json
+firebase-credentials*.json
+
+# Environment files (NEVER commit real credentials)
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+frontend/.env.local
 
 # Logs
 *.log
@@ -26,3 +39,4 @@ backend/src/main/resources/firebase-key.json
 # OS
 .DS_Store
 Thumbs.db
+

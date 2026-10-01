@@ -190,9 +190,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>9.22.0</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/mindful_db</url>
-                    <user>mindful</user>
-                    <password>mindful123</password>
+                    <url>${env.DATABASE_URL:jdbc:postgresql://localhost:5432/mindful}</url>
+                    <user>${env.DATABASE_USERNAME:mindful_user}</user>
+                    <password>${env.DATABASE_PASSWORD:}</password>
                     <locations>
                         <location>filesystem:src/main/resources/db/migration</location>
                     </locations>

@@ -4,12 +4,15 @@ import com.mindful.wellness.dto.AvailabilityScheduleDto;
 import com.mindful.wellness.dto.TimeSlotDto;
 import com.mindful.wellness.entity.AvailabilityException;
 import com.mindful.wellness.entity.AvailabilitySchedule;
+import com.mindful.wellness.entity.UserRole;
 import com.mindful.wellness.service.AvailabilityService;
+import com.mindful.wellness.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -31,6 +34,18 @@ import java.util.UUID;
 public class AvailabilityController {
 
     private final AvailabilityService availabilityService;
+    private final AuthUtil authUtil;
+
+    private boolean isAuthorizedCounsellorOrAdmin(UUID targetId, Authentication authentication) {
+        if (authentication == null) return false;
+        try {
+            UUID currentUserId = authUtil.getUserId(authentication);
+            UserRole role = authUtil.getCurrentUserRole();
+            return role == UserRole.ADMIN || targetId.equals(currentUserId);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * Set availability schedule for a counsellor.
@@ -42,8 +57,14 @@ public class AvailabilityController {
     @PutMapping("/{id}/availability")
     public ResponseEntity<Void> setAvailability(
             @PathVariable UUID id,
+            Authentication authentication,
             @RequestBody AvailabilityScheduleDto availability) {
         try {
+            if (!isAuthorizedCounsellorOrAdmin(id, authentication)) {
+                log.warn("Access denied setting availability schedule for counsellor {}", id);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
             boolean success = availabilityService.setAvailabilitySchedule(id, availability);
             if (success) {
                 log.info("Availability schedule set for counsellor {}", id);
@@ -69,9 +90,15 @@ public class AvailabilityController {
     @PostMapping("/{id}/time-off")
     public ResponseEntity<Void> addTimeOff(
             @PathVariable UUID id,
+            Authentication authentication,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam(required = false) String reason) {
         try {
+            if (!isAuthorizedCounsellorOrAdmin(id, authentication)) {
+                log.warn("Access denied adding time-off for counsellor {}", id);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
             boolean success = availabilityService.addTimeOff(id, date, reason);
             if (success) {
                 log.info("Time-off added for counsellor {} on {}", id, date);
@@ -96,8 +123,14 @@ public class AvailabilityController {
     @DeleteMapping("/{id}/time-off/{date}")
     public ResponseEntity<Void> removeTimeOff(
             @PathVariable UUID id,
+            Authentication authentication,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         try {
+            if (!isAuthorizedCounsellorOrAdmin(id, authentication)) {
+                log.warn("Access denied removing time-off for counsellor {}", id);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
             boolean success = availabilityService.removeTimeOff(id, date);
             if (success) {
                 log.info("Time-off removed for counsellor {} on {}", id, date);

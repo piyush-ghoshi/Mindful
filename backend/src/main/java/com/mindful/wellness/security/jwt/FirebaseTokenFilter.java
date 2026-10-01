@@ -39,12 +39,20 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class FirebaseTokenFilter extends OncePerRequestFilter {
 
     private final FirebaseAuth firebaseAuth;
     private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
+
+    public FirebaseTokenFilter(
+            @org.springframework.beans.factory.annotation.Autowired(required = false) FirebaseAuth firebaseAuth,
+            UserRepository userRepository,
+            UserDetailsService userDetailsService) {
+        this.firebaseAuth = firebaseAuth;
+        this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -54,6 +62,12 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
         // Skip if authentication is already set (local JWT was valid)
         if (SecurityContextHolder.getContext().getAuthentication() != null
                 && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // If Firebase is not configured in this environment, skip Firebase token check
+        if (firebaseAuth == null) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -78,11 +92,19 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
             }
 
             // Look up or auto-create the local user row
-            // Respect X-User-Role header ONLY during first sign-up (auto-creation)
+            // Allow initial role selection only between non-admin roles (e.g. STUDENT, COUNSELLOR)
             String requestedRole = request.getHeader("X-User-Role");
             UserRole roleToAssign = UserRole.STUDENT;
             if (requestedRole != null) {
-                try { roleToAssign = UserRole.valueOf(requestedRole.toUpperCase()); } catch (Exception ignored) {}
+                try {
+                    UserRole parsedRole = UserRole.valueOf(requestedRole.trim().toUpperCase());
+                    if (parsedRole == UserRole.ADMIN) {
+                        log.warn("SECURITY ALERT: Self-registration as ADMIN blocked for email: {}. Defaulting to STUDENT.", email);
+                        roleToAssign = UserRole.STUDENT;
+                    } else {
+                        roleToAssign = parsedRole;
+                    }
+                } catch (Exception ignored) {}
             }
             final UserRole finalRole = roleToAssign;
 

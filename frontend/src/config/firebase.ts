@@ -3,7 +3,16 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
-const isConfigValid = true;
+// Validate that required Firebase env vars are set
+const requiredVars = [
+  'VITE_FIREBASE_API_KEY',
+  'VITE_FIREBASE_AUTH_DOMAIN',
+  'VITE_FIREBASE_PROJECT_ID',
+] as const;
+
+const isConfigValid = requiredVars.every(
+  (key) => import.meta.env[key] && import.meta.env[key].trim() !== ''
+);
 
 let app: any = null;
 let auth: any = null;
@@ -11,20 +20,20 @@ let googleProvider: any = null;
 let db: any = null;
 let analytics: any = null;
 
-if (true) { // Config is always valid now with hardcoded fallbacks
+if (isConfigValid) {
   try {
     const firebaseConfig = {
-      apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC0ZNbKQFXPVgKA8vYx2mzIKH7fcv7qncM",
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
       authDomain: (typeof window !== 'undefined' && 
                    window.location.hostname !== 'localhost' && 
                    !window.location.hostname.match(/^\d+\.\d+\.\d+\.\d+$/))
                     ? window.location.hostname
-                    : (import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "mindful-54fd2.firebaseapp.com"),
-      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "mindful-54fd2",
-      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "mindful-54fd2.firebasestorage.app",
-      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "259988372381",
-      appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:259988372381:web:eaae125adb2be6bbd78d74",
-      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-7S3CZYHGGW",
+                    : import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+      appId: import.meta.env.VITE_FIREBASE_APP_ID || '',
+      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || '',
     };
 
     // Initialize Firebase
@@ -46,7 +55,11 @@ if (true) { // Config is always valid now with hardcoded fallbacks
     console.error('Failed to initialize Firebase with configured credentials:', error);
   }
 } else {
-  console.warn('Firebase environment variables are missing. App is running in unconfigured mode.');
+  console.warn(
+    'Firebase environment variables are missing. Required: ' +
+    requiredVars.join(', ') +
+    '. Copy .env.example to .env.local and fill in your Firebase config.'
+  );
   
   // Safe mock objects to prevent top-level module resolution crashes
   auth = {
@@ -67,3 +80,4 @@ if (true) { // Config is always valid now with hardcoded fallbacks
 
 export { app, auth, googleProvider, db, analytics, isConfigValid };
 export default app;
+

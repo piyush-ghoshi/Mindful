@@ -85,7 +85,7 @@ public class AppointmentReminderScheduler {
                 return;
             }
 
-            // Send reminder to student
+            // Send reminder to student (IN_APP for immediate web visibility + EMAIL for offline outreach)
             String studentMessage = String.format(
                     "Reminder: You have an appointment with %s %s on %s at %s",
                     counsellor.getFirstName(),
@@ -99,7 +99,7 @@ public class AppointmentReminderScheduler {
                     "APPOINTMENT_REMINDER",
                     "Appointment Reminder",
                     studentMessage,
-                    "EMAIL",
+                    "IN_APP",
                     appointment.getId(),
                     "APPOINTMENT",
                     null
@@ -119,7 +119,7 @@ public class AppointmentReminderScheduler {
                     "APPOINTMENT_REMINDER",
                     "Appointment Reminder",
                     counsellorMessage,
-                    "EMAIL",
+                    "IN_APP",
                     appointment.getId(),
                     "APPOINTMENT",
                     null
@@ -165,7 +165,7 @@ public class AppointmentReminderScheduler {
                     "APPOINTMENT_CONFIRMATION",
                     "Appointment Confirmed",
                     studentMessage,
-                    "EMAIL",
+                    "IN_APP",
                     appointment.getId(),
                     "APPOINTMENT",
                     null
@@ -185,7 +185,7 @@ public class AppointmentReminderScheduler {
                     "APPOINTMENT_CONFIRMATION",
                     "Appointment Confirmed",
                     counsellorMessage,
-                    "EMAIL",
+                    "IN_APP",
                     appointment.getId(),
                     "APPOINTMENT",
                     null
@@ -234,7 +234,7 @@ public class AppointmentReminderScheduler {
                     "APPOINTMENT_CANCELLATION",
                     "Appointment Cancelled",
                     studentMessage,
-                    "EMAIL",
+                    "IN_APP",
                     appointment.getId(),
                     "APPOINTMENT",
                     null
@@ -255,7 +255,7 @@ public class AppointmentReminderScheduler {
                     "APPOINTMENT_CANCELLATION",
                     "Appointment Cancelled",
                     counsellorMessage,
-                    "EMAIL",
+                    "IN_APP",
                     appointment.getId(),
                     "APPOINTMENT",
                     null

@@ -241,7 +241,7 @@ public class NotificationService {
      * @return list of unread notifications
      */
     public List<Notification> getUnreadNotifications(UUID userId) {
-        return notificationRepository.findByUserIdAndStatus(userId, NotificationStatus.PENDING);
+        return notificationRepository.findUnreadByUserId(userId);
     }
 
     /**
@@ -251,7 +251,7 @@ public class NotificationService {
      * @return count of unread notifications
      */
     public long getUnreadNotificationCount(UUID userId) {
-        return notificationRepository.countByUserIdAndStatus(userId, NotificationStatus.PENDING);
+        return notificationRepository.countUnreadByUserId(userId);
     }
 
     /**

@@ -54,6 +54,9 @@ public class SecurityConfig {
     @Autowired
     private FirebaseTokenFilter firebaseTokenFilter;
 
+    @Autowired
+    private com.mindful.wellness.security.ratelimit.RateLimitFilter rateLimitFilter;
+
     /**
      * Configure the security filter chain.
      * 
@@ -126,9 +129,10 @@ public class SecurityConfig {
                         // All other requests require authentication
                         .anyRequest().authenticated())
                 
-                // Add JWT filter, then Firebase token filter
+                // Add JWT filter, then Firebase token filter, then RateLimit filter
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(firebaseTokenFilter, JwtAuthenticationFilter.class);
+                .addFilterAfter(firebaseTokenFilter, JwtAuthenticationFilter.class)
+                .addFilterAfter(rateLimitFilter, FirebaseTokenFilter.class);
 
         return http.build();
     }

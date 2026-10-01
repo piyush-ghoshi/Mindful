@@ -9,6 +9,9 @@ export interface ChatMessageDto {
   role: 'USER' | 'BOT';
   content: string;
   severityFlag?: SeverityLevel | null;
+  moodDetected?: string | null;
+  sentimentScore?: number | null;
+  riskIndicators?: string | null;
   createdAt?: string;
 }
 

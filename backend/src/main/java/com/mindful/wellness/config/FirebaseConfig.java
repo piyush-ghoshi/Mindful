@@ -7,102 +7,111 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.cloud.firestore.Firestore;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.io.ClassPathResource;
 
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 /**
  * Firebase configuration for Spring Boot application.
  * Initializes Firebase Admin SDK with service account credentials.
+ *
+ * Credential loading order:
+ *   1. FIREBASE_CREDENTIALS_JSON environment variable (raw JSON string)
+ *   2. /etc/secrets/FIREBASE_CREDENTIALS_JSON  (Render secret file)
+ *   3. /etc/secrets/firebase-key.json           (Render secret file)
+ *   4. FIREBASE_CREDENTIALS_PATH property       (external file path)
+ *
+ * NOTE: Credentials are NEVER loaded from classpath. Service account JSON
+ * files must not be committed to the repository.
  */
 @Configuration
+@Slf4j
 public class FirebaseConfig {
+
+    @Value("${firebase.credentials.path:}")
+    private String credentialsPath;
 
     /**
      * Initialize Firebase Admin SDK with service account credentials.
-     * The firebase-key.json file should be placed in src/main/resources/
      *
      * @return FirebaseApp instance
-     * @throws IOException if the service account key file cannot be read
+     * @throws IOException if no valid credentials source is found
      */
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         // Check if Firebase is already initialized
-        if (FirebaseApp.getApps().isEmpty()) {
-            GoogleCredentials credentials = null;
-
-            // 1. Try env variable first
-            String envJson = System.getenv("FIREBASE_CREDENTIALS_JSON");
-            if (envJson != null && !envJson.trim().isEmpty()) {
-                credentials = GoogleCredentials.fromStream(
-                    new java.io.ByteArrayInputStream(envJson.getBytes(java.nio.charset.StandardCharsets.UTF_8))
-                );
-            }
-
-            // 2. Try Render secret file path /etc/secrets/FIREBASE_CREDENTIALS_JSON
-            if (credentials == null) {
-                java.io.File secretFile = new java.io.File("/etc/secrets/FIREBASE_CREDENTIALS_JSON");
-                if (secretFile.exists() && secretFile.canRead()) {
-                    try (java.io.FileInputStream fis = new java.io.FileInputStream(secretFile)) {
-                        credentials = GoogleCredentials.fromStream(fis);
-                    }
-                }
-            }
-
-            // 3. Try alternative Render secret file path /etc/secrets/firebase-key.json
-            if (credentials == null) {
-                java.io.File secretFile = new java.io.File("/etc/secrets/firebase-key.json");
-                if (secretFile.exists() && secretFile.canRead()) {
-                    try (java.io.FileInputStream fis = new java.io.FileInputStream(secretFile)) {
-                        credentials = GoogleCredentials.fromStream(fis);
-                    }
-                }
-            }
-
-            // 4. Fall back to classpath candidates (for local development)
-            if (credentials == null) {
-                org.springframework.core.io.Resource resource = null;
-                String[] candidates = {
-                    "mindful-54fd2-firebase-adminsdk-fbsvc-2e613fd09a.json",
-                    "firebase-key.json"
-                };
-                for (String name : candidates) {
-                    ClassPathResource candidate = new ClassPathResource(name);
-                    if (candidate.exists()) {
-                        resource = candidate;
-                        break;
-                    }
-                }
-                if (resource == null) {
-                    throw new IOException("Firebase credentials not found. Tried: " +
-                        "FIREBASE_CREDENTIALS_JSON environment variable, " +
-                        "/etc/secrets/FIREBASE_CREDENTIALS_JSON, " +
-                        "/etc/secrets/firebase-key.json, and classpath candidates.");
-                }
-                credentials = GoogleCredentials.fromStream(resource.getInputStream());
-            }
-
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(credentials)
-                    .setDatabaseUrl("https://mindful-54fd2.firebaseio.com")
-                    .setProjectId("mindful-54fd2")
-                    .build();
-
-            return FirebaseApp.initializeApp(options);
+        if (!FirebaseApp.getApps().isEmpty()) {
+            return FirebaseApp.getInstance();
         }
-        return FirebaseApp.getInstance();
+
+        GoogleCredentials credentials = null;
+
+        // 1. Try FIREBASE_CREDENTIALS_JSON env var (raw JSON string)
+        String envJson = System.getenv("FIREBASE_CREDENTIALS_JSON");
+        if (envJson != null && !envJson.trim().isEmpty()) {
+            credentials = GoogleCredentials.fromStream(
+                new java.io.ByteArrayInputStream(envJson.getBytes(java.nio.charset.StandardCharsets.UTF_8))
+            );
+        }
+
+        // 2. Try Render secret file path /etc/secrets/FIREBASE_CREDENTIALS_JSON
+        if (credentials == null) {
+            java.io.File secretFile = new java.io.File("/etc/secrets/FIREBASE_CREDENTIALS_JSON");
+            if (secretFile.exists() && secretFile.canRead()) {
+                try (java.io.FileInputStream fis = new java.io.FileInputStream(secretFile)) {
+                    credentials = GoogleCredentials.fromStream(fis);
+                }
+            }
+        }
+
+        // 3. Try alternative Render secret file path /etc/secrets/firebase-key.json
+        if (credentials == null) {
+            java.io.File secretFile = new java.io.File("/etc/secrets/firebase-key.json");
+            if (secretFile.exists() && secretFile.canRead()) {
+                try (java.io.FileInputStream fis = new java.io.FileInputStream(secretFile)) {
+                    credentials = GoogleCredentials.fromStream(fis);
+                }
+            }
+        }
+
+        // 4. Try external file path from FIREBASE_CREDENTIALS_PATH property
+        if (credentials == null && credentialsPath != null && !credentialsPath.trim().isEmpty()
+                && !credentialsPath.startsWith("classpath:")) {
+            java.io.File externalFile = new java.io.File(credentialsPath);
+            if (externalFile.exists() && externalFile.canRead()) {
+                try (java.io.FileInputStream fis = new java.io.FileInputStream(externalFile)) {
+                    credentials = GoogleCredentials.fromStream(fis);
+                }
+            }
+        }
+
+        if (credentials == null) {
+            log.warn("Firebase credentials not configured. Firebase authentication features will be disabled.");
+            return null;
+        }
+
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(credentials)
+                .build();
+
+        return FirebaseApp.initializeApp(options);
     }
 
     /**
      * Provide FirebaseAuth bean for authentication operations.
-     * Explicitly depends on firebaseApp to guarantee initialization order.
+     * Returns null if FirebaseApp is not initialized (e.g. In tests or without credentials).
      */
     @Bean
-    public FirebaseAuth firebaseAuth(FirebaseApp firebaseApp) {
-        return FirebaseAuth.getInstance(firebaseApp);
+    public FirebaseAuth firebaseAuth(org.springframework.beans.factory.ObjectProvider<FirebaseApp> firebaseAppProvider) {
+        FirebaseApp app = firebaseAppProvider.getIfAvailable();
+        if (app == null) {
+            return null;
+        }
+        return FirebaseAuth.getInstance(app);
     }
 
     /**
@@ -110,17 +119,25 @@ public class FirebaseConfig {
      * Application Default Credentials aren't configured locally.
      */
     @Bean
-    @org.springframework.context.annotation.Lazy
-    public Firestore firestore(FirebaseApp firebaseApp) {
-        return com.google.firebase.cloud.FirestoreClient.getFirestore(firebaseApp);
+    @Lazy
+    public Firestore firestore(org.springframework.beans.factory.ObjectProvider<FirebaseApp> firebaseAppProvider) {
+        FirebaseApp app = firebaseAppProvider.getIfAvailable();
+        if (app == null) {
+            return null;
+        }
+        return FirestoreClient.getFirestore(app);
     }
 
     /**
      * Provide FirebaseDatabase bean for Realtime Database operations.
      */
     @Bean
-    @org.springframework.context.annotation.Lazy
-    public FirebaseDatabase firebaseDatabase(FirebaseApp firebaseApp) {
-        return FirebaseDatabase.getInstance(firebaseApp);
+    @Lazy
+    public FirebaseDatabase firebaseDatabase(org.springframework.beans.factory.ObjectProvider<FirebaseApp> firebaseAppProvider) {
+        FirebaseApp app = firebaseAppProvider.getIfAvailable();
+        if (app == null) {
+            return null;
+        }
+        return FirebaseDatabase.getInstance(app);
     }
 }

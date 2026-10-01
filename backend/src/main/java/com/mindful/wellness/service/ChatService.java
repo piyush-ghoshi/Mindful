@@ -49,8 +49,17 @@ public class ChatService {
     private final SeverityAssessmentService severityAssessmentService;
     private final ActionRecommendationService actionRecommendationService;
     private final CrisisInterventionService crisisInterventionService;
+    private final com.mindful.wellness.ai.provider.AiProviderManager aiProviderManager;
+    private final com.mindful.wellness.ai.memory.ConversationMemoryService conversationMemoryService;
+    private final com.mindful.wellness.ai.safety.SafetyGuardService safetyGuardService;
 
     // ── Rate limits ────────────────────────────────────────────────────────────
+    @org.springframework.beans.factory.annotation.Value("${rate-limit.chat.daily-limit:50}")
+    private int dailyChatLimit;
+
+    @org.springframework.beans.factory.annotation.Value("${rate-limit.report.daily-limit:5}")
+    private int dailyReportLimit;
+
     private static final int BASE_MSG_LIMIT    = 10;
     private static final int BASE_REPORT_LIMIT = 1;
     private static final int PRO_MSG_LIMIT     = 50;
@@ -176,6 +185,14 @@ public class ChatService {
 
         // Detect severity
         String severity = detectSeverity(content);
+
+        // 🚨 Pre-LLM Real-time Safety Guard Check (Instant Crisis Screening)
+        com.mindful.wellness.ai.model.SafetyCheckResult safetyCheck = safetyGuardService.evaluateInput(content);
+        if (safetyCheck.isCrisis()) {
+            severity = "SEVERE";
+            session.setDetectedSeverity("SEVERE");
+        }
+
         if (uploadedReportText != null && !uploadedReportText.isBlank()) {
             content = "[UPLOADED REPORT]\n" + uploadedReportText.trim() + "\n\n[USER MESSAGE]\n" + content;
         }
@@ -369,7 +386,7 @@ public class ChatService {
         int wellnessScore;
 
         try {
-            String reportJsonStr = groqService.generateReportJson(userName, conversationSummary, severity);
+            String reportJsonStr = aiProviderManager.generateReportJson(userName, conversationSummary, severity);
             com.fasterxml.jackson.databind.JsonNode reportNode = objectMapper.readTree(reportJsonStr);
 
             conditions    = fromJsonNode(reportNode.get("conditionPoints"));
@@ -379,7 +396,7 @@ public class ChatService {
             referral      = reportNode.has("counsellorReferralSuggested") && reportNode.get("counsellorReferralSuggested").asBoolean();
             wellnessScore = reportNode.has("wellnessScore") ? reportNode.get("wellnessScore").asInt(50) : computeWellnessScore(severity, userMessages);
         } catch (Exception e) {
-            log.warn("Groq report generation failed, using fallback: {}", e.getMessage());
+            log.warn("AI report generation failed, using fallback: {}", e.getMessage());
             conditions    = analyseConditionPoints(userMessages, severity);
             exercises     = recommendedExercises(severity);
             meditations   = recommendedMeditations(severity);
@@ -573,113 +590,23 @@ public class ChatService {
     }
 
     private String generateBotReply(ChatSession session, String userContent, String severity, String uploaded) {
-        // SEVERE → immediate crisis response (don't wait for LLM)
+        // SEVERE or Crisis → immediate crisis response (don't wait for LLM)
         if ("SEVERE".equals(severity) || "SEVERE".equals(session.getDetectedSeverity())) {
-            return "🚨 I'm really concerned about what you've shared. **Please reach out for immediate support right now:**\n\n" +
-                   "• **iCall (India):** 9152987821\n" +
-                   "• **Vandrevala Foundation:** 1860-2662-345 (24/7)\n" +
-                   "• **AASRA:** 9820466627 (24/7)\n\n" +
-                   "You are not alone, and what you're feeling is real. I'm generating an urgent report and flagging this for counsellor review. " +
-                   "Please talk to someone you trust right now. 💚\n\n" +
-                   "**Your session has been saved and a report is ready for you.**";
+            com.mindful.wellness.ai.model.SafetyCheckResult safetyResult = safetyGuardService.evaluateInput(userContent);
+            return safetyResult.isCrisis() ? safetyResult.getEmergencyResponse() : com.mindful.wellness.ai.safety.SafetyGuardService.CRISIS_RESPONSE;
         }
 
-        // Build conversation history for Groq
-        List<ChatMessage> history = messageRepo.findBySessionIdOrderByCreatedAtAsc(session.getId());
-        List<Map<String, String>> conversationHistory = history.stream()
-                .map(msg -> {
-                    Map<String, String> map = new HashMap<>();
-                    // Groq API expects "user" / "assistant" — map stored roles
-                    String role = msg.getRole();
-                    if ("BOT".equalsIgnoreCase(role) || "assistant".equalsIgnoreCase(role)) {
-                        role = "assistant";
-                    } else {
-                        role = "user";
-                    }
-                    map.put("role", role);
-                    map.put("content", msg.getContent());
-                    return map;
-                })
-                .collect(Collectors.toList());
+        // Build rich conversation context with history & user identity
+        com.mindful.wellness.ai.model.ConversationContext context =
+                conversationMemoryService.buildContext(session.getUserId(), session.getId(), userContent);
+        context.setDetectedSeverity(severity);
+        context.setUploadedReportSummary(uploaded);
 
-        // Use the latest user message as context (dynamic chat)
-        String contextualContent = userContent;
+        // Generate response via AiProviderManager with automatic multi-tier fallback
+        String reply = aiProviderManager.generateCompanionReply(context);
 
-        String reply = groqService.chat(conversationHistory, contextualContent);
-        if (reply != null && !reply.trim().isEmpty()) {
-            return reply;
-        }
-
-        // ── Fallback when Groq AI is offline / invalid API key ─────────────────
-        String lower = userContent.toLowerCase().trim();
-
-        // 1. Misuse / Educational / Unrelated testing (Preempt everything)
-        if (lower.contains("code") || lower.contains("programming") || lower.contains("math") || 
-            lower.contains("history") || lower.contains("science") || lower.contains("educational") || 
-            lower.contains("homework") || lower.contains("essay") || lower.contains("physics") ||
-            lower.contains("chemistry") || lower.contains("biology") || lower.contains("algebra") ||
-            lower.contains("calculus") || lower.contains("write a program") || lower.contains("write code") ||
-            lower.contains("solve ") || lower.contains("calculate") || lower.contains("programmer") ||
-            lower.contains("java") || lower.contains("python") || lower.contains("javascript") ||
-            lower.contains("teach me")) {
-            return "I'm there to help your mental state and analyse your mental state, do not misuse me.";
-        }
-
-        // 2. Hi / Hello
-        if (lower.matches("^(hi|hello|hey|greetings|yo|hello there|hi there)(\\s+.*|\\!|\\.|\\,)?$")) {
-            return "Hello! 💚 How can I help you today? What's on your mind?";
-        }
-
-        // 3. Name introduction ("i am piyush", "my name is piyush", "i'm piyush")
-        // Exclude common feeling/state words so "i am feeling sad" is NOT treated as a name
-        List<String> notNameWords = List.of("feeling", "so", "very", "really", "not", "doing",
-                "fine", "good", "great", "okay", "ok", "bad", "sad", "happy", "tired",
-                "stressed", "anxious", "depressed", "lonely", "scared", "angry", "worried",
-                "struggling", "having", "going", "trying");
-        boolean looksLikeName = (lower.startsWith("i am ") || lower.startsWith("i'm ") || lower.startsWith("my name is "))
-                && notNameWords.stream().noneMatch(w -> lower.contains("i am " + w) || lower.contains("i'm " + w));
-        if (looksLikeName) {
-            String name = "";
-            if (lower.startsWith("i am ")) {
-                name = userContent.substring(5).trim();
-            } else if (lower.startsWith("i'm ")) {
-                name = userContent.substring(4).trim();
-            } else if (lower.startsWith("my name is ")) {
-                name = userContent.substring(11).trim();
-            }
-            if (!name.isEmpty()) {
-                name = name.replaceAll("[\\.\\!\\,\\?]+$", "").trim();
-                if (!name.isEmpty()) {
-                    name = name.substring(0, 1).toUpperCase() + name.substring(1);
-                    return "Hello " + name + "! 💚 Nice to meet you. How are you feeling today?";
-                }
-            }
-        }
-
-        // 4. Sexual / Relationship problems
-        if (lower.contains("sex") || lower.contains("sexual") || lower.contains("intimacy") || 
-            lower.contains("relationship") || lower.contains("breakup") || lower.contains("break up") || 
-            lower.contains("boyfriend") || lower.contains("girlfriend") || lower.contains("partner") ||
-            lower.contains("love") || lower.contains("cheat") || lower.contains("marital") || 
-            lower.contains("marriage") || lower.contains("divorce")) {
-            return "Thank you for sharing that with me. 💚 Conversations about intimacy, sexual wellness, or relationship challenges can be deeply personal and sometimes carry stress or anxiety. I'm here as a safe space to discuss how this is affecting your mental state. What specific feelings or situations are on your mind?";
-        }
-
-        
-
-        // 6. Casual chat mental health specific fallbacks
-        if (lower.contains("anxious") || lower.contains("anxiety") || lower.contains("panic")) {
-            return "I hear you — anxiety can feel really overwhelming. 💚\n\nTry this right now: **box breathing** — inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 3 times. It activates your body's calming response.\n\nWhat's been triggering the anxiety for you?";
-        }
-        if (lower.contains("sad") || lower.contains("depress") || lower.contains("down")) {
-            return "Thank you for sharing that with me. 🌿 Feeling low is genuinely hard to carry.\n\nSmall steps matter — even a 10-minute walk in sunlight can shift your mood. Would you like to talk about what's been weighing on you?";
-        }
-        if (lower.contains("stress") || lower.contains("overwhelm")) {
-            return "When everything piles up, it's easy to feel paralysed. 💚\n\nTry this: identify just **one thing** — the smallest possible action — that would make today better. What's the biggest stressor for you right now?";
-        }
-
-        // 7. Generic casual responses
-        return "Thank you for sharing with me. 💚 I'm here and I'm listening.\n\nCould you tell me a bit more about how you've been feeling? I want to make sure I understand what you're going through.";
+        // Post-LLM safety sanitization
+        return safetyGuardService.sanitizeOutput(reply);
     }
 
     private String buildCasualOpening() {
@@ -843,11 +770,11 @@ public class ChatService {
     }
 
     private int getMessageLimit(UUID userId) {
-        return 999999;
+        return dailyChatLimit > 0 ? dailyChatLimit : PRO_MSG_LIMIT;
     }
 
     private int getReportLimit(UUID userId) {
-        return 999999;
+        return dailyReportLimit > 0 ? dailyReportLimit : PRO_REPORT_LIMIT;
     }
 
     private String toJson(List<String> list) {
@@ -895,6 +822,9 @@ public class ChatService {
                 .id(m.getId()).sessionId(m.getSessionId())
                 .role(m.getRole()).content(m.getContent())
                 .severityFlag(m.getSeverityFlag())
+                .moodDetected(m.getMoodDetected())
+                .sentimentScore(m.getSentimentScore())
+                .riskIndicators(m.getRiskIndicators())
                 .createdAt(m.getCreatedAt()).build();
     }
 

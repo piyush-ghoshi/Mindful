@@ -46,10 +46,15 @@ public class AppointmentService {
 
     /**
      * Confirm (accept) an appointment — sets status to CONFIRMED.
+     * Only the assigned counsellor or ADMIN can confirm.
      */
-    public Appointment confirmAppointment(UUID appointmentId) {
+    public Appointment confirmAppointment(UUID appointmentId, UUID callerId, boolean isAdmin) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found: " + appointmentId));
+
+        if (!isAdmin && !appointment.getCounsellorId().equals(callerId)) {
+            throw new IllegalArgumentException("Access denied: Only the assigned counsellor can confirm this appointment");
+        }
 
         if (appointment.getStatus() == AppointmentStatus.CANCELLED
                 || appointment.getStatus() == AppointmentStatus.COMPLETED) {
@@ -58,8 +63,15 @@ public class AppointmentService {
 
         appointment.setStatus(AppointmentStatus.CONFIRMED);
         Appointment saved = appointmentRepository.save(appointment);
-        log.info("Appointment confirmed: {}", appointmentId);
+        log.info("Appointment confirmed: {} by counsellor/admin {}", appointmentId, callerId);
         return saved;
+    }
+
+    /**
+     * Backward-compatible overload for confirmAppointment without caller check (e.g. system tasks).
+     */
+    public Appointment confirmAppointment(UUID appointmentId) {
+        return confirmAppointment(appointmentId, null, true);
     }
 
     /**
@@ -186,12 +198,20 @@ public class AppointmentService {
      * @param appointmentId the appointment ID
      * @param cancelledBy the user ID of who is cancelling
      * @param reason the cancellation reason
+     * @param isAdmin whether the caller has administrator privileges
      * @return true if cancellation was successful
      * @throws IllegalArgumentException if appointment not found or cannot be cancelled
      */
-    public boolean cancelAppointment(UUID appointmentId, UUID cancelledBy, String reason) {
+    public boolean cancelAppointment(UUID appointmentId, UUID cancelledBy, String reason, boolean isAdmin) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found with ID: " + appointmentId));
+
+        // Caller must be the student, the counsellor, or an admin
+        if (!isAdmin && cancelledBy != null 
+                && !cancelledBy.equals(appointment.getStudentId()) 
+                && !cancelledBy.equals(appointment.getCounsellorId())) {
+            throw new IllegalArgumentException("Access denied: You are not authorized to cancel this appointment");
+        }
 
         // Validate appointment can be cancelled
         if (appointment.getStatus() == AppointmentStatus.COMPLETED) {
@@ -218,18 +238,34 @@ public class AppointmentService {
     }
 
     /**
+     * Backward-compatible overload for cancelAppointment (caller check default false).
+     */
+    public boolean cancelAppointment(UUID appointmentId, UUID cancelledBy, String reason) {
+        return cancelAppointment(appointmentId, cancelledBy, reason, false);
+    }
+
+    /**
      * Reschedule an appointment to a new time.
      * 
      * Validates that the new time slot is available and follows the same rules as booking.
      * 
      * @param appointmentId the appointment ID
      * @param newStartTime the new start time
+     * @param requestedBy the user ID requesting the reschedule
+     * @param isAdmin whether caller is admin
      * @return the rescheduled appointment
      * @throws IllegalArgumentException if appointment not found or cannot be rescheduled
      */
-    public Appointment rescheduleAppointment(UUID appointmentId, LocalDateTime newStartTime) {
+    public Appointment rescheduleAppointment(UUID appointmentId, LocalDateTime newStartTime, UUID requestedBy, boolean isAdmin) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found with ID: " + appointmentId));
+
+        // Caller must be the student, the counsellor, or an admin
+        if (!isAdmin && requestedBy != null 
+                && !requestedBy.equals(appointment.getStudentId()) 
+                && !requestedBy.equals(appointment.getCounsellorId())) {
+            throw new IllegalArgumentException("Access denied: You are not authorized to reschedule this appointment");
+        }
 
         // Validate appointment can be rescheduled
         if (appointment.getStatus() == AppointmentStatus.COMPLETED) {
@@ -268,21 +304,45 @@ public class AppointmentService {
         appointment.setStatus(AppointmentStatus.RESCHEDULED);
 
         Appointment rescheduledAppointment = appointmentRepository.save(appointment);
-        log.info("Appointment rescheduled. ID: {}, New time: {}", appointmentId, newStartTime);
+        log.info("Appointment rescheduled. ID: {}, New time: {}, Requested by: {}", appointmentId, newStartTime, requestedBy);
 
         return rescheduledAppointment;
     }
 
     /**
-     * Get an appointment by ID.
+     * Backward-compatible overload for rescheduleAppointment.
+     */
+    public Appointment rescheduleAppointment(UUID appointmentId, LocalDateTime newStartTime) {
+        return rescheduleAppointment(appointmentId, newStartTime, null, true);
+    }
+
+    /**
+     * Get an appointment by ID with participant or admin verification.
      * 
      * @param appointmentId the appointment ID
+     * @param callerId the user requesting the appointment
+     * @param isAdmin whether caller is an admin
      * @return the appointment
-     * @throws IllegalArgumentException if appointment not found
+     * @throws IllegalArgumentException if appointment not found or caller unauthorized
+     */
+    public Appointment getAppointmentById(UUID appointmentId, UUID callerId, boolean isAdmin) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found with ID: " + appointmentId));
+
+        if (!isAdmin && callerId != null
+                && !callerId.equals(appointment.getStudentId())
+                && !callerId.equals(appointment.getCounsellorId())) {
+            throw new IllegalArgumentException("Access denied: You are not authorized to view this appointment");
+        }
+
+        return appointment;
+    }
+
+    /**
+     * Backward-compatible overload for getAppointmentById.
      */
     public Appointment getAppointmentById(UUID appointmentId) {
-        return appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new IllegalArgumentException("Appointment not found with ID: " + appointmentId));
+        return getAppointmentById(appointmentId, null, true);
     }
 
     /**
@@ -326,12 +386,18 @@ public class AppointmentService {
      * 
      * @param appointmentId the appointment ID
      * @param notes optional notes from the counsellor
+     * @param callerId the UUID of the caller
+     * @param isAdmin whether the caller is an administrator
      * @return true if marking complete was successful
-     * @throws IllegalArgumentException if appointment not found or cannot be marked complete
+     * @throws IllegalArgumentException if appointment not found, unauthorized, or cannot be marked complete
      */
-    public boolean markAppointmentComplete(UUID appointmentId, String notes) {
+    public boolean markAppointmentComplete(UUID appointmentId, String notes, UUID callerId, boolean isAdmin) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found with ID: " + appointmentId));
+
+        if (!isAdmin && callerId != null && !callerId.equals(appointment.getCounsellorId())) {
+            throw new IllegalArgumentException("Access denied: Only the assigned counsellor can complete this appointment");
+        }
 
         // Validate appointment can be marked complete
         if (appointment.getStatus() == AppointmentStatus.CANCELLED) {
@@ -348,9 +414,16 @@ public class AppointmentService {
         appointment.setCompletedAt(LocalDateTime.now());
 
         appointmentRepository.save(appointment);
-        log.info("Appointment marked as complete. ID: {}", appointmentId);
+        log.info("Appointment marked as complete. ID: {}, Completed by: {}", appointmentId, callerId);
 
         return true;
+    }
+
+    /**
+     * Backward-compatible overload for markAppointmentComplete.
+     */
+    public boolean markAppointmentComplete(UUID appointmentId, String notes) {
+        return markAppointmentComplete(appointmentId, notes, null, true);
     }
 
     /**

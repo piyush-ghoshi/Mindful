@@ -42,8 +42,13 @@ const MessageBubble = ({ msg }: { msg: ChatMessageDto }) => {
           <p key={i} className={i > 0 ? 'mt-1.5' : ''}>{renderContent(line)}</p>
         ))}
         {msg.severityFlag === 'SEVERE' && (
-          <div className="mt-2 flex items-center gap-1.5 text-xs text-red-200 bg-red-500/20 rounded-lg px-2 py-1">
+          <div className="mt-2 flex items-center gap-1.5 text-xs text-red-200 bg-red-500/20 rounded-lg px-2 py-1 font-medium">
             <AlertTriangle size={11} /> Crisis indicator detected
+          </div>
+        )}
+        {!isBot && msg.moodDetected && msg.moodDetected !== 'NEUTRAL' && (
+          <div className="mt-2 flex items-center gap-1.5 text-[11px] text-white/90 bg-white/15 backdrop-blur-xs rounded-md px-2 py-0.5 w-fit">
+            <span>Mood detected: <strong>{msg.moodDetected.toLowerCase()}</strong></span>
           </div>
         )}
         {msg.createdAt && (

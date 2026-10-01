@@ -90,12 +90,17 @@ public class AppointmentController {
 
     /** GET /api/appointments/{id} */
     @GetMapping("/{id}")
-    public ResponseEntity<AppointmentDto> getAppointmentById(@PathVariable UUID id) {
+    public ResponseEntity<AppointmentDto> getAppointmentById(
+            @PathVariable UUID id,
+            Authentication authentication) {
         try {
+            UUID userId = authUtil.getUserId(authentication);
+            boolean isAdmin = authUtil.getCurrentUserRole() == com.mindful.wellness.entity.UserRole.ADMIN;
             return ResponseEntity.ok(
-                    appointmentService.convertToDto(appointmentService.getAppointmentById(id)));
+                    appointmentService.convertToDto(appointmentService.getAppointmentById(id, userId, isAdmin)));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            log.warn("Access denied or appointment not found {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (Exception e) {
             log.error("Error retrieving appointment {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -103,14 +108,18 @@ public class AppointmentController {
     }
 
     /** PUT /api/appointments/{id} — reschedule */
-    @PutMapping("/{id}")
+    @PutMapping(value = {"/{id}", "/{id}/reschedule"})
     public ResponseEntity<AppointmentDto> rescheduleAppointment(
             @PathVariable UUID id,
+            Authentication authentication,
             @Valid @RequestBody RescheduleAppointmentRequest request) {
         try {
+            UUID userId = authUtil.getUserId(authentication);
+            boolean isAdmin = authUtil.getCurrentUserRole() == com.mindful.wellness.entity.UserRole.ADMIN;
             return ResponseEntity.ok(appointmentService.convertToDto(
-                    appointmentService.rescheduleAppointment(id, request.getNewStartTime())));
+                    appointmentService.rescheduleAppointment(id, request.getNewStartTime(), userId, isAdmin)));
         } catch (IllegalArgumentException e) {
+            log.warn("Failed to reschedule appointment {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             log.error("Error rescheduling appointment {}", id, e);
@@ -126,10 +135,12 @@ public class AppointmentController {
             @RequestBody(required = false) CancelAppointmentRequest request) {
         try {
             UUID userId = authUtil.getUserId(authentication);
+            boolean isAdmin = authUtil.getCurrentUserRole() == com.mindful.wellness.entity.UserRole.ADMIN;
             String reason = request != null ? request.getReason() : null;
-            appointmentService.cancelAppointment(id, userId, reason);
+            appointmentService.cancelAppointment(id, userId, reason, isAdmin);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
+            log.warn("Failed to cancel appointment {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             log.error("Error cancelling appointment {}", id, e);
@@ -139,9 +150,13 @@ public class AppointmentController {
 
     /** POST /api/appointments/{id}/confirm — counsellor accepts a SCHEDULED appointment */
     @PostMapping("/{id}/confirm")
-    public ResponseEntity<?> confirmAppointment(@PathVariable UUID id) {
+    public ResponseEntity<?> confirmAppointment(
+            @PathVariable UUID id,
+            Authentication authentication) {
         try {
-            Appointment confirmed = appointmentService.confirmAppointment(id);
+            UUID userId = authUtil.getUserId(authentication);
+            boolean isAdmin = authUtil.getCurrentUserRole() == com.mindful.wellness.entity.UserRole.ADMIN;
+            Appointment confirmed = appointmentService.confirmAppointment(id, userId, isAdmin);
             return ResponseEntity.ok(appointmentService.convertToDto(confirmed));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
@@ -152,15 +167,21 @@ public class AppointmentController {
         }
     }
 
-    /** POST /api/appointments/{id}/complete */
-    @PostMapping("/{id}/complete")
+    /** POST / PUT /api/appointments/{id}/complete */
+    @RequestMapping(value = "/{id}/complete", method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<Void> markAppointmentComplete(
             @PathVariable UUID id,
-            @RequestParam(required = false) String notes) {
+            Authentication authentication,
+            @RequestParam(required = false) String notes,
+            @RequestBody(required = false) Map<String, String> body) {
         try {
-            appointmentService.markAppointmentComplete(id, notes);
+            UUID userId = authUtil.getUserId(authentication);
+            boolean isAdmin = authUtil.getCurrentUserRole() == com.mindful.wellness.entity.UserRole.ADMIN;
+            String effectiveNotes = (notes != null && !notes.isBlank()) ? notes : (body != null ? body.get("notes") : null);
+            appointmentService.markAppointmentComplete(id, effectiveNotes, userId, isAdmin);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
+            log.warn("Failed to complete appointment {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             log.error("Error completing appointment {}", id, e);

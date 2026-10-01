@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class MoodAnalysisService {
     
     private final MoodAssessmentRepository moodAssessmentRepository;
-    private final GroqService groqService;
+    private final com.mindful.wellness.ai.provider.AiProviderManager aiProviderManager;
     private final ObjectMapper objectMapper;
     
     // Mood detection keywords
@@ -98,7 +98,7 @@ public class MoodAnalysisService {
         List<String> context = getRecentMessageContext(sessionId, 5);
         
         // Try AI-based analysis first
-        MoodAnalysisResult aiResult = groqService.analyzeMoodWithAI(messageContent, context);
+        MoodAnalysisResult aiResult = aiProviderManager.analyzeMood(messageContent, context);
         
         if (aiResult != null && isValidAIResult(aiResult)) {
             // Use AI result

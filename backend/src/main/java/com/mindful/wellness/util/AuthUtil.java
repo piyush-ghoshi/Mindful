@@ -3,7 +3,6 @@ package com.mindful.wellness.util;
 import com.mindful.wellness.entity.User;
 import com.mindful.wellness.entity.UserRole;
 import com.mindful.wellness.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +21,6 @@ import java.util.UUID;
 public class AuthUtil {
 
     private final UserRepository userRepository;
-    private final HttpServletRequest request;
 
     /**
      * Return the UUID of the currently authenticated user.
@@ -67,19 +65,13 @@ public class AuthUtil {
 
     /**
      * Return the role of the currently authenticated user.
-     * Checks the X-User-Role header first (sent by frontend on role switch).
+     *
+     * SECURITY: Role is derived exclusively from the database record.
+     * Client-supplied headers (X-User-Role) are intentionally ignored
+     * to prevent privilege escalation attacks.
      */
     public UserRole getCurrentUserRole() {
-        try {
-            if (request != null) {
-                String headerRole = request.getHeader("X-User-Role");
-                if (headerRole != null && !headerRole.trim().isEmpty()) {
-                    return UserRole.valueOf(headerRole.trim().toUpperCase());
-                }
-            }
-        } catch (Exception ignored) {
-            // Safe fallback if request context is not active (e.g. background tasks or tests)
-        }
         return getCurrentUser().getRole();
     }
 }
+

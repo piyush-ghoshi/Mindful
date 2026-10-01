@@ -11,5 +11,8 @@ public class ChatMessageDto {
     private String role;       // USER | BOT
     private String content;
     private String severityFlag;
+    private String moodDetected;
+    private java.math.BigDecimal sentimentScore;
+    private String riskIndicators;
     private LocalDateTime createdAt;
 }
